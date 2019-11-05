@@ -6,7 +6,7 @@ import { sendResetPasswordEmail } from '../mailer';*/
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const sendResetPasswordEmail = require('../mailer');
+const sendResetPasswordEmail = require('../mailer').sendResetPasswordEmail;
 
 const router = express.Router();
 

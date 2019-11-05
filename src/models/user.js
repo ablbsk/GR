@@ -57,13 +57,11 @@ schema.methods.setConfirmationToken = function setConfirmationToken() {
 };
 
 schema.methods.generateConfirmationUrl = function generateConfirmationUrl() {
-  return `${process.env.HOST}/confirmation/${this.confirmationToken}`;
+  return `https://gr-mern-stack.herokuapp.com/confirmation/${this.confirmationToken}`;
 };
 
 schema.methods.generateResetPasswordLink = function generateResetPasswordLink() {
-  return `${
-    process.env.HOST
-  }/reset_password/${this.generateResetPasswordToken()}`;
+  return `$https://gr-mern-stack.herokuapp.com/reset_password/${this.generateResetPasswordToken()}`;
 };
 
 schema.methods.generateJWT = function generateJWT() {

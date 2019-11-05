@@ -8,7 +8,7 @@ const express = require('express');
 const User = require('../models/user');
 const BookCollection = require('../models/book-collection');
 const parseErrors = require('../utils/parse-errors');
-const sendConfirmationEmail = require('../mailer');
+const sendConfirmationEmail = require('../mailer').sendConfirmationEmail;
 const authenticate = require('../middlewares/authenticate');
 
 const router = express.Router();

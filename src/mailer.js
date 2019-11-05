@@ -14,7 +14,7 @@ function setup() {
   });
 }
 
-module.exports = function sendConfirmationEmail(user) {
+function sendConfirmationEmail(user) {
   const transport = setup();
   const email = {
     from,
@@ -30,7 +30,7 @@ module.exports = function sendConfirmationEmail(user) {
   transport.sendMail(email);
 }
 
-module.exports = function sendResetPasswordEmail(user) {
+function sendResetPasswordEmail(user) {
   const transport = setup();
   const email = {
     from,
@@ -46,3 +46,4 @@ module.exports = function sendResetPasswordEmail(user) {
   transport.sendMail(email);
 }
 
+module.exports = { sendConfirmationEmail, sendResetPasswordEmail};
