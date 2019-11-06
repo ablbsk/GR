@@ -61,7 +61,7 @@ class SingupForm extends Component {
             value={data.username}
             onChange={this.onChange}
           />
-          {errors.username && <InlineError text={errors.username} />}
+          <InlineError text={ errors.username || ' ' } />
         </S.FormField>
         <S.FormField>
           <S.FormInput
@@ -72,7 +72,7 @@ class SingupForm extends Component {
             value={data.email}
             onChange={this.onChange}
           />
-          {errors.email && <InlineError text={errors.email} />}
+          <InlineError text={ errors.email || ' ' } />
         </S.FormField>
         <S.FormField>
           <S.FormInput
@@ -83,7 +83,7 @@ class SingupForm extends Component {
             value={data.password}
             onChange={this.onChange}
           />
-          {errors.password && <InlineError text={errors.password} />}
+          <InlineError text={ errors.password || ' ' } />
         </S.FormField>
         <S.SingUpButton>Sign up</S.SingUpButton>
       </S.Form>

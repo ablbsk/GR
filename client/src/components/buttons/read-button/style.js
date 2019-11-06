@@ -11,4 +11,6 @@ export const StyledButton = styled.button`
   font-weight: 600;
   color: ${wordsColorButton};
   box-shadow: ${boxShadowButton};
+  cursor: pointer;
+  border: none;
 `;

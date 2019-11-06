@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -7,16 +7,19 @@ import UserButton from "../../buttons/user-button/user-button";
 
 import vectorGR from "../../../img/vector.png";
 
-import { StyledHeader, StyledIcon } from "./style";
+import * as S from "./style";
 
-const TopNavigation = ({ isAuthenticated }) => (
-  <StyledHeader>
+const TopNavigation = ({ isAuthenticated, username }) => (
+  <S.Header>
     <Link to="/">
-      <StyledIcon src={vectorGR} alt="Go to main page" />
+      <S.Icon src={vectorGR} alt="Go to main page" />
     </Link>
     <Search />
     {isAuthenticated ? (
-      <UserButton />
+      <Fragment>
+        <S.Username>{username}</S.Username>
+        <UserButton />
+      </Fragment>
     ) : (
       <Link
         style={{ textDecoration: "none", color: "#FFFFFF", fontSize: "1.1em" }}
@@ -25,12 +28,12 @@ const TopNavigation = ({ isAuthenticated }) => (
         Login
       </Link>
     )}
-  </StyledHeader>
+  </S.Header>
 );
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
+    username: state.user.username,
     isAuthenticated: !!state.user.email
   };
 }

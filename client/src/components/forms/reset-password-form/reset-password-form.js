@@ -62,7 +62,7 @@ class ResetPasswordForm extends Component {
             value={data.password}
             onChange={this.onChange}
           />
-          {errors.password && <InlineError text={errors.password} />}
+          <InlineError text={ errors.password || ' ' } />
         </S.FormField>
 
         <S.FormField>
@@ -75,7 +75,7 @@ class ResetPasswordForm extends Component {
             onChange={this.onChange}
           />
           {errors.passwordConfirmation && (
-            <InlineError text={errors.passwordConfirmation} />
+            <InlineError text={ errors.passwordConfirmation || ' ' } />
           )}
         </S.FormField>
         <S.Button>Reset</S.Button>

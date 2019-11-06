@@ -4,7 +4,7 @@ import { accentColorButton, boxShadowButton, headerBackground, wordsColorButton 
 
 export const Container = styled.div`
   width: 400px;
-  height: 500px;
+  height: 470px;
   
   padding: 1em 2em;
   position: absolute;
@@ -21,7 +21,7 @@ export const Container = styled.div`
 
 export const Header = styled.h2`
    color: ${accentColorButton};
-   margin-bottom: 1.5em;
+   margin-bottom: 2em;
    font-size: 1.25em;
 `;
 

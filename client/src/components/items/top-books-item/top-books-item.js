@@ -2,59 +2,48 @@ import React from "react";
 import Rating from "react-rating";
 import { Link } from "react-router-dom";
 
-import {
-  StyledArticle,
-  StyledLeft,
-  StyledCover,
-  StyledRight,
-  StyledTitle,
-  StyledAthor,
-  StyledRating,
-  StyledRatingNum,
-  StyledDescription
-} from "./style";
+import * as S from "./style";
 
 import starBorder from "../../../img/star_border.png";
 import star from "../../../img/star.png";
 
-const TopBooksItem = ({ book }) => {
+const TopBooksItem = ({ book, topLikes }) => {
   const createDescription = () => {
     const { description } = book;
     return { __html: description };
   };
 
   return (
-    <StyledArticle>
-      <StyledLeft>
-        <StyledCover src={book.image_url} alt="" />
+    <S.Article>
+      <S.Left>
+        <S.Cover src={book.image_url} alt="" />
+        <S.Count>
+          { topLikes
+            ? <span>Likes: {book.likeCounter}</span>
+            : <span>Read: {book.numberOfEntities}</span>
+          }
+        </S.Count>
+      </S.Left>
+      <S.Right>
         <Link
-          style={{
-            textDecoration: "none",
-            backgroundColor: "#EC6C10",
-            padding: "0.25em 2.7em",
-            color: "white",
-            fontSize: "0.8em"
-          }}
+          style={{ textDecoration: "none", color: "#414141"}}
           to={`/books/new/${book.goodreadsId}`}
         >
-          Open
+          <S.Title>{book.title}</S.Title>
         </Link>
-      </StyledLeft>
-      <StyledRight>
-        <StyledTitle>{book.title}</StyledTitle>
-        <StyledAthor>by {book.authors}</StyledAthor>
-        <StyledRating>
+        <S.Athor>by {book.authors}</S.Athor>
+        <S.Rating>
           <Rating
             initialRating={book.average_rating}
             emptySymbol={<img src={starBorder} alt="star" />}
             fullSymbol={<img src={star} alt="star" />}
             readonly
           />
-          <StyledRatingNum>{book.average_rating}</StyledRatingNum>
-        </StyledRating>
-        <StyledDescription dangerouslySetInnerHTML={createDescription()} />
-      </StyledRight>
-    </StyledArticle>
+          <S.RatingNum>{book.average_rating}</S.RatingNum>
+        </S.Rating>
+        <S.Description dangerouslySetInnerHTML={createDescription()} />
+      </S.Right>
+    </S.Article>
   );
 };
 

@@ -7,13 +7,7 @@ import {
   updateBookProgressInList
 } from "../../../actions/books";
 
-import {
-  StyledStat,
-  StyledButton,
-  StyledProgress,
-  StyledInput,
-  StyledDiv
-} from "./style";
+import * as S from "./style";
 
 class ReadProgressWidget extends Component {
   state = {
@@ -62,9 +56,9 @@ class ReadProgressWidget extends Component {
     const value = readPages || 0;
     return visibilityProgress ? (
       <div>
-        <StyledDiv>
+        <S.Div>
           <span>Currently on </span>
-          <StyledInput
+          <S.Input
             type="text"
             name="readPages"
             id="readPages"
@@ -72,21 +66,21 @@ class ReadProgressWidget extends Component {
             onChange={this.onChange}
           />
           <span>of {pages}</span>
-        </StyledDiv>
+        </S.Div>
 
-        <StyledButton onClick={this.saveProgressClick}>Save</StyledButton>
+        <S.Button onClick={this.saveProgressClick}>Save</S.Button>
       </div>
     ) : (
       <div>
-        <StyledProgress value={value} max={pages} />
-        <StyledStat>
+        <S.Progress value={value} max={pages} />
+        <S.Stat>
           {value}/{pages}
-        </StyledStat>
-        <StyledButton
+        </S.Stat>
+        <S.Button
           onClick={() => this.setState({ visibilityProgress: true })}
         >
           Update progress
-        </StyledButton>
+        </S.Button>
       </div>
     );
   }

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import DropdownUserList from "../../lists/dropdown-user-list/dropdown-user-list";
 
 import permIndentity from "../../../img/perm_identity.png";
-import { StyledIcon } from "../../navigation/top-navigation/style";
+import { Icon } from "../../navigation/top-navigation/style";
 
 class UserButton extends Component {
   state = {
@@ -33,7 +33,7 @@ class UserButton extends Component {
     const { visibilityDropdownList } = this.state;
     return (
       <div ref={this.myRef} onClick={this.handleClickInside}>
-        <StyledIcon
+        <Icon
           src={permIndentity}
           alt="User menu"
         />

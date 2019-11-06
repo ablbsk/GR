@@ -25,7 +25,7 @@ export const loginValidation = state => {
 
     password: Joi.string()
       .required()
-      .error(() => '"Password should not be empty.')
+      .error(() => 'Password should not be empty.')
       .optional()
   });
 

@@ -9,7 +9,7 @@ export const Form = styled.form`
 `;
 
 export const FormField = styled.div`
-  margin: 1em 0;
+  margin-top: 1em;
   text-align: center;
 `;
 

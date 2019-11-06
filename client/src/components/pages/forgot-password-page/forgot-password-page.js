@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { resetPasswordRequest } from '../../../actions/auth';
 
 import ForgotPasswordForm from '../../forms/forgot-password-form/forgot-password-form';
 
-import { Container, Header } from "./style";
+import acceptImg from "../../../img/accept.png";
+import * as S from "./style";
 
 class ForgotPasswordPage extends Component {
 
@@ -25,16 +25,19 @@ class ForgotPasswordPage extends Component {
 
   render() {
     return (
-      <Container>
+      <S.Container>
         {this.state.success ? (
-          <Message>Email has been sent.</Message>
+          <S.Message>
+            <S.Img src={acceptImg} alt="" />
+            <p>Email has been sent.</p>
+          </S.Message>
           ) : (
-            <>
-              <Header>Forgot password</Header>
+            <Fragment>
+              <S.Header>Forgot password</S.Header>
               <ForgotPasswordForm submit={this.submit} />
-            </>
+            </Fragment>
           )}
-      </Container>
+      </S.Container>
     )
   }
 }

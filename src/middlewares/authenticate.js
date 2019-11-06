@@ -1,6 +1,3 @@
-/*import jwt from "jsonwebtoken";
-import User from "../models/user";*/
-
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 

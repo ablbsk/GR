@@ -1,8 +1,3 @@
-/*import express from 'express';
-import jwt from 'jsonwebtoken';
-import User from '../models/user';
-import { sendResetPasswordEmail } from '../mailer';*/
-
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -100,5 +95,4 @@ router.post("/reset_password", (req, res) => {
   });
 });
 
-// export default router;
 module.exports = router;

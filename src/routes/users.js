@@ -1,9 +1,3 @@
-/*import express from "express";
-import User from "../models/user";
-import BookCollection from "../models/book-collection";
-import parseErrors from "../utils/parse-errors";
-import { sendConfirmationEmail } from "../mailer";*/
-
 const express = require('express');
 const User = require('../models/user');
 const BookCollection = require('../models/book-collection');
@@ -59,5 +53,4 @@ router.get("/current_user", authenticate, (req, res) => {
   });
 });
 
-// export default router;
 module.exports = router;

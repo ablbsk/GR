@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { allBooksSelector } from "../../../reducers/books";
@@ -7,6 +7,8 @@ import { getUserBooks, getUserBooksSuccess, getUserBooksFailure, changeFilters }
 import ConfirmEmailMessage from "../../messages/confirm-email-message";
 import UserBooksList from "../../lists/user-books-list/user-books-list";
 import CenterLoading from "../../loaders/center-loader/center-loader";
+
+import * as S from "./style";
 
 class DashboardPage extends Component {
 
@@ -28,6 +30,17 @@ class DashboardPage extends Component {
     }
   };
 
+  showContent = (books, filterBooks) => {
+    if (books.length === 0) {
+      return <S.NoBooks>You don't have books</S.NoBooks>
+    } else {
+      return (filterBooks.length === 0
+          ? <S.NoBooks>No books</S.NoBooks>
+          : <UserBooksList books={filterBooks} />
+      )
+    }
+  };
+
   render() {
     const { isConfirmed, books, loading, filter, changeFilters } = this.props;
 
@@ -41,21 +54,23 @@ class DashboardPage extends Component {
       return <CenterLoading />;
     }
 
+    const content = this.showContent(books, filterBooks);
+
     return (
-      <div>
+      <Fragment>
         {!isConfirmed && <ConfirmEmailMessage />}
-        <h2>My books</h2>
-        {filtersBtn.map(btn => (
-          <button key={btn.id} onClick={() => changeFilters(btn.id)}>
-            {btn.text}
-          </button>
+        <S.Section>
+          <h2>My books</h2>
+          <S.FilterContainer>
+          {books.length !==0 && filtersBtn.map(btn => (
+            <S.Button key={btn.id} onClick={() => changeFilters(btn.id)}>
+              {btn.text}
+            </S.Button>
           ))}
-        {books.length === 0 ? (
-          <h3>No books(</h3>
-        ) : (
-          <UserBooksList books={filterBooks} />
-        )}
-      </div>
+          </S.FilterContainer>
+          {content}
+        </S.Section>
+      </Fragment>
     );
   }
 }

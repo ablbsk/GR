@@ -63,7 +63,7 @@ class ForgotPasswordForm extends Component {
             value={data.email}
             onChange={this.onChange}
           />
-          {errors.email && <InlineError text={ errors.email } />}
+          <InlineError text={ errors.email || ' ' } />
         </FormField>
         <Button>Continue</Button>
       </form>

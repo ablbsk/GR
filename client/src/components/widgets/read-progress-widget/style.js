@@ -3,13 +3,13 @@ import styled from "styled-components";
 import { accentColorButton, boxShadowButton, wordsColorButton } from "../../../style-constants";
 
 
-export const StyledStat = styled.div`
+export const Stat = styled.div`
     text-align: center;
     font-size: 0.8em;
     margin-bottom: 1.25em;
 `;
 
-export const StyledButton = styled.button`
+export const Button = styled.button`
   background-color: ${accentColorButton};
   width: 100%;
   padding: 0.8em 0;
@@ -18,18 +18,20 @@ export const StyledButton = styled.button`
   font-weight: 600;
   color: ${wordsColorButton};
   box-shadow: ${boxShadowButton};
+  cursor: pointer;
+  border: none;
 `;
 
-export const StyledProgress = styled.progress`
+export const Progress = styled.progress`
   width: 100%;
 `;
 
-export const StyledInput = styled.input`
+export const Input = styled.input`
   width: 2.5em;
   margin: 0.2em 0;
 `;
 
-export const StyledDiv = styled.div`
+export const Div = styled.div`
   font-size: 0.8em;
   margin-bottom: 1em;
   text-align: center;

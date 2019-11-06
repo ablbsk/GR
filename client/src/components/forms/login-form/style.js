@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { wordsColorButton, accentColorButton } from "../../../style-constants";
 
 export const FormField = styled.div`
-  margin: 2em 0;
+  margin: 1.2em 0;
   text-align: center;
 `;
 

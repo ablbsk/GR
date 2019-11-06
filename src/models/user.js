@@ -1,8 +1,3 @@
-/*import mongoose from "mongoose";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import uniqueValidator from "mongoose-unique-validator";*/
-
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -96,5 +91,4 @@ schema.methods.toAuthJSON = function toAuthJSON() {
 
 schema.plugin(uniqueValidator, { message: "This {PATH} is already taken" });
 
-// export default mongoose.model('User', schema);
 module.exports = mongoose.model("User", schema);

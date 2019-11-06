@@ -1,12 +1,3 @@
-/*
-import express from "express";
-import request from "request-promise";
-import { parseString } from "xml2js";
-import authenticate from "../middlewares/authenticate";
-import Book from "../models/book";
-import BookCollection from "../models/book-collection";
-*/
-
 const express = require('express');
 const request = require('request-promise');
 const parseString = require('xml2js').parseString;
@@ -31,13 +22,15 @@ router.get("/", authenticate, async function(req, res) {
       "goodreadsId",
       "pages"
     ]);
-    const data = await addLikeStatus(collection, books, bookList);
+    const data = await addStatus(collection, books, readBookIds);
     await res.json({ books: data });
   } catch (e) {
-    res.status(400).json("Server error");
+    res
+      .status(500)
+      .json({ errors: { global: "Error. Something went wrong." } });
   }
 
-  function addLikeStatus(collection, books, bookList) {
+  function addStatus(collection, books, readBookIds) {
     const likeBookList = collection.likeBookList;
     return books.map(book => {
       book = book.toJSON();
@@ -45,21 +38,26 @@ router.get("/", authenticate, async function(req, res) {
         book.likeStatus = false;
       } else {
         for (let i = 0; i < likeBookList.length; i++) {
-          book._id.equals(likeBookList[i])
-            ? (book.likeStatus = true)
-            : (book.likeStatus = false);
+          if (book._id.equals(likeBookList[i])) {
+            book.likeStatus = true;
+            break;
+          } else {
+            book.likeStatus = false
+          }
         }
       }
 
-      if (bookList.length === 0) {
+      if (readBookIds.length === 0) {
         book.readPages = 0;
+        book.readStatus = false;
       } else {
-        for (let i = 0; i < bookList.length; i++) {
-          if (book._id.equals(bookList[i].bookId)) {
-            book.readPages = bookList[i].readPages;
+        for (let i = 0; i < readBookIds.length; i++) {
+          if (book._id.equals(readBookIds[i])) {
+            book.readPages = readBookIds[i].readPages;
             book.readStatus = true;
+            break;
           } else {
-            book.readPages = bookList[i].readPages;
+            book.readPages = 0;
             book.readStatus = false;
           }
         }
@@ -146,7 +144,7 @@ router.get("/search", async function (req, res) {
     parseString(resultRequest, (err, goodreadsResult) => {
       const path = goodreadsResult.GoodreadsResponse.search[0];
       if (path["total-results"][0] === "0") {
-        res.json({ books: "Not found..." })
+        res.json({ books: "Not found" })
       } else {
         res.json({
           books: path.results[0].work.map(
@@ -417,5 +415,4 @@ function updateEntitiesCount(i, id) {
   return Book.findByIdAndUpdate(id, { $inc: { numberOfEntities: i } }, { new: true });
 }
 
-// export default router;
 module.exports = router;

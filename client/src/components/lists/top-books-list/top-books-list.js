@@ -12,7 +12,7 @@ const TopBooksList = ({ books, topLikes }) => {
       <S.Section>
         {Array.isArray(books) &&
           books.map(item => (
-            <TopBooksItem key={item.goodreadsId} book={item} />
+            <TopBooksItem key={item.goodreadsId} book={item} topLikes={topLikes}/>
           ))}
       </S.Section>
     </Fragment>

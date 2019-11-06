@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-import { headerBackground } from "../../../style-constants";
+import { headerBackground, searchColor } from "../../../style-constants";
 
-export const StyledHeader = styled.header`
+export const Header = styled.header`
   height: 50px;
   
   display: flex;
@@ -13,6 +13,13 @@ export const StyledHeader = styled.header`
   background: ${headerBackground};
 `;
 
-export const StyledIcon = styled.img`
+export const Icon = styled.img`
   margin: 0 0.8em;
+  cursor: pointer;
+`;
+
+export const Username = styled.span`
+  color: ${searchColor};
+  font-size: 1.1em;
+  cursor: default;
 `;

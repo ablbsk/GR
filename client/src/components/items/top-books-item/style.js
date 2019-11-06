@@ -1,51 +1,63 @@
 import styled from "styled-components";
 
-export const StyledArticle = styled.article`
-  width: 510px;
-  height: 230px;
+import { accentColorButton, boxShadowButton } from "../../../style-constants";
+
+export const Article = styled.article`
+  width: 490px;
+  height: 220px;
   display: flex;
   flex-wrap: wrap;
+  margin: 10px;
+  padding-top: 15px;
+  box-shadow: ${boxShadowButton};
 `;
 
-export const StyledLeft = styled.div`
+export const Left = styled.div`
   width: 100px;
+  margin-left: 15px;
 `;
 
-export const StyledCover = styled.img`
+export const Cover = styled.img`
   width: 100px;
   height: 150px;
   margin-bottom: 0.9em;
 `;
 
-export const StyledRight = styled.div`
-  width: 340px;
-  margin: 0 45px 0 15px;
+export const Count = styled.div`
+  text-align: center;
+  border: 1px solid ${accentColorButton};
+  color: ${accentColorButton};
 `;
 
-export const StyledTitle = styled.h4`
+export const Right = styled.div`
+  width: 340px;
+  margin: 0 15px;
+`;
+
+export const Title = styled.h4`
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-export const StyledAthor = styled.div`
+export const Athor = styled.div`
   margin: 0.35em 0;
   font-size: 0.85em;
 `;
 
-export const StyledRating = styled.div`
+export const Rating = styled.div`
   position: relative;
   margin-bottom: 0.4em;
 `;
 
-export const StyledRatingNum = styled.span`
+export const RatingNum = styled.span`
   position: absolute;
   top: 2px;
   padding-left: 0.4em;
 `;
 
-export const StyledDescription = styled.div`
+export const Description = styled.div`
   width: 100%; 
   overflow: hidden;
   text-overflow: ellipsis;
