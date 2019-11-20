@@ -45,4 +45,4 @@ function sendResetPasswordEmail(user) {
   transport.sendMail(email);
 }
 
-module.exports = { sendConfirmationEmail, sendResetPasswordEmail};
+module.exports = { sendConfirmationEmail, sendResetPasswordEmail };

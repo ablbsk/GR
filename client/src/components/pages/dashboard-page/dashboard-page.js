@@ -22,7 +22,7 @@ class DashboardPage extends Component {
   filterBooks = (books, filter) => {
     switch (filter) {
       case 'read':
-        return books.filter(book => !book.likeStatus);
+        return books.filter(book => book.readStatus);
       case 'like':
         return books.filter(book => book.likeStatus);
       default:

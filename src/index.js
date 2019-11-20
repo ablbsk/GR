@@ -23,11 +23,7 @@ app.use('/api/users', users);
 app.use('/api/books', books);
 
 app.post('/api/auth', (req, res) => {
-  res.status(400).json({
-    errors: {
-      global: "Invalid credentials"
-    }
-  });
+  res.status(400).json({ errors: { global: "Invalid credentials" } });
 });
 
 if (process.env.NODE_ENV === 'production') {
