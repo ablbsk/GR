@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { confirm } from '../../../actions/auth';
+import { confirm } from '../../actions/auth';
 
-import * as S from "./style";
+import ConfirmationContent from "../../components/contents/confirmation-content/confirmation-content";
 
 class ConfirmationPage extends Component {
 
@@ -33,28 +32,7 @@ class ConfirmationPage extends Component {
   render() {
     const { loading, success } = this.state;
 
-    return (
-      <div>
-        {loading && (
-          <S.ContainerLoading>
-            <S.Message>Validation your email...</S.Message>
-          </S.ContainerLoading>
-        )}
-
-        {!loading && success && (
-          <S.ContainerSuccess>
-            <S.Message>Thank you. Your account has been verified</S.Message>
-          </S.ContainerSuccess>
-        )}
-
-        {!loading &&
-        !success && (
-          <S.ContainerFailure>
-            <S.Message>Ooops. Invalid token it seems.</S.Message>
-          </S.ContainerFailure>
-        )}
-      </div>
-    )
+    return <ConfirmationContent loading={loading} success={success} />
   }
 }
 

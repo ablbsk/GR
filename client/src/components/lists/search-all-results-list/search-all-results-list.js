@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import SearchAllResultsItem from "../../items/search-all-results-item/search-all-results-item";
 

@@ -1,19 +1,28 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { allBooksSelector } from "../../../reducers/books";
-import { getUserBooks, getUserBooksSuccess, getUserBooksFailure, changeFilters } from "../../../actions/books";
+import { allBooksSelector } from "../../reducers/books";
+import {
+  getUserBooks,
+  getUserBooksSuccess,
+  getUserBooksFailure,
+  changeFilters
+} from "../../actions/books";
 
-import ConfirmEmailMessage from "../../messages/confirm-email-message";
-import UserBooksList from "../../lists/user-books-list/user-books-list";
-import CenterLoading from "../../loaders/center-loader/center-loader";
+import ConfirmEmailMessage from "../../components/messages/confirm-email-message";
+import UserBooksList from "../../components/lists/user-books-list/user-books-list";
+import CenterLoading from "../../components/loaders/center-loader/center-loader";
 
-import * as S from "./style";
+import * as S from "../../components/contents/dashboard-content/style";
+import DashboardContent from "../../components/contents/dashboard-content/dashboard-content";
 
 class DashboardPage extends Component {
-
   componentDidMount() {
-    const { getUserBooks, getUserBooksSuccess, getUserBooksFailure } = this.props;
+    const {
+      getUserBooks,
+      getUserBooksSuccess,
+      getUserBooksFailure
+    } = this.props;
     getUserBooks()
       .then(books => getUserBooksSuccess(books))
       .catch(error => getUserBooksFailure(error));
@@ -21,9 +30,9 @@ class DashboardPage extends Component {
 
   filterBooks = (books, filter) => {
     switch (filter) {
-      case 'read':
+      case "read":
         return books.filter(book => book.readStatus);
-      case 'like':
+      case "like":
         return books.filter(book => book.likeStatus);
       default:
         return books;
@@ -32,45 +41,40 @@ class DashboardPage extends Component {
 
   showContent = (books, filterBooks) => {
     if (books.length === 0) {
-      return <S.NoBooks>You don't have books</S.NoBooks>
+      return <S.NoBooks>You don't have books</S.NoBooks>;
     } else {
-      return (filterBooks.length === 0
-          ? <S.NoBooks>No books</S.NoBooks>
-          : <UserBooksList books={filterBooks} />
-      )
+      return filterBooks.length === 0 ? (
+        <S.NoBooks>No books</S.NoBooks>
+      ) : (
+        <UserBooksList books={filterBooks} />
+      );
     }
   };
 
   render() {
     const { isConfirmed, books, loading, filter, changeFilters } = this.props;
-
     const filtersBtn = [
-      { text: 'All', id: 'all', },
+      { text: 'All', id: 'all' },
       { text: 'Read', id: 'read', },
       { text: 'Like', id: 'like' }
     ];
     const filterBooks = this.filterBooks(books, filter);
+    const content = this.showContent(books, filterBooks);
+
     if (loading) {
       return <CenterLoading />;
     }
 
-    const content = this.showContent(books, filterBooks);
-
     return (
-      <Fragment>
+      <>
         {!isConfirmed && <ConfirmEmailMessage />}
-        <S.Section>
-          <h2>My books</h2>
-          <S.FilterContainer>
-          {books.length !==0 && filtersBtn.map(btn => (
-            <S.Button key={btn.id} onClick={() => changeFilters(btn.id)}>
-              {btn.text}
-            </S.Button>
-          ))}
-          </S.FilterContainer>
-          {content}
-        </S.Section>
-      </Fragment>
+        <DashboardContent
+          booksLength={books.length}
+          content={content}
+          filtersBtn={filtersBtn}
+          changeFilters={changeFilters}
+        />
+      </>
     );
   }
 }

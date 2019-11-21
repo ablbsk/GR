@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getTop, getTopSuccess, getTopFailure } from "../../../actions/books";
-import { allBooksSelector } from "../../../reducers/books";
+import { getTop, getTopSuccess, getTopFailure } from "../../actions/books";
+import { allBooksSelector } from "../../reducers/books";
 
-import TopBooksList from "../../lists/top-books-list/top-books-list";
-import CenterLoading from "../../loaders/center-loader/center-loader";
-import PageError from "../../errors/page-error/page-error";
-
-import * as S from "./style";
+import TopBooksList from "../../components/lists/top-books-list/top-books-list";
+import CenterLoading from "../../components/loaders/center-loader/center-loader";
+import PageError from "../../components/errors/page-error/page-error";
 
 class HomePage extends Component {
   componentDidMount() {
@@ -30,10 +28,10 @@ class HomePage extends Component {
     }
 
     return (
-      <S.Container>
+      <>
         <TopBooksList topLikes={true} books={books[0]} />
         <TopBooksList topLikes={false} books={books[1]} />
-      </S.Container>
+      </>
     );
   }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Message } from 'semantic-ui-react';
-import ResetPasswordForm from '../forms/reset-password-form/reset-password-form';
+import ResetPasswordForm from '../../components/forms/reset-password-form/reset-password-form';
 import { validateToken, resetPassword } from '../../actions/auth';
 
 class ResetPasswordPage extends Component {
@@ -36,11 +36,11 @@ class ResetPasswordPage extends Component {
     const { token } = this.props.match.params;
 
     return (
-      <div>
+      <>
         { loading && <Message>Loading</Message> }
         { !loading && success && <ResetPasswordForm submit={this.submit} token={token} /> }
         { !loading && !success && <Message>Invalid Token</Message> }
-      </div>
+      </>
     )
   }
 }

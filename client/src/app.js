@@ -3,20 +3,20 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 import Loader from "react-loader";
-import HomePage from "./components/pages/home-page/home-page";
-import LoginPage from "./components/pages/login-page/login-page";
-import DashboardPage from "./components/pages/dashboard-page/dashboard-page";
-import SignUpPage from "./components/pages/singup-page/signup-page";
-import ConfirmationPage from "./components/pages/confirmation-page/confirmation-page";
-import ForgotPasswordPage from "./components/pages/forgot-password-page/forgot-password-page";
-import ResetPasswordPage from "./components/pages/reset-password-page";
+import HomePage from "./containers/pages/home-page";
+import LoginPage from "./containers/pages/login-page";
+import DashboardPage from "./containers/pages/dashboard-page";
+import SignUpPage from "./containers/pages/signup-page";
+import ConfirmationPage from "./containers/pages/confirmation-page";
+import ForgotPasswordPage from "./containers/pages/forgot-password-page";
+import ResetPasswordPage from "./containers/pages/reset-password-page";
 import UserRoute from "./components/routes/user-route";
 import GuestRoute from "./components/routes/guest-route";
 import TopNavigation from "./components/navigation/top-navigation/top-navigation";
 import { fetchCurrentUser } from "./actions/users";
 
-import BookPage from "./components/pages/book-page/book-page";
-import SearchAllResultPage from "./components/pages/search-all-results-page/search-all-result-page";
+import BookPage from "./containers/pages/book-page";
+import SearchAllResultPage from "./containers/pages/search-all-result-page";
 
 class App extends Component {
   componentDidMount() {
