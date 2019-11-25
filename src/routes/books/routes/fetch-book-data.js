@@ -12,7 +12,6 @@ module.exports = router.get("/", authenticate, async function(req, res) {
   const { goodreadsId } = req.query;
 
   try {
-    const book = await Book.findOne({ goodreadsId });
     const resultRequest = await getRequest(goodreadsId);
     const data = await fetchBookData(resultRequest);
 
@@ -21,6 +20,7 @@ module.exports = router.get("/", authenticate, async function(req, res) {
     }
 
     const { bookCollectionId } = req.currentUser;
+    const book = await Book.findOne({ goodreadsId });
 
     if (book) {
       const collection = await BookCollection.findById(bookCollectionId);
@@ -30,6 +30,8 @@ module.exports = router.get("/", authenticate, async function(req, res) {
         book: {
           ...data,
           likeStatus,
+          likeCounter: book.likeCounter,
+          numberOfEntities: book.numberOfEntities,
           readStatus: readStatus.read,
           readPages: readStatus.readPages
         }
@@ -38,6 +40,8 @@ module.exports = router.get("/", authenticate, async function(req, res) {
       await res.json({
         book: {
           ...data,
+          likeCounter: 0,
+          numberOfEntities: 0,
           likeStatus: false,
           readStatus: false,
           readPages: 0

@@ -14,10 +14,10 @@ module.exports = router.post("/", authenticate, async function(req, res) {
     const book = await Book.findOne({ goodreadsId });
     let entity = book ? book : await Book.create({ ...req.body.book });
     await bookCollectionUpdate(entity);
-    await updateEntitiesCount(1, entity._id);
+    const updateEntity = await updateEntitiesCount(1, entity._id);
     const collection = await BookCollection.findById(bookCollectionId);
     const likeStatus = await checkLikeInCollection(entity._id, collection);
-    await res.json({ book: { ...entity._doc, readStatus: true, likeStatus } });
+    await res.json({ book: { ...updateEntity._doc, readStatus: true, likeStatus } });
   } catch (e) {
     res
       .status(500)

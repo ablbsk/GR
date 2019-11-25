@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import { readBook, readBookInList } from "../../../actions/books";
 
-import { StyledButton } from './style';
+import * as S from './style';
+import addBook from "../../../img/bookmark_empty.png";
 
 const ReadButton = ({ book, readBook, readBookInList, inList }) => {
   const onSubmit = e => {
@@ -14,7 +15,7 @@ const ReadButton = ({ book, readBook, readBookInList, inList }) => {
       .catch(error => toastr.error("Server Error", error.response.data.error));
   };
 
-  return <StyledButton onClick={onSubmit}>Read</StyledButton>;
+  return <S.AddBookIcon src={addBook} onClick={onSubmit} />;
 };
 
 ReadButton.propTypes = {

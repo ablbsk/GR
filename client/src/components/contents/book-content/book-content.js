@@ -19,23 +19,25 @@ const BookContent = ({ book, confirmed }) => {
   };
 
   const addDeleteButtons = confirmed && (
-    <div>
+    <>
       {book.readStatus ? (
         <DeleteButton id={book.goodreadsId} inList={false} />
       ) : (
         <ReadButton book={book} inList={false} />
       )}
-    </div>
+      <span>{book.numberOfEntities}</span>
+    </>
   );
 
   const likeButton = confirmed && (
-    <div>
+    <>
       <LikeButton
         id={book.goodreadsId}
         likeStatus={book.likeStatus}
         inList={false}
       />
-    </div>
+      <span>{book.likeCounter}</span>
+    </>
   );
 
   const progress = confirmed && book.readStatus && (
@@ -54,8 +56,10 @@ const BookContent = ({ book, confirmed }) => {
     <S.Section>
       <S.Left>
         <S.Cover src={book.image_url} alt={`${book.title} cover`} />
-        {addDeleteButtons}
-        {likeButton}
+        <div>
+          {addDeleteButtons}
+          {likeButton}
+        </div>
       </S.Left>
       <S.Center>
         <S.Title>{book.title}</S.Title>

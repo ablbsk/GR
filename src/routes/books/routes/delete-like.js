@@ -15,14 +15,15 @@ module.exports = router.post("/", authenticate, async function(req, res) {
     const id = book._id;
     await removeBookId(id);
 
+    let updateBook;
     book.likeCounter > 1 || book.numberOfEntities >= 1
-      ? await updateLikeCount(-1, id)
+      ? updateBook = await updateLikeCount(-1, id)
       : await Book.findByIdAndRemove(id);
     const collection = await BookCollection.findById(bookCollectionId);
     const readStatus = await checkReadInCollection(book._id, collection);
     await res.json({
       book: {
-        ...book._doc,
+        ...updateBook._doc,
         likeStatus: false,
         readStatus: readStatus.read,
         readPages: readStatus.readPages

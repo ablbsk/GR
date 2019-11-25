@@ -23,12 +23,12 @@ module.exports = router.post("/", authenticate, async function(req, res) {
       entity = book;
     }
     await addBookId(entity._id);
-    await updateLikeCount(1, entity._id);
+    const updateEntity = await updateLikeCount(1, entity._id);
     const collection = await BookCollection.findById(bookCollectionId);
     const readStatus = await checkReadInCollection(entity._id, collection);
     await res.json({
       book: {
-        ...entity._doc,
+        ...updateEntity._doc,
         likeStatus: true,
         readStatus: readStatus.read,
         readPages: readStatus.readPages

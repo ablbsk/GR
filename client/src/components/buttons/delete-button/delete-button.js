@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import { deleteBook, deleteBookInList } from "../../../actions/books";
 
-import { StyledButton } from "./style";
+import * as S from './style';
+import removeBook from "../../../img/bookmark_full.png";
 
 const DeleteButton = ({ id, deleteBook, deleteBookInList, inList }) => {
   const onSubmit = e => {
@@ -16,7 +17,7 @@ const DeleteButton = ({ id, deleteBook, deleteBookInList, inList }) => {
       .catch(error => toastr.error("Server Error", error.response.data.error));
   };
 
-  return <StyledButton onClick={onSubmit}>Delete</StyledButton>;
+  return <S.removeBookIcon src={removeBook} onClick={onSubmit} />;
 };
 
 DeleteButton.propTypes = {

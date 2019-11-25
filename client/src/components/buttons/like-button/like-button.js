@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { toastr } from "react-redux-toastr";
 import {
   addLike,
   deleteLike,
@@ -8,36 +9,32 @@ import {
   deleteLikeInList
 } from "../../../actions/books";
 
-import { StyledButton } from "./style";
-import { toastr } from "react-redux-toastr";
+import * as S from "./style";
+import likeEmpty from "../../../img/like_empty.png";
+import likeFull from "../../../img/like_full.png";
 
-const LikeButton = ({
-  id,
-  likeStatus,
-  addLike,
-  deleteLike,
-  inList,
-  deleteLikeInList,
-  addLikeInList
-}) => {
+const LikeButton = props => {
   const onSubmit = e => {
     e.preventDefault();
-    if (inList) {
-      (likeStatus ? deleteLikeInList(id) : addLikeInList(id))
-        .then(() => toastr.success("Successful", "Changes installed successfully"))
-        .catch(error => toastr.error("Server Error", error.response.data.error))
+
+    const { id } = props;
+    const toastrSuccess = toastr.success("Successful", "Changes installed successfully");
+
+    if (props.inList) {
+      (props.likeStatus ? props.deleteLikeInList(id) : props.addLikeInList(id))
+        .then(() => toastrSuccess)
+        .catch(error => toastr.error("Server Error", error.response.data.error));
     } else {
-      (likeStatus ? deleteLike(id) : addLike(id))
-        .then(() => toastr.success("Successful", "Changes installed successfully"))
-        .catch(error => toastr.error("Server Error", error.response.data.error))
+      (props.likeStatus ? props.deleteLike(id) : props.addLike(id))
+        .then(() => toastrSuccess)
+        .catch(error => toastr.error("Server Error", error.response.data.error));
     }
   };
 
-  return (
-    <StyledButton onClick={onSubmit}>
-      {likeStatus ? "Dislike" : "Like"}
-    </StyledButton>
-  );
+  const likeIconEmpty = <S.LikeIcon src={likeEmpty} onClick={onSubmit} alt="Add like" />;
+  const likeIconFull = <S.LikeIcon src={likeFull} onClick={onSubmit} alt="Delete like" />;
+
+  return props.likeStatus ? likeIconFull : likeIconEmpty;
 };
 
 LikeButton.propTypes = {
