@@ -1,85 +1,52 @@
 import api from "../api";
 import {
-  FETCH_TOP_REQUEST,
-  FETCH_TOP_SUCCESS,
-  FETCH_TOP_FAILURE,
-  FETCH_BOOK_DATA_REQUEST,
-  FETCH_BOOK_DATA_SUCCESS,
-  FETCH_BOOK_DATA_FAILURE,
-  FETCH_USER_BOOKS_REQUEST,
-  FETCH_USER_BOOKS_SUCCESS,
-  FETCH_USER_BOOKS_FAILURE,
-  SEARCH_BOOKS_BY_PAGE_REQUEST,
-  SEARCH_BOOKS_BY_PAGE_SUCCESS,
-  SEARCH_BOOKS_BY_PAGE_FAILURE,
+  FETCH_TOP_TYPE,
+  FETCH_BOOK_DATA_TYPE,
+  FETCH_USER_BOOKS_TYPE,
+  SEARCH_BOOKS_BY_PAGE_TYPE,
+
   ADD_BOOK,
-  DELETE_BOOK,
+  DELETE_BOOK_ON_BOOK_PAGE,
   ADD_LIKE,
   UPDATE_PROGRESS,
-  BOOK_DELETE_IN_LIST,
-  DELETE_LIKE,
+  DELETE_BOOK_ON_DASHBOARD_PAGE,
+  DELETE_BOOK_ON_HOME_PAGE,
+  DELETE_LIKE_ON_BOOK_PAGE,
   ADD_LIKE_IN_LIST,
   ADD_BOOK_IN_LIST,
-  DELETE_LIKE_IN_LIST,
+  DELETE_LIKE_ON_HOME_PAGE,
+  DELETE_LIKE_ON_DASHBOARD_PAGE,
   UPDATE_PROGRESS_IN_LIST,
-  CHANGE_FILTERS
+  CHANGE_FILTERS,
 } from "../types";
 
-const fetchTop = () => ({
-  type: FETCH_TOP_REQUEST
-});
+function makeActionCreator(type, suffix, ...argNames) {
+  return function(...args) {
+    let action = { type: `${type}_${suffix}` };
+    argNames.forEach((arg, index) => {
+      action[argNames[index]] = args[index]
+    });
+    return action;
+  }
+}
 
-const fetchTopSuccess = data => ({
-  type: FETCH_TOP_SUCCESS,
-  data
-});
+const fetchTop = makeActionCreator(FETCH_TOP_TYPE, 'REQUEST');
+const fetchTopSuccess = makeActionCreator(FETCH_TOP_TYPE, 'SUCCESS', 'data');
+const fetchTopFailure = makeActionCreator(FETCH_TOP_TYPE, 'FAILURE', 'error');
 
-const fetchTopFailure = error => ({
-  type: FETCH_TOP_FAILURE,
-  error
-});
+const fetchBookData = makeActionCreator(FETCH_BOOK_DATA_TYPE, 'REQUEST');
+const fetchBookDataSuccess = makeActionCreator(FETCH_BOOK_DATA_TYPE, 'SUCCESS', 'data');
+const fetchBookDataFailure = makeActionCreator(FETCH_BOOK_DATA_TYPE, 'FAILURE', 'error');
 
-const fetchBookData = () => ({
-  type: FETCH_BOOK_DATA_REQUEST
-});
+const fetchUserBooks = makeActionCreator(FETCH_USER_BOOKS_TYPE, 'REQUEST');
+const fetchUserBooksSuccess = makeActionCreator(FETCH_USER_BOOKS_TYPE, 'SUCCESS', 'data');
+const fetchUserBooksFailure = makeActionCreator(FETCH_USER_BOOKS_TYPE, 'FAILURE', 'error');
 
-const fetchBookDataSuccess = data => ({
-  type: FETCH_BOOK_DATA_SUCCESS,
-  data
-});
+const searchBooksByPage = makeActionCreator(SEARCH_BOOKS_BY_PAGE_TYPE, 'REQUEST');
+const searchSuccess = makeActionCreator(SEARCH_BOOKS_BY_PAGE_TYPE, 'SUCCESS', 'data');
+const searchFailure = makeActionCreator(SEARCH_BOOKS_BY_PAGE_TYPE, 'FAILURE', 'error');
 
-const fetchBookDataFailure = error => ({
-  type: FETCH_BOOK_DATA_FAILURE,
-  error
-});
-
-const fetchUserBooks = () => ({
-  type: FETCH_USER_BOOKS_REQUEST
-});
-
-const fetchUserBooksSuccess = data => ({
-  type: FETCH_USER_BOOKS_SUCCESS,
-  data
-});
-
-const fetchUserBooksFailure = error => ({
-  type: FETCH_USER_BOOKS_FAILURE,
-  error
-});
-
-const searchBooksByPage = () => ({
-  type: SEARCH_BOOKS_BY_PAGE_REQUEST
-});
-
-const searchSuccess = data => ({
-  type: SEARCH_BOOKS_BY_PAGE_SUCCESS,
-  data
-});
-
-const searchFailure = error => ({
-  type: SEARCH_BOOKS_BY_PAGE_FAILURE,
-  error
-});
+/* ======================================================================================== */
 
 const addBook = data => ({
   type: ADD_BOOK,
@@ -91,23 +58,23 @@ const addBookInList = data => ({
   data
 });
 
-const bookRemoval = data => ({
-  type: DELETE_BOOK,
+const bookDeleteOnBookPage = data => ({
+  type: DELETE_BOOK_ON_BOOK_PAGE,
   data
 });
 
-const bookDeleteInList = id => ({
-  type: BOOK_DELETE_IN_LIST,
-  id
+const bookDeleteOnDashboardPage = data => ({
+  type: DELETE_BOOK_ON_DASHBOARD_PAGE,
+  data
+});
+
+const bookDeleteOnHomePage = data => ({
+  type: DELETE_BOOK_ON_HOME_PAGE,
+  data
 });
 
 const addBookLike = data => ({
   type: ADD_LIKE,
-  data
-});
-
-const deleteBookLike = data => ({
-  type: DELETE_LIKE,
   data
 });
 
@@ -116,8 +83,18 @@ const addBookLikeInList = data => ({
   data
 });
 
-const deleteBookLikeInList = data => ({
-  type: DELETE_LIKE_IN_LIST,
+const likeDeleteOnBookPage = data => ({
+  type: DELETE_LIKE_ON_BOOK_PAGE,
+  data
+});
+
+const likeDeleteOnHomePage = data => ({
+  type: DELETE_LIKE_ON_HOME_PAGE,
+  data
+});
+
+const likeDeleteOnDashboardPage = data => ({
+  type: DELETE_LIKE_ON_DASHBOARD_PAGE,
   data
 });
 
@@ -179,45 +156,44 @@ export const searchBooksFailure = error => dispatch =>
 
 /* --------------------------------------------- */
 
-export const readBook = data => dispatch =>
-  api.books.create(data).then(book => {
-    dispatch(addBook(book));
-  });
+export const readBook = goodreadsId => dispatch =>
+  api.books.create(goodreadsId).then(data => dispatch(addBook(data)));
 
-export const readBookInList = data => dispatch =>
-  api.books.create(data).then(book => {
-    dispatch(addBookInList({ goodreadsId: book.goodreadsId, readStatus: book.readStatus }));
-  });
+export const readBookInList = goodreadsId => dispatch =>
+  api.books.create(goodreadsId).then(data => dispatch(addBookInList(data)));
 
-export const deleteBook = id => dispatch =>
-  api.books.delete(id).then(book => {
-    dispatch(bookRemoval(book));
-  });
 
-export const deleteBookInList = id => dispatch =>
-  api.books.deleteBookInList(id).then(bookId => {
-    dispatch(bookDeleteInList(bookId));
-  });
+/* --------------------------------------------- */
 
-export const addLike = id => dispatch =>
-  api.books.addLike(id).then(book => {
-    dispatch(addBookLike(book));
-  });
+export const deleteBookOnBookPage = goodreadsId => dispatch =>
+  api.books.delete(goodreadsId).then(data => dispatch(bookDeleteOnBookPage(data)));
 
-export const addLikeInList = id => dispatch =>
-  api.books.addLike(id).then(book => {
-    dispatch(addBookLikeInList(book));
-  });
+export const deleteBookOnDashboardPage = goodreadsId => dispatch =>
+  api.books.delete(goodreadsId).then(data => dispatch(bookDeleteOnDashboardPage(data)));
 
-export const deleteLike = id => dispatch =>
-  api.books.deleteLike(id).then(book => {
-    dispatch(deleteBookLike(book));
-  });
+export const deleteBookOnHomePage = goodreadsId => dispatch =>
+  api.books.delete(goodreadsId).then(data => dispatch(bookDeleteOnHomePage(data)));
 
-export const deleteLikeInList = id => dispatch =>
-  api.books.deleteLike(id).then(book => {
-    dispatch(deleteBookLikeInList(book));
-  });
+/* --------------------------------------------- */
+
+export const addLike = goodreadsId => dispatch =>
+  api.books.addLike(goodreadsId).then(data => dispatch(addBookLike(data)));
+
+export const addLikeInList = goodreadsId => dispatch =>
+  api.books.addLike(goodreadsId).then(data => dispatch(addBookLikeInList(data)));
+
+/* --------------------------------------------- */
+
+export const deleteLikeOnBookPage = goodreadsId => dispatch =>
+  api.books.deleteLike(goodreadsId).then(data => dispatch(likeDeleteOnBookPage(data)));
+
+export const deleteLikeOnDashboardPage = goodreadsId => dispatch =>
+  api.books.deleteLike(goodreadsId).then(data => dispatch(likeDeleteOnDashboardPage(data)));
+
+export const deleteLikeOnHomePage = goodreadsId => dispatch =>
+  api.books.deleteLike(goodreadsId).then(data => dispatch(likeDeleteOnHomePage(data)));
+
+/* --------------------------------------------- */
 
 export const updateBookProgress = (num, id) => dispatch =>
   api.books.updateProgress(num, id).then(progress => {

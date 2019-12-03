@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { sectionWidth } from "../../../style-constants";
+import { sectionWidth, PageHeader } from "../../../style-constants";
 
 export const Container = styled.div`
   margin: 3em auto;
@@ -11,3 +11,5 @@ export const Section = styled.section`
   flex-wrap: wrap;
   justify-content: space-between;
 `;
+
+export const PageH2 = PageHeader;

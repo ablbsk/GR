@@ -3,11 +3,10 @@ const authenticate = require("../../../middlewares/authenticate");
 const Book = require("../../../models/book");
 const BookCollection = require("../../../models/book-collection");
 
-const checkLikeInCollection = require("../helper").checkLikeInCollection;
 const updateEntitiesCount = require("../helper").updateEntitiesCount;
 
 module.exports = router.post("/", authenticate, async function(req, res) {
-  const { goodreadsId } = req.body.book;
+  const { goodreadsId } = req.body;
   const { bookCollectionId } = req.currentUser;
 
   try {
@@ -15,9 +14,11 @@ module.exports = router.post("/", authenticate, async function(req, res) {
     let entity = book ? book : await Book.create({ ...req.body.book });
     await bookCollectionUpdate(entity);
     const updateEntity = await updateEntitiesCount(1, entity._id);
-    const collection = await BookCollection.findById(bookCollectionId);
-    const likeStatus = await checkLikeInCollection(entity._id, collection);
-    await res.json({ book: { ...updateEntity._doc, readStatus: true, likeStatus } });
+    await res.json({
+      goodreadsId,
+      numberOfEntities: updateEntity.numberOfEntities,
+      readStatus: true
+    })
   } catch (e) {
     res
       .status(500)

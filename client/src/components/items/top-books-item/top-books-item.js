@@ -2,12 +2,14 @@ import React from "react";
 import Rating from "react-rating";
 import { Link } from "react-router-dom";
 
+import AddLikeBookWidget from "../../widgets/add-like-book-widget/add-like-book-widget";
+
 import * as S from "./style";
 
 import starBorder from "../../../img/star_border.png";
 import star from "../../../img/star.png";
 
-const TopBooksItem = ({ book, topLikes }) => {
+const TopBooksItem = ({ book }) => {
   const createDescription = () => {
     const { description } = book;
     return { __html: description };
@@ -17,12 +19,9 @@ const TopBooksItem = ({ book, topLikes }) => {
     <S.Article>
       <S.Left>
         <S.Cover src={book.image_url} alt="" />
-        <S.Count>
-          { topLikes
-            ? <span>Likes: {book.likeCounter}</span>
-            : <span>Read: {book.numberOfEntities}</span>
-          }
-        </S.Count>
+        <S.Widget>
+          <AddLikeBookWidget book={book} page={'home'} />
+        </S.Widget>
       </S.Left>
       <S.Right>
         <Link

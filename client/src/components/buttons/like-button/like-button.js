@@ -4,9 +4,10 @@ import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import {
   addLike,
-  deleteLike,
   addLikeInList,
-  deleteLikeInList
+  deleteLikeOnBookPage,
+  deleteLikeOnHomePage,
+  deleteLikeOnDashboardPage
 } from "../../../actions/books";
 
 import * as S from "./style";
@@ -17,18 +18,37 @@ const LikeButton = props => {
   const onSubmit = e => {
     e.preventDefault();
 
-    const { id } = props;
-    const toastrSuccess = toastr.success("Successful", "Changes installed successfully");
+    const {
+      goodreadsId,
+      page,
+      likeStatus,
+      addLike,
+      addLikeInList,
+      deleteLikeOnBookPage,
+      deleteLikeOnHomePage,
+      deleteLikeOnDashboardPage
+    } = props;
+    let result;
 
-    if (props.inList) {
-      (props.likeStatus ? props.deleteLikeInList(id) : props.addLikeInList(id))
-        .then(() => toastrSuccess)
-        .catch(error => toastr.error("Server Error", error.response.data.error));
-    } else {
-      (props.likeStatus ? props.deleteLike(id) : props.addLike(id))
-        .then(() => toastrSuccess)
-        .catch(error => toastr.error("Server Error", error.response.data.error));
+    if (!likeStatus) {
+      result = (page === 'book') ? addLike(goodreadsId) : addLikeInList(goodreadsId);
+    } else  {
+      switch (page) {
+        case 'home':
+          result = deleteLikeOnHomePage(goodreadsId);
+          break;
+        case 'dashboard':
+          result = deleteLikeOnDashboardPage(goodreadsId);
+          break;
+        case 'book':
+          result = deleteLikeOnBookPage(goodreadsId);
+          break;
+      }
     }
+
+    result
+      .then(() => toastr.success("Successful", "Changes installed successfully"))
+      .catch(error => toastr.error("Server Error", error.response.data.error));
   };
 
   const likeIconEmpty = <S.LikeIcon src={likeEmpty} onClick={onSubmit} alt="Add like" />;
@@ -49,5 +69,5 @@ LikeButton.propTypes = {
 
 export default connect(
   null,
-  { addLike, deleteLike, addLikeInList, deleteLikeInList }
+  { addLike, addLikeInList, deleteLikeOnBookPage, deleteLikeOnHomePage, deleteLikeOnDashboardPage }
 )(LikeButton);

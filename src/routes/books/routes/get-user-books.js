@@ -4,21 +4,16 @@ const Book = require("../../../models/book");
 const BookCollection = require("../../../models/book-collection");
 
 module.exports = router.get("/", authenticate, async function(req, res) {
-  const { bookCollectionId } = req.currentUser;
   try {
+    const { bookCollectionId } = req.currentUser;
+    const arrFields = ["title", "image_url", "authors", "average_rating", "goodreadsId", "pages", "numberOfEntities", "likeCounter"];
     const collection = await BookCollection.findById(bookCollectionId);
     const bookList = collection.list;
+    const { likeBookList } = collection;
     const readBookIds = bookList.map(item => item.bookId);
-    const ids = await filterIds(readBookIds, collection.likeBookList);
-    const books = await Book.find({ _id: { $in: ids } }, [
-      "title",
-      "image_url",
-      "authors",
-      "average_rating",
-      "goodreadsId",
-      "pages"
-    ]);
-    const data = await addStatus(collection, books, readBookIds, bookList);
+    const ids = await filterIds(readBookIds, likeBookList);
+    const books = await Book.find({ _id: { $in: ids } }, arrFields);
+    const data = await addStatus(likeBookList, books, readBookIds, bookList);
     await res.json({ books: data });
   } catch (e) {
     res
@@ -31,8 +26,7 @@ module.exports = router.get("/", authenticate, async function(req, res) {
     return [...new Set(ids.map(item => item.toString()))];
   }
 
-  function addStatus(collection, books, readBookIds, bookList) {
-    const likeBookList = collection.likeBookList;
+  function addStatus(likeBookList, books, readBookIds, bookList) {
     return books.map(book => {
       book = book.toJSON();
       if (likeBookList.length === 0) {

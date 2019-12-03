@@ -8,7 +8,7 @@ import * as S from "./style";
 const TopBooksList = ({ books, topLikes }) => {
   return (
     <S.Container>
-      <h2>{topLikes ? "Top likes" : "Top reads"}</h2>
+      <S.PageH2>{topLikes ? "Top likes" : "Top reads"}</S.PageH2>
       <S.Section>
         {Array.isArray(books) &&
           books.map(item => (
@@ -24,9 +24,12 @@ TopBooksList.propTypes = {
     PropTypes.shape({
       authors: PropTypes.string.isRequired,
       average_rating: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
       goodreadsId: PropTypes.string.isRequired,
       image_url: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
+      likeCounter: PropTypes.number.isRequired,
+      numberOfEntities: PropTypes.number.isRequired,
       _id: PropTypes.string
     }).isRequired
   ).isRequired,

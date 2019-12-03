@@ -20,13 +20,13 @@ export const Left = styled.div`
 export const Cover = styled.img`
   width: 100px;
   height: 150px;
-  margin-bottom: 0.9em;
+  margin-bottom: 0.6em;
 `;
 
-export const Count = styled.div`
-  text-align: center;
-  border: 1px solid ${accentColorButton};
-  color: ${accentColorButton};
+export const Widget = styled.div`
+  display: flex;
+    align-items: baseline;
+    justify-content: space-around;
 `;
 
 export const Right = styled.div`
@@ -39,6 +39,11 @@ export const Title = styled.h4`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  
+  &:hover {
+    color: ${accentColorButton};
+    transition: all 0.25s ease-out;
+  }
 `;
 
 export const Athor = styled.div`
@@ -66,4 +71,15 @@ export const Description = styled.div`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   font-size: 0.85em;
+`;
+
+export const ButtonsDiv = styled.div`
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+`;
+
+export const ButtonItem = styled.div`
+  width: 40%;
 `;

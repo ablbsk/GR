@@ -29,8 +29,8 @@ class HomePage extends Component {
 
     return (
       <>
-        <TopBooksList topLikes={true} books={books[0]} />
-        <TopBooksList topLikes={false} books={books[1]} />
+        <TopBooksList topLikes={true} books={books.slice(0, 2)} />
+        <TopBooksList topLikes={false} books={books.slice(2)} />
       </>
     );
   }
@@ -42,9 +42,12 @@ HomePage.propTypes = {
       PropTypes.shape({
         authors: PropTypes.string.isRequired,
         average_rating: PropTypes.number.isRequired,
+        description: PropTypes.string.isRequired,
         goodreadsId: PropTypes.string.isRequired,
         image_url: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
+        likeCounter: PropTypes.number.isRequired,
+        numberOfEntities: PropTypes.number.isRequired,
         _id: PropTypes.string
       }).isRequired
     ).isRequired
@@ -52,7 +55,8 @@ HomePage.propTypes = {
   getTop: PropTypes.func.isRequired,
   getTopSuccess: PropTypes.func.isRequired,
   getTopFailure: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.bool
 };
 
 function mapStateToProps(state) {

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
 export const AddBookIcon = styled.img`
-  width: 2em;
+  width: 1.75em;
   cursor: pointer;
 `;

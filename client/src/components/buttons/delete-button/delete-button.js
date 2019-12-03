@@ -2,31 +2,57 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
-import { deleteBook, deleteBookInList } from "../../../actions/books";
+import { deleteBookOnBookPage, deleteBookOnDashboardPage, deleteBookOnHomePage } from "../../../actions/books";
 
 import * as S from './style';
 import removeBook from "../../../img/bookmark_full.png";
 
-const DeleteButton = ({ id, deleteBook, deleteBookInList, inList }) => {
+const DeleteButton = (props) => {
   const onSubmit = e => {
     e.preventDefault();
-    (inList ? deleteBookInList(id) : deleteBook(id))
-      .then(() =>
-        toastr.success("Successful", "Changes installed successfully")
-      )
+    const {
+      goodreadsId,
+      page,
+      deleteBookOnBookPage,
+      deleteBookOnDashboardPage,
+      deleteBookOnHomePage
+    } = props;
+    let result;
+
+    switch (page) {
+      case 'home':
+        result = deleteBookOnHomePage(goodreadsId);
+        break;
+      case 'dashboard':
+        result = deleteBookOnDashboardPage(goodreadsId);
+        break;
+      case 'book':
+        result = deleteBookOnBookPage(goodreadsId);
+        break;
+    }
+    result
+      .then(() => toastr.success("Successful", "Changes installed successfully"))
       .catch(error => toastr.error("Server Error", error.response.data.error));
   };
 
-  return <S.removeBookIcon src={removeBook} onClick={onSubmit} />;
+  return (
+    <S.removeBookIcon
+      src={removeBook}
+      onClick={onSubmit}
+      title="Delete book in your collection"
+    />
+  );
 };
 
 DeleteButton.propTypes = {
-  id: PropTypes.string.isRequired,
-  deleteBook: PropTypes.func.isRequired,
-  inList: PropTypes.bool.isRequired
+  goodreadsId: PropTypes.string.isRequired,
+  deleteBookOnBookPage: PropTypes.func.isRequired,
+  deleteBookOnDashboardPage: PropTypes.func.isRequired,
+  deleteBookOnHomePage: PropTypes.func.isRequired,
+  page: PropTypes.string.isRequired
 };
 
 export default connect(
   null,
-  { deleteBook, deleteBookInList }
+  { deleteBookOnBookPage, deleteBookOnDashboardPage, deleteBookOnHomePage }
 )(DeleteButton);

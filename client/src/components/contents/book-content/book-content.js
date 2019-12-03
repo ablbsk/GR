@@ -2,9 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Rating from "react-rating";
 
-import DeleteButton from "../../buttons/delete-button/delete-button";
-import ReadButton from "../../buttons/read-button/read-button";
-import LikeButton from "../../buttons/like-button/like-button";
+import AddLikeBookWidget from "../../widgets/add-like-book-widget/add-like-book-widget";
 import ReadProgressWidget from "../../widgets/read-progress-widget/read-progress-widget";
 
 import starBorder from "../../../img/star_border.png";
@@ -17,29 +15,6 @@ const BookContent = ({ book, confirmed }) => {
   const createDescription = () => {
     return { __html: book.description };
   };
-
-  const addDeleteButtons = confirmed && (
-    <>
-      {book.readStatus ? (
-        <DeleteButton id={book.goodreadsId} inList={false} />
-      ) : (
-        <ReadButton book={book} inList={false} />
-      )}
-      <span>{book.numberOfEntities}</span>
-    </>
-  );
-
-  const likeButton = confirmed && (
-    <>
-      <LikeButton
-        id={book.goodreadsId}
-        likeStatus={book.likeStatus}
-        inList={false}
-      />
-      <span>{book.likeCounter}</span>
-    </>
-  );
-
   const progress = confirmed && book.readStatus && (
     <S.Right>
       <S.ProgressHeader>Your progress</S.ProgressHeader>
@@ -56,10 +31,7 @@ const BookContent = ({ book, confirmed }) => {
     <S.Section>
       <S.Left>
         <S.Cover src={book.image_url} alt={`${book.title} cover`} />
-        <div>
-          {addDeleteButtons}
-          {likeButton}
-        </div>
+        <AddLikeBookWidget book={book} page={'book'} />
       </S.Left>
       <S.Center>
         <S.Title>{book.title}</S.Title>

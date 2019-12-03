@@ -3,15 +3,12 @@ import PropTypes from "prop-types";
 import Rating from "react-rating";
 import { Link } from "react-router-dom";
 
-import DeleteButton from "../../buttons/delete-button/delete-button";
-import LikeButton from "../../buttons/like-button/like-button";
+import AddLikeBookWidget from "../../widgets/add-like-book-widget/add-like-book-widget";
 import ReadProgressWidget from "../../widgets/read-progress-widget/read-progress-widget";
 
 import * as S from "./style";
-
 import starBorder from "../../../img/star_border.png";
 import star from "../../../img/star.png";
-import ReadButton from "../../buttons/read-button/read-button";
 
 class UserBookItem extends Component {
   render() {
@@ -38,22 +35,7 @@ class UserBookItem extends Component {
             />
             <S.RatingNum>{book.average_rating}</S.RatingNum>
           </S.Rating>
-          <S.ButtonsDiv>
-            <S.ButtonItem>
-              {book.readStatus ? (
-                <DeleteButton id={book.goodreadsId} inList={true} />
-              ) : (
-                <ReadButton book={book} inList={true} />
-              )}
-            </S.ButtonItem>
-            <S.ButtonItem>
-              <LikeButton
-                id={book.goodreadsId}
-                likeStatus={book.likeStatus}
-                inList={true}
-              />
-            </S.ButtonItem>
-          </S.ButtonsDiv>
+          <AddLikeBookWidget book={book} page={'dashboard'} />
         </S.Center>
         { book.readStatus && <S.Right>
           <S.ProgressH5>Your progress</S.ProgressH5>

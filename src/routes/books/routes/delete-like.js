@@ -3,11 +3,10 @@ const authenticate = require("../../../middlewares/authenticate");
 const Book = require("../../../models/book");
 const BookCollection = require("../../../models/book-collection");
 
-const checkReadInCollection = require("../helper").checkReadInCollection;
 const updateLikeCount = require("../helper").updateLikeCount;
 
 module.exports = router.post("/", authenticate, async function(req, res) {
-  const goodreadsId = req.body.id;
+  const { goodreadsId } = req.body;
   const { bookCollectionId } = req.currentUser;
 
   try {
@@ -19,15 +18,10 @@ module.exports = router.post("/", authenticate, async function(req, res) {
     book.likeCounter > 1 || book.numberOfEntities >= 1
       ? updateBook = await updateLikeCount(-1, id)
       : await Book.findByIdAndRemove(id);
-    const collection = await BookCollection.findById(bookCollectionId);
-    const readStatus = await checkReadInCollection(book._id, collection);
     await res.json({
-      book: {
-        ...updateBook._doc,
-        likeStatus: false,
-        readStatus: readStatus.read,
-        readPages: readStatus.readPages
-      }
+      goodreadsId,
+      likeCounter: updateBook.likeCounter,
+      likeStatus: false,
     });
   } catch (e) {
     res
