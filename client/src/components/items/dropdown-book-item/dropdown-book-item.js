@@ -2,27 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-import {
-  StyledContainer,
-  StyledBookImg,
-  StyledData,
-  StyledTitle,
-  StyledAuthor
-} from "./style";
+import * as S from "./style";
+import {linkStyle} from "../../../style-constants";
 
 const DropdownBookItem = ({ book }) => {
   return (
     <Link
-      style={{ textDecoration: "none" }}
+      style={{ ...linkStyle }}
       to={{ pathname: `/books/new/${book.goodreadsId}` }}
     >
-      <StyledContainer>
-        <StyledBookImg src={book.image_url} alt={`${book.title} cover`} />
-        <StyledData>
-          <StyledTitle>{book.title}</StyledTitle>
-          <StyledAuthor>by {book.authors}</StyledAuthor>
-        </StyledData>
-      </StyledContainer>
+      <S.Container>
+        <S.BookImg src={book.image_url} alt={`${book.title} cover`} />
+        <S.Data>
+          <S.Title>{book.title}</S.Title>
+          <S.Author>by {book.authors}</S.Author>
+        </S.Data>
+      </S.Container>
     </Link>
   );
 };

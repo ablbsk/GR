@@ -6,7 +6,7 @@ import { search } from "../../../actions/books";
 import SearchLoading from "../../loaders/search-loading/search-loading";
 import DropdownBookList from "../../lists/dropdown-book-list/dropdown-book-list";
 
-import { StyledSearch, StyledSearchInput } from "./style";
+import * as S from "./style";
 
 class Search extends Component {
   state = {
@@ -74,14 +74,13 @@ class Search extends Component {
     }
   };
 
-  handleClickInside = () =>
-    this.setState({ visibilityDropdownList: false });
+  handleClickInside = () => this.setState({ visibilityDropdownList: false });
 
   render() {
     const { books, loading, query, visibilityDropdownList } = this.state;
     return (
-      <StyledSearch ref={this.myRef} onClick={this.handleClickInside}>
-        <StyledSearchInput
+      <S.Search ref={this.myRef} onClick={this.handleClickInside}>
+        <S.Input
           id="query"
           type="text"
           placeholder="Search books"
@@ -93,7 +92,7 @@ class Search extends Component {
           query={query}
           visibility={visibilityDropdownList}
         />
-      </StyledSearch>
+      </S.Search>
     );
   }
 }

@@ -40,14 +40,13 @@ class DashboardPage extends Component {
   };
 
   showContent = (books, filterBooks) => {
+    const { isAuthenticated, isConfirmed } = this.props;
     if (books.length === 0) {
       return <S.NoBooks>You don't have books</S.NoBooks>;
     } else {
-      return filterBooks.length === 0 ? (
-        <S.NoBooks>No books</S.NoBooks>
-      ) : (
-        <UserBooksList books={filterBooks} />
-      );
+      return filterBooks.length === 0
+        ? <S.NoBooks>No books</S.NoBooks>
+        : <UserBooksList isConfirmed={isConfirmed} isAuthenticated={isAuthenticated} books={filterBooks} />
     }
   };
 
@@ -80,6 +79,7 @@ class DashboardPage extends Component {
 }
 
 DashboardPage.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
   isConfirmed: PropTypes.bool.isRequired,
   books: PropTypes.arrayOf(
     PropTypes.shape({
@@ -101,6 +101,7 @@ DashboardPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    isAuthenticated: !!state.user.email,
     books: allBooksSelector(state),
     loading: state.books.loading,
     error: state.books.error,

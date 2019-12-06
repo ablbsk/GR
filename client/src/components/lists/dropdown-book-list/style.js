@@ -1,23 +1,27 @@
 import styled from "styled-components";
 
-import { border, headerBackground } from "../../../style-constants";
+import { border, headerBackground, sizes } from "../../../style-constants";
 
-export const StyledContainer = styled.div`
-    position: absolute;
-    z-index: 10;
-    top: 2.5em;
+export const Container = styled.div`
+  position: absolute;
+  z-index: 10;
+  top: 2.5em;
 
-    width: 21em;
+  width: 336px;
 
-    background-color: white;
-    box-shadow: 0 .1em .2em rgba(0,0,0,.15);
+  background-color: white;
+  box-shadow: 0 0.1em 0.2em rgba(0,0,0,.15);
+    
+  @media (max-width: ${sizes.screen600}) {
+    width: 296px;
+  }
 `;
 
-export const StyledAllResults = styled.div`
-    font-size: .9em;
+export const AllResults = styled.div`
+    font-size: 0.9em;
     font-weight: bold;
     
-    padding: .5em;
+    padding: 0.5em;
 
     text-align: center;
 

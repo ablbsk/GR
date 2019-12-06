@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -6,30 +6,44 @@ import Search from "../../search/search/search";
 import UserButton from "../../buttons/user-button/user-button";
 
 import vectorGR from "../../../img/vector.png";
+import search from "../../../img/search_29.png";
 
 import * as S from "./style";
+import { linkStyleWhite } from "../../../style-constants";
 
-const TopNavigation = ({ isAuthenticated, username }) => (
-  <S.Header>
-    <Link to="/">
-      <S.Icon src={vectorGR} alt="Go to main page" />
-    </Link>
-    <Search />
-    {isAuthenticated ? (
-      <Fragment>
-        <S.Username>{username}</S.Username>
-        <UserButton />
-      </Fragment>
+const TopNavigation = ({ isAuthenticated, username }) => {
+  const searchInputOrIcon =
+    window.innerWidth > 500 ? (
+      <Search />
     ) : (
-      <Link
-        style={{ textDecoration: "none", color: "#FFFFFF", fontSize: "1.1em" }}
-        to="/login"
-      >
-        Login
+      <Link to="/search?q=&page=1">
+        <S.Icon
+          src={search}
+          alt="Go to search books page"
+          title="Go to search books page"
+        />
       </Link>
-    )}
-  </S.Header>
-);
+    );
+
+  const loginOrUser = isAuthenticated ? (
+    <>
+      {window.innerWidth > 750 && <S.Username>{username}</S.Username>}
+      <UserButton username={username}/>
+    </>
+  ) : (<Link style={{ ...linkStyleWhite }} to="/login">Login</Link>);
+
+  return (
+    <S.Header>
+      <S.Logo>
+        <Link to="/">
+          <S.Icon src={vectorGR} alt="Go to home page" title="Go to home page" />
+        </Link>
+      </S.Logo>
+      {searchInputOrIcon}
+      {loginOrUser}
+    </S.Header>
+  );
+};
 
 function mapStateToProps(state) {
   return {

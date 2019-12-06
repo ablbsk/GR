@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { accentColorButton, sizes } from "../../../style-constants";
+
 export const Container = styled.div`
     position: absolute;
     font-size: 0.85em;
@@ -7,9 +9,28 @@ export const Container = styled.div`
     text-align: center;
     z-index: 10;
     top: 3.25em;
-    right: 5em;
+    right: 4.25%;
     background-color: #414141;
-    box-shadow: 0 0.1em 0.2em rgba(0,0,0,.15)
+    box-shadow: 0 0.1em 0.2em rgba(0,0,0,.15);
+    
+    @media (max-width: ${sizes.screen1440}) {
+      right: 3.5%;
+    }
+    
+    @media (max-width: ${sizes.screen880}) {
+      right: 3%;
+    }
+        
+    @media (max-width: ${sizes.screen600}) {
+      right: 2.5%;
+    }
+`;
+
+export const Username = styled.div`
+  margin: 0.5em 0;
+  color: ${accentColorButton};
+  font-size: 1.1em;
+  cursor: default;
 `;
 
 export const Item = styled.div`

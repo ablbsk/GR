@@ -36,3 +36,8 @@ export const Div = styled.div`
   margin-bottom: 1em;
   text-align: center;
 `;
+
+export const Icon = styled.img`
+  width: 1.75em;
+  cursor: pointer;
+`;

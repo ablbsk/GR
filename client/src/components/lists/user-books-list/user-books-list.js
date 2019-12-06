@@ -2,17 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import UserBookItem from "../../items/user-book-item/user-book-item";
 
-import { StyledContainer } from "./style";
+import * as S from "./style";
 
-const UserBooksList = ({ books }) => {
+const UserBooksList = ({ isAuthenticated, isConfirmed, books }) => {
 
   return (
-    <StyledContainer>
+    <S.Container>
       {books &&
         books.map(item => (
-          <UserBookItem book={item} key={item._id}  />
+          <UserBookItem
+            isAuthenticated={isAuthenticated}
+            isConfirmed={isConfirmed}
+            book={item}
+            key={item._id}
+          />
         ))}
-    </StyledContainer>
+    </S.Container>
   );
 };
 

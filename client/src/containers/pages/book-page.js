@@ -7,6 +7,7 @@ import {
   getBookDataFailure
 } from "../../actions/books";
 
+import ConfirmEmailMessage from "../../components/messages/confirm-email-message";
 import BookContent from "../../components/contents/book-content/book-content";
 import CenterLoading from "../../components/loaders/center-loader/center-loader";
 import PageError from "../../components/errors/page-error/page-error";
@@ -34,7 +35,7 @@ class BookPage extends Component {
   };
 
   render() {
-    const { book, loading, error, confirmed } = this.props;
+    const { isAuthenticated, book, loading, error, isConfirmed } = this.props;
 
     if (loading) {
       return <CenterLoading />;
@@ -44,11 +45,21 @@ class BookPage extends Component {
       return <PageError title={error} />;
     }
 
-    return <BookContent book={book} confirmed={confirmed} />;
+    return (
+      <>
+        {!isConfirmed && <ConfirmEmailMessage />}
+        <BookContent
+          isAuthenticated={isAuthenticated}
+          book={book}
+          isConfirmed={isConfirmed}
+        />
+      </>
+    );
   }
 }
 
 BookPage.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
   book: PropTypes.shape({
     authors: PropTypes.string.isRequired,
     average_rating: PropTypes.string.isRequired,
@@ -64,10 +75,10 @@ BookPage.propTypes = {
     readPages: PropTypes.number.isRequired,
     readStatus: PropTypes.number.isRequired,
     image_url: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
   }).isRequired,
   loading: PropTypes.bool.isRequired,
-  confirmed: PropTypes.bool.isRequired,
+  isConfirmed: PropTypes.bool.isRequired,
   error: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -81,10 +92,11 @@ BookPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    isAuthenticated: !!state.user.email,
     book: state.books.data,
     loading: state.books.loading,
     error: state.books.error,
-    confirmed: state.user.confirmed
+    isConfirmed: state.user.confirmed
   };
 }
 

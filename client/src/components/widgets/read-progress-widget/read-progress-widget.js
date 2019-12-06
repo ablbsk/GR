@@ -8,6 +8,8 @@ import {
 } from "../../../actions/books";
 
 import * as S from "./style";
+import progress from "../../../img/progress_full.png";
+import accept from "../../../img/accept.png";
 
 class ReadProgressWidget extends Component {
   state = {
@@ -54,34 +56,33 @@ class ReadProgressWidget extends Component {
     const { pages, readPages } = this.props;
     const { visibilityProgress } = this.state;
     const value = readPages || 0;
-    return visibilityProgress ? (
-      <div>
-        <S.Div>
-          <span>Currently on </span>
-          <S.Input
-            type="text"
-            name="readPages"
-            id="readPages"
-            defaultValue={value}
-            onChange={this.onChange}
-          />
-          <span>of {pages}</span>
-        </S.Div>
-
-        <S.Button onClick={this.saveProgressClick}>Save</S.Button>
-      </div>
-    ) : (
-      <div>
-        <S.Progress value={value} max={pages} />
-        <S.Stat>
-          {value}/{pages}
-        </S.Stat>
-        <S.Button
-          onClick={() => this.setState({ visibilityProgress: true })}
-        >
-          Update progress
-        </S.Button>
-      </div>
+    return (
+      <span>
+        {visibilityProgress ? (
+          <>
+            <S.Icon
+              src={accept}
+              onClick={this.saveProgressClick}
+            />
+            <S.Input
+              type="text"
+              name="readPages"
+              id="readPages"
+              defaultValue={value}
+              onChange={this.onChange}
+            />
+            <span>/{pages}</span>
+          </>
+        ) : (
+          <>
+            <S.Icon
+              src={progress}
+              onClick={() => this.setState({ visibilityProgress: true })}
+            />
+            <span>{value}/{pages}</span>
+          </>
+      )}
+      </span>
     );
   }
 }

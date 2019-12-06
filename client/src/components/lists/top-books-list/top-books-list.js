@@ -5,14 +5,20 @@ import TopBooksItem from "../../items/top-books-item/top-books-item";
 
 import * as S from "./style";
 
-const TopBooksList = ({ books, topLikes }) => {
+const TopBooksList = ({ isAuthenticated, isConfirmed, books, topLikes }) => {
   return (
     <S.Container>
       <S.PageH2>{topLikes ? "Top likes" : "Top reads"}</S.PageH2>
       <S.Section>
         {Array.isArray(books) &&
           books.map(item => (
-            <TopBooksItem key={item.goodreadsId} book={item} topLikes={topLikes}/>
+            <TopBooksItem
+              key={item.goodreadsId}
+              isAuthenticated={isAuthenticated}
+              isConfirmed={isConfirmed}
+              book={item}
+              topLikes={topLikes}
+            />
           ))}
       </S.Section>
     </S.Container>

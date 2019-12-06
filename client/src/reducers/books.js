@@ -49,13 +49,8 @@ export default function books(state = initialState, action = {}) {
     case ADD_BOOK:
     case DELETE_LIKE_ON_BOOK_PAGE:
     case DELETE_BOOK_ON_BOOK_PAGE:
-      return { ...state, data: { ...state.data, ...action.data } };
-
     case UPDATE_PROGRESS:
-      return {
-        ...state,
-        data: { ...state.data, ...action.data.readPages }
-      };
+      return { ...state, data: { ...state.data, ...action.data } };
 
     case ADD_BOOK_IN_LIST:
     case DELETE_BOOK_ON_HOME_PAGE:
@@ -153,7 +148,6 @@ export default function books(state = initialState, action = {}) {
 // SELECTORS
 
 export const booksSelector = state => state.books.data;
-
 
 export const allBooksSelector = createSelector(
   booksSelector,

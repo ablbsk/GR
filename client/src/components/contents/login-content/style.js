@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { accentColorButton, headerBackground, wordsColorButton, boxShadowButton } from "../../../style-constants";
+import { accentColorButton, headerBackground, wordsColorButton, boxShadowButton, sizes } from "../../../style-constants";
 
 export const Container = styled.div`
   width: 400px;
@@ -17,6 +17,10 @@ export const Container = styled.div`
   
   background: #FFFFFF;
   box-shadow: ${boxShadowButton};
+  
+  @media (max-width: ${sizes.screen600}) {
+    width: 70%;
+  }
 `;
 
 export const Header = styled.h2`

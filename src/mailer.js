@@ -3,14 +3,23 @@ const nodemailer = require('nodemailer');
 const from = '"Bookworm" <info@bookworm.com>';
 
 function setup() {
-  return nodemailer.createTransport({
+/*  return nodemailer.createTransport({
     host: process.env.MAILTRAP_HOST,
     port: process.env.MAILTRAP_PORT,
     auth: {
       user: process.env.MAILTRAP_USER_NAME,
       pass: process.env.MAILTRAP_USER_PASS
     }
-  });
+  });*/
+
+    return nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
 }
 
 function sendConfirmationEmail(user) {

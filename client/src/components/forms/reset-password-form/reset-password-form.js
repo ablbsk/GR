@@ -74,9 +74,7 @@ class ResetPasswordForm extends Component {
             value={data.passwordConfirmation}
             onChange={this.onChange}
           />
-          {errors.passwordConfirmation && (
-            <InlineError text={ errors.passwordConfirmation || ' ' } />
-          )}
+           <InlineError text={ errors.passwordConfirmation || ' ' } />
         </S.FormField>
         <S.Button>Reset</S.Button>
       </S.Container>

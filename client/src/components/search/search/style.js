@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-import { headerBackground, searchColor, border } from "../../../style-constants";
+import { headerBackground, searchColor, border, sizes } from "../../../style-constants";
 
-export const StyledSearch = styled.div`
+export const Search = styled.div`
     font-weight: normal;
     font-style: normal;
 
@@ -13,12 +13,12 @@ export const StyledSearch = styled.div`
     flex-grow: 2;
 `;
 
-export const StyledSearchInput = styled.input`
-    font-size: .85em;
+export const Input = styled.input`
+    font-size: 0.85em;
 
-    width: 22em;
+    width: 300px;
     height: 2em;
-    padding: 0 .25em;
+    padding: 0 0.25em;
 
     color: ${searchColor};
     border: ${border};
@@ -28,5 +28,9 @@ export const StyledSearchInput = styled.input`
 
   &::-webkit-input-placeholder {
     color: ${searchColor};
+  }
+  
+  @media (max-width: ${sizes.screen600}) {
+      width: 260px;
   }
 `;

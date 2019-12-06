@@ -6,7 +6,8 @@ import { getBookData } from "../../../actions/books";
 
 import DropdownBookItem from "../../items/dropdown-book-item/dropdown-book-item";
 
-import { StyledContainer, StyledAllResults } from "./style";
+import * as S from "./style";
+import {linkStyle} from "../../../style-constants";
 
 const DropdownBookList = ({ books, query, visibility }) => {
   const haveResults =
@@ -14,24 +15,24 @@ const DropdownBookList = ({ books, query, visibility }) => {
     books.map(item => <DropdownBookItem key={item.goodreadsId} book={item} />);
 
   const notFound = typeof books === "string" && (
-    <StyledAllResults>{books}</StyledAllResults>
+    <S.AllResults>{books}</S.AllResults>
   );
 
   const haveQuery = Array.isArray(books) && query && (
     <Link
-      style={{ textDecoration: "none" }}
+      style={{ ...linkStyle }}
       to={{ pathname: "/search", search: `?q=${query}&page=1` }}
     >
-      <StyledAllResults>Show all results for "{query}"</StyledAllResults>
+      <S.AllResults>Show all results for "{query}"</S.AllResults>
     </Link>
   );
 
   return visibility ? (
-    <StyledContainer>
+    <S.Container>
       {haveResults}
       {haveQuery}
       {notFound}
-    </StyledContainer>
+    </S.Container>
   ) : null;
 };
 

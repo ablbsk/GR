@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-import { border, headerBackground } from "../../../style-constants";
+import { border, headerBackground, sizes } from "../../../style-constants";
 
-export const StyledContainer = styled.div`
+export const Container = styled.div`
     display: flex;
 
     height: 3.5em;
@@ -11,19 +11,28 @@ export const StyledContainer = styled.div`
     border-top: none;
 
     align-items: center;
+    
+    &:hover {
+      background-color: #FFD7A7;
+      transition: all 0.25s ease-out;
+  }
 `;
 
-export const StyledBookImg = styled.img`
+export const BookImg = styled.img`
   width: 2.5em;
   height: 100%;
   padding: 0 .5em; 
 `;
 
-export const StyledData = styled.div`
-  width: 16em;
+export const Data = styled.div`
+  width: 265px;
+  
+  @media (max-width: ${sizes.screen600}) {
+      width: 225px;
+  }
 `;
 
-export const StyledTitle = styled.div`
+export const Title = styled.div`
     font-size: .95em;
     font-weight: bold;
 
@@ -35,7 +44,7 @@ export const StyledTitle = styled.div`
     color: ${headerBackground};
 `;
 
-export const StyledAuthor = styled.div`
+export const Author = styled.div`
     font-size: .85em;
     font-weight: normal;
 

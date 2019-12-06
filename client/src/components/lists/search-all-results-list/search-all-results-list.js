@@ -2,16 +2,16 @@ import React from "react";
 
 import SearchAllResultsItem from "../../items/search-all-results-item/search-all-results-item";
 
-import { StyledSection } from "./style";
+import * as S from "./style";
 
 const SearchAllResultsList = ({ books }) => {
   return (
-    <StyledSection>
+    <S.Section>
       {Array.isArray(books) &&
         books.map(item => (
           <SearchAllResultsItem book={item} key={item.goodreadsId} />
         ))}
-    </StyledSection>
+    </S.Section>
   );
 };
 

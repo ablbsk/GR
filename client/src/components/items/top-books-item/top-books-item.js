@@ -5,11 +5,12 @@ import { Link } from "react-router-dom";
 import AddLikeBookWidget from "../../widgets/add-like-book-widget/add-like-book-widget";
 
 import * as S from "./style";
+import { linkStyle } from "../../../style-constants";
 
 import starBorder from "../../../img/star_border.png";
 import star from "../../../img/star.png";
 
-const TopBooksItem = ({ book }) => {
+const TopBooksItem = ({ isAuthenticated, isConfirmed, book }) => {
   const createDescription = () => {
     const { description } = book;
     return { __html: description };
@@ -20,17 +21,22 @@ const TopBooksItem = ({ book }) => {
       <S.Left>
         <S.Cover src={book.image_url} alt="" />
         <S.Widget>
-          <AddLikeBookWidget book={book} page={'home'} />
+          <AddLikeBookWidget
+            book={book}
+            isConfirmed={isConfirmed}
+            isAuthenticated={isAuthenticated}
+            page={'home'}
+          />
         </S.Widget>
       </S.Left>
       <S.Right>
         <Link
-          style={{ textDecoration: "none", color: "#414141"}}
+          style={{ ...linkStyle }}
           to={`/books/new/${book.goodreadsId}`}
         >
-          <S.Title>{book.title}</S.Title>
+          <S.Title title={book.title}>{book.title}</S.Title>
         </Link>
-        <S.Athor>by {book.authors}</S.Athor>
+        <S.Author>by {book.authors}</S.Author>
         <S.Rating>
           <Rating
             initialRating={book.average_rating}
@@ -38,7 +44,7 @@ const TopBooksItem = ({ book }) => {
             fullSymbol={<img src={star} alt="star" />}
             readonly
           />
-          <S.RatingNum>{book.average_rating}</S.RatingNum>
+          <S.RatingNum title="Goodread's rating">{book.average_rating}</S.RatingNum>
         </S.Rating>
         <S.Description dangerouslySetInnerHTML={createDescription()} />
       </S.Right>

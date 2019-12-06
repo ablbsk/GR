@@ -5,7 +5,7 @@ import * as S from "./style";
 const DashboardContent = ({ booksLength, content, filtersBtn, changeFilters }) => {
   return (
     <S.Section>
-      <h2>My books</h2>
+      <S.PageH2>My books</S.PageH2>
       <S.FilterContainer>
         {booksLength !==0 && filtersBtn.map(btn => (
           <S.Button key={btn.id} onClick={() => changeFilters(btn.id)}>

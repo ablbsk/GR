@@ -9,21 +9,22 @@ import ReadProgressWidget from "../../widgets/read-progress-widget/read-progress
 import * as S from "./style";
 import starBorder from "../../../img/star_border.png";
 import star from "../../../img/star.png";
+import {linkStyle} from "../../../style-constants";
 
 class UserBookItem extends Component {
   render() {
-    const { book } = this.props;
+    const { isAuthenticated, isConfirmed, book } = this.props;
     return (
       <S.Article>
         <S.Left>
           <S.Cover src={book.image_url} alt="Cover" />
         </S.Left>
-        <S.Center>
+        <S.Right>
           <Link
-            style={{ textDecoration: "none", color: "#414141" }}
+            style={{ ...linkStyle }}
             to={`/books/new/${book.goodreadsId}`}
           >
-            <S.Title>{book.title}</S.Title>
+            <S.Title title={book.title}>{book.title}</S.Title>
           </Link>
           <S.Author>{book.authors}</S.Author>
           <S.Rating>
@@ -33,19 +34,24 @@ class UserBookItem extends Component {
               fullSymbol={<img src={star} alt="star" />}
               readonly
             />
-            <S.RatingNum>{book.average_rating}</S.RatingNum>
+            <S.RatingNum title="Goodread's rating">{book.average_rating}</S.RatingNum>
           </S.Rating>
-          <AddLikeBookWidget book={book} page={'dashboard'} />
-        </S.Center>
-        { book.readStatus && <S.Right>
-          <S.ProgressH5>Your progress</S.ProgressH5>
-          <ReadProgressWidget
-            pages={book.pages}
-            readPages={book.readPages}
-            goodreadsId={book.goodreadsId}
-            inList={true}
-          />
-        </S.Right> }
+          <S.Buttons>
+            <AddLikeBookWidget
+              isAuthenticated={isAuthenticated}
+              isConfirmed={isConfirmed}
+              book={book}
+              page={'dashboard'}
+            />
+            { book.readStatus &&
+              <ReadProgressWidget
+                pages={book.pages}
+                readPages={book.readPages}
+                goodreadsId={book.goodreadsId}
+                inList={true}
+              />}
+          </S.Buttons>
+          </S.Right>
       </S.Article>
     );
   }

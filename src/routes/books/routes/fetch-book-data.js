@@ -14,13 +14,15 @@ module.exports = router.get("/", authenticate, async function(req, res) {
   try {
     const resultRequest = await getRequest(goodreadsId);
     const data = await fetchBookData(resultRequest);
+    const book = await Book.findOne({ goodreadsId });
 
     if (!req.currentUser) {
-      await res.json({ book: data });
+      book
+        ? await res.json({ book })
+        : await res.json({ book: { ...data, numberOfEntities: 0, likeCounter: 0 } });
     }
 
     const { bookCollectionId } = req.currentUser;
-    const book = await Book.findOne({ goodreadsId });
 
     if (book) {
       const collection = await BookCollection.findById(bookCollectionId);

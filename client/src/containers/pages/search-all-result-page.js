@@ -22,10 +22,6 @@ class SearchAllResultPage extends Component {
   };
 
   componentDidMount() {
-    if (this.state.query.q === '') {
-      this.props.history.push('/');
-      return
-    }
     this.fetchBooksByPage();
   }
 

@@ -36,9 +36,11 @@ class UserButton extends Component {
         <Icon
           src={permIndentity}
           alt="User menu"
+          title="User menu"
         />
         <DropdownUserList
           visibility={visibilityDropdownList}
+          username={this.props.username}
         />
       </div>
     );

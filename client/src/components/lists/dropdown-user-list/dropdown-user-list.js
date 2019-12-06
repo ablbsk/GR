@@ -4,21 +4,16 @@ import { Link } from "react-router-dom";
 import { logout } from "../../../actions/auth";
 
 import * as S from "./style";
+import { linkStyleWhite } from "../../../style-constants";
 
-const DropdownUserList = ({ visibility, logout }) => {
+const DropdownUserList = ({ username, visibility, logout }) => {
   return visibility ? (
     <S.Container>
+      {window.innerWidth < 750 && (
+        <S.Username title={`Hi ${username}`}>{username}</S.Username>
+      )}
       <S.Item>
-        <Link
-          style={{
-            textDecoration: "none",
-            color: "white",
-            fontSize: "1.1em"
-          }}
-          to="/dashboard"
-        >
-          My Books
-        </Link>
+        <Link style={{ ...linkStyleWhite }} to="/dashboard">My Books</Link>
       </S.Item>
       <S.Item>
         <S.Button onClick={() => logout()}>Logout</S.Button>

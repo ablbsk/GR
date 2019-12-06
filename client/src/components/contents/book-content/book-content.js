@@ -10,41 +10,75 @@ import star from "../../../img/star.png";
 
 import * as S from "./style";
 
-const BookContent = ({ book, confirmed }) => {
+const BookContent = ({ isAuthenticated, book, isConfirmed }) => {
 
   const createDescription = () => {
     return { __html: book.description };
   };
-  const progress = confirmed && book.readStatus && (
-    <S.Right>
-      <S.ProgressHeader>Your progress</S.ProgressHeader>
+  const progress = isConfirmed && book.readStatus && (
+    <div>
       <ReadProgressWidget
         pages={book.pages}
         readPages={book.readPages}
         goodreadsId={book.goodreadsId}
         inList={false}
       />
-    </S.Right>
+    </div>
+  );
+
+  const authorAndRating = (
+    <>
+      <S.Author>by {book.authors}</S.Author>
+      <S.Rating>
+        <Rating
+          initialRating={book.average_rating}
+          emptySymbol={<img src={starBorder} alt="star" />}
+          fullSymbol={<img src={star} alt="star" />}
+          readonly
+        />
+        <S.RatingNum>{book.average_rating}</S.RatingNum>
+      </S.Rating>
+    </>
+  );
+
+  const leftCoverAndBtns = (
+    <S.Left>
+      <S.Cover src={book.image_url} alt={`${book.title} cover`} />
+      <AddLikeBookWidget
+        isAuthenticated={isAuthenticated}
+        isConfirmed={isConfirmed}
+        book={book}
+        page={"book"}
+      />
+      {progress}
+    </S.Left>
+  );
+
+  const mainCoverAndContent = (
+    <S.Main>
+      <S.MainCover>
+        <S.Cover src={book.image_url} alt={`${book.title} cover`} />
+      </S.MainCover>
+      <div>
+        {authorAndRating}
+        <AddLikeBookWidget
+          isAuthenticated={isAuthenticated}
+          isConfirmed={isConfirmed}
+          book={book}
+          page={"book"}
+        />
+        {progress}
+      </div>
+    </S.Main>
   );
 
   return (
     <S.Section>
-      <S.Left>
-        <S.Cover src={book.image_url} alt={`${book.title} cover`} />
-        <AddLikeBookWidget book={book} page={'book'} />
-      </S.Left>
-      <S.Center>
+      {window.innerWidth > 600 && leftCoverAndBtns}
+      <S.Right>
         <S.Title>{book.title}</S.Title>
-        <S.Author>by {book.authors}</S.Author>
-        <S.Rating>
-          <Rating
-            initialRating={book.average_rating}
-            emptySymbol={<img src={starBorder} alt="star" />}
-            fullSymbol={<img src={star} alt="star" />}
-            readonly
-          />
-          <S.RatingNum>{book.average_rating}</S.RatingNum>
-        </S.Rating>
+        {window.innerWidth > 600 && authorAndRating}
+        {window.innerWidth < 600 && mainCoverAndContent}
         <S.Description dangerouslySetInnerHTML={createDescription()} />
         <S.Publish>
           <div>
@@ -55,8 +89,7 @@ const BookContent = ({ book, confirmed }) => {
             {book.publication_year} by {book.publisher}
           </div>
         </S.Publish>
-      </S.Center>
-      {progress}
+      </S.Right>
     </S.Section>
   );
 };

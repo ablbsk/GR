@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { getTop, getTopSuccess, getTopFailure } from "../../actions/books";
 import { allBooksSelector } from "../../reducers/books";
 
+import ConfirmEmailMessage from "../../components/messages/confirm-email-message";
 import TopBooksList from "../../components/lists/top-books-list/top-books-list";
 import CenterLoading from "../../components/loaders/center-loader/center-loader";
 import PageError from "../../components/errors/page-error/page-error";
@@ -17,7 +18,7 @@ class HomePage extends Component {
   }
 
   render() {
-    const { books, loading, error } = this.props;
+    const { isAuthenticated, isConfirmed, books, loading, error } = this.props;
 
     if (loading) {
       return <CenterLoading />;
@@ -29,14 +30,26 @@ class HomePage extends Component {
 
     return (
       <>
-        <TopBooksList topLikes={true} books={books.slice(0, 2)} />
-        <TopBooksList topLikes={false} books={books.slice(2)} />
+        {!isConfirmed && <ConfirmEmailMessage />}
+        <TopBooksList
+          topLikes={true}
+          books={books.slice(0, 2)}
+          isAuthenticated={isAuthenticated}
+          isConfirmed={isConfirmed}
+        />
+        <TopBooksList
+          topLikes={false}
+          books={books.slice(2)}
+          isAuthenticated={isAuthenticated}
+          isConfirmed={isConfirmed}
+        />
       </>
     );
   }
 }
 
 HomePage.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
   books: PropTypes.arrayOf(
     PropTypes.arrayOf(
       PropTypes.shape({
@@ -56,14 +69,17 @@ HomePage.propTypes = {
   getTopSuccess: PropTypes.func.isRequired,
   getTopFailure: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
+  isConfirmed: PropTypes.bool.isRequired,
   error: PropTypes.bool
 };
 
 function mapStateToProps(state) {
   return {
+    isAuthenticated: !!state.user.email,
     books: allBooksSelector(state),
     loading: state.books.loading,
-    error: state.books.error
+    error: state.books.error,
+    isConfirmed: state.user.confirmed
   };
 }
 

@@ -5,13 +5,9 @@ const BookCollection = require("../../../models/book-collection");
 
 module.exports = router.get("/", authenticate, async function(req, res) {
   try {
-    const {bookCollectionId} = req.currentUser;
     const arrFields = ["goodreadsId", "title", "authors", "average_rating", "description", "image_url", "numberOfEntities", "likeCounter"];
-    const collection = await BookCollection.findById(bookCollectionId);
-    const bookList = collection.list;
-    const {likeBookList} = collection;
-    const readBookIds = bookList.map(item => item.bookId);
     const num = 2;
+
     const topLikeBooks = await Book.find({}, arrFields)
       .sort({likeCounter: -1})
       .limit(num);
@@ -21,8 +17,17 @@ module.exports = router.get("/", authenticate, async function(req, res) {
       .limit(num);
 
     const books = topLikeBooks.concat(topReadBooks);
-    const data = await addStatus(likeBookList, books, readBookIds, bookList);
-    await res.json({ books: data });
+    if (req.currentUser) {
+      const {bookCollectionId} = req.currentUser;
+      const collection = await BookCollection.findById(bookCollectionId);
+      const bookList = collection.list;
+      const {likeBookList} = collection;
+      const readBookIds = bookList.map(item => item.bookId);
+      const data = await addStatus(likeBookList, books, readBookIds, bookList);
+      await res.json({ books: data });
+    } else {
+      await res.json({ books });
+    }
   }
   catch(e) {
     await res.status(500).json({ error: 'Error. Something went wrong...' });

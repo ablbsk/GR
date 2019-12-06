@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
-export const StyledSection = styled.div`
+export const Section = styled.section`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
+  
+  @media (max-width: 1000px) {
+   justify-content: center;
+  }
 `;

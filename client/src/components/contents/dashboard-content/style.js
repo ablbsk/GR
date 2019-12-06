@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { sectionWidth, accentColorButton } from "../../../style-constants";
+import {accentColorButton, PageHeader} from "../../../style-constants";
 
 export const NoBooks = styled.div`
   text-align: center;
@@ -9,10 +9,10 @@ export const NoBooks = styled.div`
 
 export const Section = styled.section`
    margin: 3em auto;
-   width: ${sectionWidth};
 `;
 
 export const FilterContainer = styled.div`
+  margin: 2em auto;
   text-align: center;
 `;
 
@@ -25,3 +25,5 @@ export const Button = styled.button`
   margin: 0.5em 2em;
   font-weight: 600;
 `;
+
+export const PageH2 = PageHeader;

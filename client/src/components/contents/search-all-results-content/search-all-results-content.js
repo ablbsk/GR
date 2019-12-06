@@ -8,7 +8,7 @@ const SearchAllResultsContent = (props) => {
 
   return (
     <S.Container>
-      <S.HeadingH1>Search</S.HeadingH1>
+      <S.PageH2>Search</S.PageH2>
       <S.SearchForm onSubmit={props.onSubmit}>
         <S.SearchInput
           type="text"
