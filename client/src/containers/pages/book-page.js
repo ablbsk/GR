@@ -47,7 +47,7 @@ class BookPage extends Component {
 
     return (
       <>
-        {!isConfirmed && <ConfirmEmailMessage />}
+        {isAuthenticated && !isConfirmed && <ConfirmEmailMessage />}
         <BookContent
           isAuthenticated={isAuthenticated}
           book={book}

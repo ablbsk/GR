@@ -8,7 +8,7 @@ import { linkStyle, linkStyleButton } from "../../../style-constants";
 
 const LoginContent = ({ submit }) => {
   return (
-    <S.Container>
+    <S.Container type="login">
       <S.Header>Login</S.Header>
       <LoginForm submit={submit} />
       <S.SingUp>

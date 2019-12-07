@@ -7,7 +7,7 @@ import acceptImg from "../../../img/accept.png";
 
 const ForgotPasswordContent = ({ success, submit }) => {
   return (
-    <S.Container>
+    <S.Container type="forgot_pass">
       {success ? (
         <S.Message>
           <S.Img src={acceptImg} alt="" />

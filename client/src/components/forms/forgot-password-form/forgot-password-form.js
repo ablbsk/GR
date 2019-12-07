@@ -4,7 +4,7 @@ import { forgotPasswordValidation } from "../../../utils/validation/forgot-passw
 
 import InlineError from '../../messages/inline-error';
 
-import { Button, FormInput, FormField } from "./style";
+import * as S from "./style";
 
 class ForgotPasswordForm extends Component {
 
@@ -54,8 +54,8 @@ class ForgotPasswordForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <FormField error={ !!errors.email }>
-          <FormInput
+        <S.FormField error={ !!errors.email }>
+          <S.Input
             type="text"
             id="email"
             name="email"
@@ -64,8 +64,8 @@ class ForgotPasswordForm extends Component {
             onChange={this.onChange}
           />
           <InlineError text={ errors.email || ' ' } />
-        </FormField>
-        <Button>Continue</Button>
+        </S.FormField>
+        <S.Button>Continue</S.Button>
       </form>
     )
   }

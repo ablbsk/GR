@@ -121,3 +121,48 @@ export const CardRatingNum = styled.span`
   top: 2px;
   padding-left: 0.4em;
 `;
+
+export const FormContainer = styled.div`
+  width: 400px;
+  height: ${props =>
+    (props.type === 'login' && '440px') ||
+    (props.type === 'signup' && '470px') ||
+    (props.type === 'forgot_pass' && '275px') ||
+    (props.type === 'reset_pass' && '365px')
+  }
+  
+  padding: 1em 2em;
+  position: absolute;
+    
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  
+  background: ${wordsColorButton};
+  box-shadow: ${boxShadowButton};
+  
+  @media (max-width: ${sizes.screen600}) {
+    width: 70%;
+  }
+`;
+
+export const FormInput = styled.input`
+  width: 90%;
+  height: 2.5em;
+  font-size: 1em;
+  padding: 0 0.8em;
+`;
+
+export const FormButton = styled.button`
+  width: 100%;
+   padding: 0.75em;
+   margin-top: 2em;
+   color: ${wordsColorButton};
+   background-color: ${accentColorButton};
+   font-size: 1em;
+   font-weight: 600;
+   border: none;
+   cursor: pointer;
+`;

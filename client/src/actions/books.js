@@ -4,20 +4,15 @@ import {
   FETCH_BOOK_DATA_TYPE,
   FETCH_USER_BOOKS_TYPE,
   SEARCH_BOOKS_BY_PAGE_TYPE,
+  CHANGE_FILTERS_TYPE,
 
-  ADD_BOOK,
-  DELETE_BOOK_ON_BOOK_PAGE,
-  ADD_LIKE,
-  UPDATE_PROGRESS,
-  DELETE_BOOK_ON_DASHBOARD_PAGE,
-  DELETE_BOOK_ON_HOME_PAGE,
-  DELETE_LIKE_ON_BOOK_PAGE,
-  ADD_LIKE_IN_LIST,
-  ADD_BOOK_IN_LIST,
-  DELETE_LIKE_ON_HOME_PAGE,
-  DELETE_LIKE_ON_DASHBOARD_PAGE,
-  UPDATE_PROGRESS_IN_LIST,
-  CHANGE_FILTERS,
+  ADD_BOOK_TYPE,
+  DELETE_BOOK_TYPE,
+
+  ADD_LIKE_TYPE,
+  DELETE_LIKE_TYPE,
+
+  UPDATE_PROGRESS_TYPE
 } from "../types";
 
 function makeActionCreator(type, suffix, ...argNames) {
@@ -30,186 +25,155 @@ function makeActionCreator(type, suffix, ...argNames) {
   }
 }
 
-const fetchTop = makeActionCreator(FETCH_TOP_TYPE, 'REQUEST');
-const fetchTopSuccess = makeActionCreator(FETCH_TOP_TYPE, 'SUCCESS', 'data');
-const fetchTopFailure = makeActionCreator(FETCH_TOP_TYPE, 'FAILURE', 'error');
-
-const fetchBookData = makeActionCreator(FETCH_BOOK_DATA_TYPE, 'REQUEST');
-const fetchBookDataSuccess = makeActionCreator(FETCH_BOOK_DATA_TYPE, 'SUCCESS', 'data');
-const fetchBookDataFailure = makeActionCreator(FETCH_BOOK_DATA_TYPE, 'FAILURE', 'error');
-
-const fetchUserBooks = makeActionCreator(FETCH_USER_BOOKS_TYPE, 'REQUEST');
-const fetchUserBooksSuccess = makeActionCreator(FETCH_USER_BOOKS_TYPE, 'SUCCESS', 'data');
-const fetchUserBooksFailure = makeActionCreator(FETCH_USER_BOOKS_TYPE, 'FAILURE', 'error');
-
-const searchBooksByPage = makeActionCreator(SEARCH_BOOKS_BY_PAGE_TYPE, 'REQUEST');
-const searchSuccess = makeActionCreator(SEARCH_BOOKS_BY_PAGE_TYPE, 'SUCCESS', 'data');
-const searchFailure = makeActionCreator(SEARCH_BOOKS_BY_PAGE_TYPE, 'FAILURE', 'error');
-
-/* ======================================================================================== */
-
-const addBook = data => ({
-  type: ADD_BOOK,
-  data
-});
-
-const addBookInList = data => ({
-  type: ADD_BOOK_IN_LIST,
-  data
-});
-
-const bookDeleteOnBookPage = data => ({
-  type: DELETE_BOOK_ON_BOOK_PAGE,
-  data
-});
-
-const bookDeleteOnDashboardPage = data => ({
-  type: DELETE_BOOK_ON_DASHBOARD_PAGE,
-  data
-});
-
-const bookDeleteOnHomePage = data => ({
-  type: DELETE_BOOK_ON_HOME_PAGE,
-  data
-});
-
-const addBookLike = data => ({
-  type: ADD_LIKE,
-  data
-});
-
-const addBookLikeInList = data => ({
-  type: ADD_LIKE_IN_LIST,
-  data
-});
-
-const likeDeleteOnBookPage = data => ({
-  type: DELETE_LIKE_ON_BOOK_PAGE,
-  data
-});
-
-const likeDeleteOnHomePage = data => ({
-  type: DELETE_LIKE_ON_HOME_PAGE,
-  data
-});
-
-const likeDeleteOnDashboardPage = data => ({
-  type: DELETE_LIKE_ON_DASHBOARD_PAGE,
-  data
-});
-
-const changeProgress = data => ({
-  type: UPDATE_PROGRESS,
-  data
-});
-
-const updateProgressInList = data => ({
-  type: UPDATE_PROGRESS_IN_LIST,
-  data
-});
-
-/* ============================================= */
+/* ===================== FETCH_TOP ======================== */
 
 export const getTop = () => dispatch =>
-  api.books.getTop().then(dispatch(fetchTop()));
+  api.books
+    .getTop()
+    .then(dispatch(makeActionCreator(FETCH_TOP_TYPE, 'REQUEST')()));
 
 export const getTopSuccess = books => dispatch =>
-  dispatch(fetchTopSuccess(books));
+  dispatch(makeActionCreator(FETCH_TOP_TYPE, 'SUCCESS', 'data')(books));
 
 export const getTopFailure = error => dispatch =>
-  dispatch(fetchTopFailure(error));
+  dispatch(makeActionCreator(FETCH_TOP_TYPE, 'FAILURE', 'error')(error));
 
-/* --------------------------------------------- */
+/* ================== FETCH_BOOK_DATA ====================== */
 
-export const getBookData = id => dispatch =>
-  api.books.getBookData(id).then(dispatch(fetchBookData()));
+export const getBookData = goodreadsId => dispatch =>
+  api.books
+    .getBookData(goodreadsId)
+    .then(dispatch(makeActionCreator(FETCH_BOOK_DATA_TYPE, "REQUEST")()));
 
 export const getBookDataSuccess = book => dispatch =>
-  dispatch(fetchBookDataSuccess(book));
+  dispatch(makeActionCreator(FETCH_BOOK_DATA_TYPE, 'SUCCESS', 'data')(book));
 
 export const getBookDataFailure = error => dispatch =>
-  dispatch(fetchBookDataFailure(error));
+  dispatch(makeActionCreator(FETCH_BOOK_DATA_TYPE, 'FAILURE', 'error')(error));
 
-/* --------------------------------------------- */
+/* ================== FETCH_USER_BOOKS ===================== */
 
 export const getUserBooks = () => dispatch =>
-  api.books.fetchUserBooks().then(dispatch(fetchUserBooks()));
+  api.books
+    .fetchUserBooks()
+    .then(dispatch(makeActionCreator(FETCH_USER_BOOKS_TYPE, 'REQUEST')()));
 
 export const getUserBooksSuccess = books => dispatch =>
-  dispatch(fetchUserBooksSuccess(books));
+  dispatch(makeActionCreator(FETCH_USER_BOOKS_TYPE, 'SUCCESS', 'data')(books));
 
 export const getUserBooksFailure = error => dispatch =>
-  dispatch(fetchUserBooksFailure(error));
+  dispatch(makeActionCreator(FETCH_USER_BOOKS_TYPE, 'FAILURE', 'error')(error));
 
-/* --------------------------------------------- */
+/* ========================= SEARCH ======================== */
 
 export const search = title => () => api.books.search(title);
 
 export const searchByPage = (title, pageNum) => dispatch =>
-  api.books.searchByPage(title, pageNum).then(dispatch(searchBooksByPage()));
+  api.books
+    .searchByPage(title, pageNum)
+    .then(dispatch(makeActionCreator(SEARCH_BOOKS_BY_PAGE_TYPE, 'REQUEST')()));
 
 export const searchBooksSuccess = books => dispatch =>
-  dispatch(searchSuccess(books));
+  dispatch(makeActionCreator(SEARCH_BOOKS_BY_PAGE_TYPE, 'SUCCESS', 'data')(books));
 
 export const searchBooksFailure = error => dispatch =>
-  dispatch(searchFailure(error));
+  dispatch(makeActionCreator(SEARCH_BOOKS_BY_PAGE_TYPE, 'FAILURE', 'error')(error));
 
-/* --------------------------------------------- */
-
-export const readBook = goodreadsId => dispatch =>
-  api.books.create(goodreadsId).then(data => dispatch(addBook(data)));
-
-export const readBookInList = goodreadsId => dispatch =>
-  api.books.create(goodreadsId).then(data => dispatch(addBookInList(data)));
-
-
-/* --------------------------------------------- */
-
-export const deleteBookOnBookPage = goodreadsId => dispatch =>
-  api.books.delete(goodreadsId).then(data => dispatch(bookDeleteOnBookPage(data)));
-
-export const deleteBookOnDashboardPage = goodreadsId => dispatch =>
-  api.books.delete(goodreadsId).then(data => dispatch(bookDeleteOnDashboardPage(data)));
-
-export const deleteBookOnHomePage = goodreadsId => dispatch =>
-  api.books.delete(goodreadsId).then(data => dispatch(bookDeleteOnHomePage(data)));
-
-/* --------------------------------------------- */
-
-export const addLike = goodreadsId => dispatch =>
-  api.books.addLike(goodreadsId).then(data => dispatch(addBookLike(data)));
-
-export const addLikeInList = goodreadsId => dispatch =>
-  api.books.addLike(goodreadsId).then(data => dispatch(addBookLikeInList(data)));
-
-/* --------------------------------------------- */
-
-export const deleteLikeOnBookPage = goodreadsId => dispatch =>
-  api.books.deleteLike(goodreadsId).then(data => dispatch(likeDeleteOnBookPage(data)));
-
-export const deleteLikeOnDashboardPage = goodreadsId => dispatch =>
-  api.books.deleteLike(goodreadsId).then(data => dispatch(likeDeleteOnDashboardPage(data)));
-
-export const deleteLikeOnHomePage = goodreadsId => dispatch =>
-  api.books.deleteLike(goodreadsId).then(data => dispatch(likeDeleteOnHomePage(data)));
-
-/* --------------------------------------------- */
-
-export const updateBookProgress = (num, id) => dispatch =>
-  api.books.updateProgress(num, id).then(progress => {
-    dispatch(changeProgress(progress));
-  });
-
-export const updateBookProgressInList = (num, id) => dispatch =>
-  api.books.updateProgress(num, id).then(progress => {
-    dispatch(updateProgressInList(progress));
-  });
-
-const changeBookFilters = filter => ({
-  type: CHANGE_FILTERS,
-  filter
-});
+/* ======================= CHANGE_FILTERS ======================= */
 
 export const changeFilters = filter => dispatch =>
-  dispatch(changeBookFilters(filter));
+  dispatch(makeActionCreator(CHANGE_FILTERS_TYPE, '', 'filter')(filter));
 
+/* ========================== READ_BOOK ========================= */
+
+export const readBook = goodreadsId => dispatch =>
+  api.books
+    .create(goodreadsId)
+    .then(dispatch(makeActionCreator(ADD_BOOK_TYPE, "REQUEST")()));
+
+export const readBookSuccess = (book, page) => dispatch => {
+  if (page === 'book') {
+    return dispatch(makeActionCreator(ADD_BOOK_TYPE, 'SUCCESS', 'data')(book));
+  } else {
+    return dispatch(makeActionCreator(ADD_BOOK_TYPE, 'IN_LIST_SUCCESS', 'data')(book));
+  }
+};
+
+export const readBookFailure = error => dispatch =>
+  dispatch(makeActionCreator(ADD_BOOK_TYPE, 'FAILURE', 'error')(error));
+
+/* ========================= DELETE_BOOK ======================== */
+
+export const deleteBook = goodreadsId => dispatch =>
+  api.books
+    .delete(goodreadsId)
+    .then(dispatch(makeActionCreator(DELETE_BOOK_TYPE, 'REQUEST')()));
+
+export const deleteBookSuccess = (book, page) => dispatch => {
+  if (page === 'book') {
+    return dispatch(makeActionCreator(DELETE_BOOK_TYPE, 'ON_BOOK_PAGE_SUCCESS', 'data')(book));
+  } else if (page === "dashboard") {
+    return dispatch(makeActionCreator(DELETE_BOOK_TYPE, 'ON_DASHBOARD_PAGE_SUCCESS', 'data')(book));
+  } else if (page === "home") {
+    return dispatch(makeActionCreator(DELETE_BOOK_TYPE, 'ON_HOME_PAGE_SUCCESS','data')(book));
+  }
+};
+
+export const deleteBookFailure = error => dispatch =>
+  dispatch(makeActionCreator(DELETE_BOOK_TYPE, 'FAILURE', 'error')(error));
+
+/* =========================== ADD_LIKE ========================= */
+
+export const addLike = goodreadsId => dispatch =>
+  api.books
+    .addLike(goodreadsId)
+    .then(dispatch(makeActionCreator(ADD_LIKE_TYPE, "REQUEST")()));
+
+export const addLikeSuccess = (book, page) => dispatch => {
+  if (page === 'book') {
+    return dispatch(makeActionCreator(ADD_LIKE_TYPE, 'SUCCESS', 'data')(book));
+  } else {
+    return dispatch(makeActionCreator(ADD_LIKE_TYPE, 'IN_LIST_SUCCESS', 'data')(book));
+  }
+};
+
+export const addLikeFailure = error => dispatch =>
+  dispatch(makeActionCreator(ADD_LIKE_TYPE, 'FAILURE', 'error')(error));
+
+/* ========================= DELETE_LIKE ======================== */
+
+export const deleteLike = goodreadsId => dispatch =>
+  api.books
+    .deleteLike(goodreadsId)
+    .then(dispatch(makeActionCreator(DELETE_LIKE_TYPE, 'REQUEST')()));
+
+export const deleteLikeSuccess = (book, page) => dispatch => {
+  if (page === 'book') {
+    return dispatch(makeActionCreator(DELETE_LIKE_TYPE, 'ON_BOOK_PAGE_SUCCESS', 'data')(book));
+  } else if (page === "dashboard") {
+    return dispatch(makeActionCreator(DELETE_LIKE_TYPE, 'ON_DASHBOARD_PAGE_SUCCESS', 'data')(book));
+  } else if (page === "home") {
+    return dispatch(makeActionCreator(DELETE_LIKE_TYPE, 'ON_HOME_PAGE_SUCCESS','data')(book));
+  }
+};
+
+export const deleteLikeFailure = error => dispatch =>
+  dispatch(makeActionCreator(DELETE_BOOK_TYPE, 'FAILURE', 'error')(error));
+
+/* ======================= UPDATE_PROGRESS ====================== */
+
+export const updateProgress = (num, goodreadsId) => dispatch =>
+  api.books
+    .updateProgress(num, goodreadsId)
+    .then(dispatch(makeActionCreator(UPDATE_PROGRESS_TYPE, "REQUEST")()));
+
+export const updateProgressSuccess = (book, page) => dispatch => {
+  if (page === 'book') {
+    return dispatch(makeActionCreator(UPDATE_PROGRESS_TYPE, 'SUCCESS', 'data')(book));
+  } else {
+    return dispatch(makeActionCreator(UPDATE_PROGRESS_TYPE, 'IN_LIST_SUCCESS', 'data')(book));
+  }
+};
+
+export const updateProgressFailure = error => dispatch =>
+  dispatch(makeActionCreator(UPDATE_PROGRESS_TYPE, 'FAILURE', 'error')(error));

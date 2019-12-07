@@ -50,7 +50,7 @@ class LoginForm extends Component {
     return (
       <form onSubmit={ this.onSubmit }>
         <S.FormField>
-          <S.FormInput
+          <S.Input
             type="email"
             id="email"
             name="email"
@@ -61,7 +61,7 @@ class LoginForm extends Component {
           <InlineError text={ errors.email || ' ' } />
         </S.FormField>
         <S.FormField>
-          <S.FormInput
+          <S.Input
             type="password"
             id="password"
             name="password"
@@ -71,7 +71,7 @@ class LoginForm extends Component {
           />
           <InlineError text={ errors.password || ' ' } />
         </S.FormField>
-        <S.LoginButton>Login</S.LoginButton>
+        <S.Button>Login</S.Button>
       </form>
     );
   }

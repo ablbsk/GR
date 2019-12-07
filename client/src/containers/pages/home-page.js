@@ -30,7 +30,7 @@ class HomePage extends Component {
 
     return (
       <>
-        {!isConfirmed && <ConfirmEmailMessage />}
+        {isAuthenticated && !isConfirmed && <ConfirmEmailMessage />}
         <TopBooksList
           topLikes={true}
           books={books.slice(0, 2)}

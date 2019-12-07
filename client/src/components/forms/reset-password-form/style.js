@@ -1,26 +1,7 @@
 import styled from "styled-components";
-import { accentColorButton, boxShadowButton, wordsColorButton, sizes } from "../../../style-constants";
+import { accentColorButton, FormContainer, FormInput, FormButton } from "../../../style-constants";
 
-export const Container = styled.form`
-  width: 400px;
-  height: 365px;
-  
-  padding: 1em 2em;
-  position: absolute;
-    
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  
-  background: #FFFFFF;
-  box-shadow: ${boxShadowButton};
-  
-  @media (max-width: ${sizes.screen600}) {
-    width: 70%;
-  }
-`;
+export const Container = FormContainer;
 
 export const Header = styled.h2`
    color: ${accentColorButton};
@@ -33,21 +14,6 @@ export const FormField = styled.div`
   text-align: center;
 `;
 
-export const FormInput = styled.input`
-  width: 90%;
-  height: 2.5em;
-  font-size: 1em;
-  padding: 0 0.8em;
-`;
+export const Input = FormInput;
 
-export const Button = styled.button`
-  width: 100%;
-   padding: 0.75em;
-   margin: 1.5em 0;
-   color: ${wordsColorButton};
-   background-color: ${accentColorButton};
-   font-size: 1em;
-   font-weight: 600;
-   border: none;
-   cursor: pointer;
-`;
+export const Button = FormButton;

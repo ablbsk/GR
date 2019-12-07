@@ -48,7 +48,7 @@ class UserBookItem extends Component {
                 pages={book.pages}
                 readPages={book.readPages}
                 goodreadsId={book.goodreadsId}
-                inList={true}
+                page="dashboard"
               />}
           </S.Buttons>
           </S.Right>

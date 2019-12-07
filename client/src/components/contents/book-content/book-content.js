@@ -21,7 +21,7 @@ const BookContent = ({ isAuthenticated, book, isConfirmed }) => {
         pages={book.pages}
         readPages={book.readPages}
         goodreadsId={book.goodreadsId}
-        inList={false}
+        page="book"
       />
     </div>
   );

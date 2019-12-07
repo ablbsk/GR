@@ -53,7 +53,7 @@ class SingupForm extends Component {
     return (
       <S.Form onSubmit={this.onSubmit}>
         <S.FormField>
-          <S.FormInput
+          <S.Input
             type="text"
             id="username"
             name="username"
@@ -64,7 +64,7 @@ class SingupForm extends Component {
           <InlineError text={ errors.username || ' ' } />
         </S.FormField>
         <S.FormField>
-          <S.FormInput
+          <S.Input
             type="text"
             id="email"
             name="email"
@@ -75,7 +75,7 @@ class SingupForm extends Component {
           <InlineError text={ errors.email || ' ' } />
         </S.FormField>
         <S.FormField>
-          <S.FormInput
+          <S.Input
             type="password"
             id="password"
             name="password"
@@ -85,7 +85,7 @@ class SingupForm extends Component {
           />
           <InlineError text={ errors.password || ' ' } />
         </S.FormField>
-        <S.SingUpButton>Sign up</S.SingUpButton>
+        <S.Button>Sign up</S.Button>
       </S.Form>
     );
   }

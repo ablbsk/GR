@@ -100,7 +100,7 @@ export const Rating = styled.div`
 
 export const RatingNum = CardRatingNum;
 
-export const Buttons =styled.div`
+export const Buttons = styled.div`
   & > span {
     margin: 0 5px;
     

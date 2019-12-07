@@ -51,10 +51,10 @@ class ResetPasswordForm extends Component {
     const { data, errors } = this.state;
 
     return (
-      <S.Container onSubmit={this.onSubmit}>
+      <S.Container type="reset_pass" onSubmit={this.onSubmit}>
         <S.Header> Reset password </S.Header>
         <S.FormField>
-          <S.FormInput
+          <S.Input
             type="password"
             id="password"
             name="password"
@@ -66,7 +66,7 @@ class ResetPasswordForm extends Component {
         </S.FormField>
 
         <S.FormField>
-          <S.FormInput
+          <S.Input
             type="password"
             id="passwordConfirmation"
             name="passwordConfirmation"
