@@ -1,11 +1,11 @@
 import React from "react";
 
-import { StyledContainer, StyledSpinner } from "./style";
+import * as S from "./style";
 
 const CenterLoading = () => {
   return (
-    <StyledContainer>
-      <StyledSpinner viewBox="0 0 50 50">
+    <S.Container>
+      <S.Spinner viewBox="0 0 50 50" >
         <circle
           className="path"
           cx="25"
@@ -14,8 +14,8 @@ const CenterLoading = () => {
           fill="none"
           strokeWidth="5"
         />
-      </StyledSpinner>
-    </StyledContainer>
+      </S.Spinner>
+    </S.Container>
   );
 };
 

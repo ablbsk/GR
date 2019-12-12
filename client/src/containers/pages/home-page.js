@@ -51,24 +51,23 @@ class HomePage extends Component {
 HomePage.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   books: PropTypes.arrayOf(
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        authors: PropTypes.string.isRequired,
-        average_rating: PropTypes.number.isRequired,
-        description: PropTypes.string.isRequired,
-        goodreadsId: PropTypes.string.isRequired,
-        image_url: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        likeCounter: PropTypes.number.isRequired,
-        numberOfEntities: PropTypes.number.isRequired,
-        _id: PropTypes.string
-      }).isRequired
-    ).isRequired
+    PropTypes.shape({
+      authors: PropTypes.string.isRequired,
+      average_rating: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+      goodreadsId: PropTypes.string.isRequired,
+      image_url: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      likeCounter: PropTypes.number.isRequired,
+      numberOfEntities: PropTypes.number.isRequired,
+      _id: PropTypes.string
+    }).isRequired
   ).isRequired,
   getTop: PropTypes.func.isRequired,
   getTopSuccess: PropTypes.func.isRequired,
   getTopFailure: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
+
   isConfirmed: PropTypes.bool.isRequired,
   error: PropTypes.bool
 };

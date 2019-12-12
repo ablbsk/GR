@@ -25,6 +25,10 @@ function makeActionCreator(type, suffix, ...argNames) {
   }
 }
 
+const addProps = data => data.map(item => {
+  return { ...item, options: { whatLoading: null, error: null } }
+});
+
 /* ===================== FETCH_TOP ======================== */
 
 export const getTop = () => dispatch =>
@@ -33,7 +37,7 @@ export const getTop = () => dispatch =>
     .then(dispatch(makeActionCreator(FETCH_TOP_TYPE, 'REQUEST')()));
 
 export const getTopSuccess = books => dispatch =>
-  dispatch(makeActionCreator(FETCH_TOP_TYPE, 'SUCCESS', 'data')(books));
+  dispatch(makeActionCreator(FETCH_TOP_TYPE, 'SUCCESS', 'data')(addProps(books)));
 
 export const getTopFailure = error => dispatch =>
   dispatch(makeActionCreator(FETCH_TOP_TYPE, 'FAILURE', 'error')(error));
@@ -46,7 +50,7 @@ export const getBookData = goodreadsId => dispatch =>
     .then(dispatch(makeActionCreator(FETCH_BOOK_DATA_TYPE, "REQUEST")()));
 
 export const getBookDataSuccess = book => dispatch =>
-  dispatch(makeActionCreator(FETCH_BOOK_DATA_TYPE, 'SUCCESS', 'data')(book));
+  dispatch(makeActionCreator(FETCH_BOOK_DATA_TYPE, 'SUCCESS', 'data')(addProps([book])));
 
 export const getBookDataFailure = error => dispatch =>
   dispatch(makeActionCreator(FETCH_BOOK_DATA_TYPE, 'FAILURE', 'error')(error));
@@ -59,7 +63,7 @@ export const getUserBooks = () => dispatch =>
     .then(dispatch(makeActionCreator(FETCH_USER_BOOKS_TYPE, 'REQUEST')()));
 
 export const getUserBooksSuccess = books => dispatch =>
-  dispatch(makeActionCreator(FETCH_USER_BOOKS_TYPE, 'SUCCESS', 'data')(books));
+  dispatch(makeActionCreator(FETCH_USER_BOOKS_TYPE, 'SUCCESS', 'data')(addProps(books)));
 
 export const getUserBooksFailure = error => dispatch =>
   dispatch(makeActionCreator(FETCH_USER_BOOKS_TYPE, 'FAILURE', 'error')(error));
@@ -89,15 +93,10 @@ export const changeFilters = filter => dispatch =>
 export const readBook = goodreadsId => dispatch =>
   api.books
     .create(goodreadsId)
-    .then(dispatch(makeActionCreator(ADD_BOOK_TYPE, "REQUEST")()));
+    .then(dispatch(makeActionCreator(ADD_BOOK_TYPE, "REQUEST", 'data')({ goodreadsId: goodreadsId, whatLoading: 'read' })));
 
-export const readBookSuccess = (book, page) => dispatch => {
-  if (page === 'book') {
-    return dispatch(makeActionCreator(ADD_BOOK_TYPE, 'SUCCESS', 'data')(book));
-  } else {
-    return dispatch(makeActionCreator(ADD_BOOK_TYPE, 'IN_LIST_SUCCESS', 'data')(book));
-  }
-};
+export const readBookSuccess = book => dispatch =>
+  dispatch(makeActionCreator(ADD_BOOK_TYPE, 'SUCCESS', 'data')(book));
 
 export const readBookFailure = error => dispatch =>
   dispatch(makeActionCreator(ADD_BOOK_TYPE, 'FAILURE', 'error')(error));
@@ -107,16 +106,11 @@ export const readBookFailure = error => dispatch =>
 export const deleteBook = goodreadsId => dispatch =>
   api.books
     .delete(goodreadsId)
-    .then(dispatch(makeActionCreator(DELETE_BOOK_TYPE, 'REQUEST')()));
+    .then(dispatch(makeActionCreator(DELETE_BOOK_TYPE, 'REQUEST', 'data')({ goodreadsId: goodreadsId, whatLoading: 'read' })));
 
-export const deleteBookSuccess = (book, page) => dispatch => {
-  if (page === 'book') {
-    return dispatch(makeActionCreator(DELETE_BOOK_TYPE, 'ON_BOOK_PAGE_SUCCESS', 'data')(book));
-  } else if (page === "dashboard") {
-    return dispatch(makeActionCreator(DELETE_BOOK_TYPE, 'ON_DASHBOARD_PAGE_SUCCESS', 'data')(book));
-  } else if (page === "home") {
-    return dispatch(makeActionCreator(DELETE_BOOK_TYPE, 'ON_HOME_PAGE_SUCCESS','data')(book));
-  }
+export const deleteBookSuccess = (book, onDashboardPage) => dispatch => {
+  const suffix = onDashboardPage ? 'ON_DASHBOARD_PAGE_SUCCESS' : 'SUCCESS';
+  return dispatch(makeActionCreator(DELETE_BOOK_TYPE, suffix, 'data')(book));
 };
 
 export const deleteBookFailure = error => dispatch =>
@@ -127,15 +121,10 @@ export const deleteBookFailure = error => dispatch =>
 export const addLike = goodreadsId => dispatch =>
   api.books
     .addLike(goodreadsId)
-    .then(dispatch(makeActionCreator(ADD_LIKE_TYPE, "REQUEST")()));
+    .then(dispatch(makeActionCreator(ADD_LIKE_TYPE, "REQUEST", 'data')({ goodreadsId: goodreadsId, whatLoading: 'like' })));
 
-export const addLikeSuccess = (book, page) => dispatch => {
-  if (page === 'book') {
-    return dispatch(makeActionCreator(ADD_LIKE_TYPE, 'SUCCESS', 'data')(book));
-  } else {
-    return dispatch(makeActionCreator(ADD_LIKE_TYPE, 'IN_LIST_SUCCESS', 'data')(book));
-  }
-};
+export const addLikeSuccess = (book) => dispatch =>
+  dispatch(makeActionCreator(ADD_LIKE_TYPE, 'SUCCESS', 'data')(book));
 
 export const addLikeFailure = error => dispatch =>
   dispatch(makeActionCreator(ADD_LIKE_TYPE, 'FAILURE', 'error')(error));
@@ -145,16 +134,11 @@ export const addLikeFailure = error => dispatch =>
 export const deleteLike = goodreadsId => dispatch =>
   api.books
     .deleteLike(goodreadsId)
-    .then(dispatch(makeActionCreator(DELETE_LIKE_TYPE, 'REQUEST')()));
+    .then(dispatch(makeActionCreator(DELETE_LIKE_TYPE, 'REQUEST', 'data')({ goodreadsId: goodreadsId, whatLoading: 'like' })));
 
-export const deleteLikeSuccess = (book, page) => dispatch => {
-  if (page === 'book') {
-    return dispatch(makeActionCreator(DELETE_LIKE_TYPE, 'ON_BOOK_PAGE_SUCCESS', 'data')(book));
-  } else if (page === "dashboard") {
-    return dispatch(makeActionCreator(DELETE_LIKE_TYPE, 'ON_DASHBOARD_PAGE_SUCCESS', 'data')(book));
-  } else if (page === "home") {
-    return dispatch(makeActionCreator(DELETE_LIKE_TYPE, 'ON_HOME_PAGE_SUCCESS','data')(book));
-  }
+export const deleteLikeSuccess = (book, onDashboardPage) => dispatch => {
+  const suffix = onDashboardPage ? 'ON_DASHBOARD_PAGE_SUCCESS' : 'SUCCESS';
+  return dispatch(makeActionCreator(DELETE_LIKE_TYPE, suffix, 'data')(book));
 };
 
 export const deleteLikeFailure = error => dispatch =>
@@ -165,15 +149,10 @@ export const deleteLikeFailure = error => dispatch =>
 export const updateProgress = (num, goodreadsId) => dispatch =>
   api.books
     .updateProgress(num, goodreadsId)
-    .then(dispatch(makeActionCreator(UPDATE_PROGRESS_TYPE, "REQUEST")()));
+    .then(dispatch(makeActionCreator(UPDATE_PROGRESS_TYPE, "REQUEST", 'data')({ goodreadsId: goodreadsId, whatLoading: 'progress' })));
 
-export const updateProgressSuccess = (book, page) => dispatch => {
-  if (page === 'book') {
-    return dispatch(makeActionCreator(UPDATE_PROGRESS_TYPE, 'SUCCESS', 'data')(book));
-  } else {
-    return dispatch(makeActionCreator(UPDATE_PROGRESS_TYPE, 'IN_LIST_SUCCESS', 'data')(book));
-  }
-};
+export const updateProgressSuccess = (book) => dispatch =>
+  dispatch(makeActionCreator(UPDATE_PROGRESS_TYPE, 'SUCCESS', 'data')(book));
 
 export const updateProgressFailure = error => dispatch =>
   dispatch(makeActionCreator(UPDATE_PROGRESS_TYPE, 'FAILURE', 'error')(error));

@@ -53,5 +53,4 @@ module.exports = router.get("/", authenticate, async function(req, res) {
   } catch(e) {
     await res.status(500).json({ error: 'Error. Something went wrong...' });
   }
-
 });

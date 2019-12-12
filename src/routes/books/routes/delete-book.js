@@ -21,7 +21,8 @@ module.exports = router.post("/", authenticate, async function(req, res) {
     await res.json({
       goodreadsId,
       numberOfEntities: updateBook.numberOfEntities,
-      readStatus: false
+      readStatus: false,
+      readPages: 0
     });
   } catch (e) {
     res.status(500).json({ errors: { global: "Error. Something went wrong." } });

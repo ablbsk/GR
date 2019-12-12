@@ -2,7 +2,7 @@ import React from "react";
 import Rating from "react-rating";
 import { Link } from "react-router-dom";
 
-import AddLikeBookWidget from "../../widgets/add-like-book-widget/add-like-book-widget";
+import BookFeatures from "../../../containers/book-features";
 
 import * as S from "./style";
 import { linkStyle } from "../../../style-constants";
@@ -21,11 +21,10 @@ const TopBooksItem = ({ isAuthenticated, isConfirmed, book }) => {
       <S.Left>
         <S.Cover src={book.image_url} alt="" />
         <S.Widget>
-          <AddLikeBookWidget
+          <BookFeatures
             book={book}
-            isConfirmed={isConfirmed}
-            isAuthenticated={isAuthenticated}
-            page={'home'}
+            onDashboardPage={false}
+            viewProgress={false}
           />
         </S.Widget>
       </S.Left>

@@ -9,31 +9,3 @@ export default combineReducers({
   books,
   toastr: toastrReducer
 });
-
-/*
- state = {
-  user,
-  books: {
-    content: {
-      0: {
-        ...data,
-        func: {
-          addBook: { loading, error },
-          likeBook: { loading, error },
-          updateProgress: { loading, error },
-        }
-      },
-      1: {
-        ...data,
-        func: {
-          addBook: { loading, error },
-          likeBook: { loading, error },
-          updateProgress: { loading, error },
-        }
-      }
-    },
-    loading,
-    error
-  }
- }
- */

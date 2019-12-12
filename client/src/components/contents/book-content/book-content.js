@@ -2,29 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import Rating from "react-rating";
 
-import AddLikeBookWidget from "../../widgets/add-like-book-widget/add-like-book-widget";
-import ReadProgressWidget from "../../widgets/read-progress-widget/read-progress-widget";
+import BookFeatures from "../../../containers/book-features";
 
 import starBorder from "../../../img/star_border.png";
 import star from "../../../img/star.png";
 
 import * as S from "./style";
 
-const BookContent = ({ isAuthenticated, book, isConfirmed }) => {
+const BookContent = ({ book }) => {
 
   const createDescription = () => {
     return { __html: book.description };
   };
-  const progress = isConfirmed && book.readStatus && (
-    <div>
-      <ReadProgressWidget
-        pages={book.pages}
-        readPages={book.readPages}
-        goodreadsId={book.goodreadsId}
-        page="book"
-      />
-    </div>
-  );
 
   const authorAndRating = (
     <>
@@ -44,13 +33,11 @@ const BookContent = ({ isAuthenticated, book, isConfirmed }) => {
   const leftCoverAndBtns = (
     <S.Left>
       <S.Cover src={book.image_url} alt={`${book.title} cover`} />
-      <AddLikeBookWidget
-        isAuthenticated={isAuthenticated}
-        isConfirmed={isConfirmed}
+      <BookFeatures
         book={book}
-        page={"book"}
+        onDashboardPage={false}
+        viewProgress={true}
       />
-      {progress}
     </S.Left>
   );
 
@@ -61,13 +48,7 @@ const BookContent = ({ isAuthenticated, book, isConfirmed }) => {
       </S.MainCover>
       <div>
         {authorAndRating}
-        <AddLikeBookWidget
-          isAuthenticated={isAuthenticated}
-          isConfirmed={isConfirmed}
-          book={book}
-          page={"book"}
-        />
-        {progress}
+        <BookFeatures book={book} onDashboardPage={false} viewProgress={true} />
       </div>
     </S.Main>
   );
@@ -97,7 +78,7 @@ const BookContent = ({ isAuthenticated, book, isConfirmed }) => {
 BookContent.propTypes = {
   book: PropTypes.shape({
     authors: PropTypes.string.isRequired,
-    average_rating: PropTypes.string.isRequired,
+    average_rating: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
     format: PropTypes.string.isRequired,
     likeStatus: PropTypes.bool.isRequired,

@@ -7,6 +7,7 @@ export const searchColor = '#C4C4C4';
 export const borderColor = searchColor;
 export const accentColorButton = '#EC6C10';
 export const wordsColorButton = '#FFFFFF';
+export const wordsErrorColor = '#e20000';
 
 export const border = `1px solid ${searchColor}`;
 
@@ -165,4 +166,9 @@ export const FormButton = styled.button`
    font-weight: 600;
    border: none;
    cursor: pointer;
+`;
+
+export const CardIconBtn = styled.img`
+  width: 1.75em;
+  cursor: pointer;
 `;

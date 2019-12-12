@@ -3,16 +3,8 @@ import styled from "styled-components";
 import { headerBackground } from "../../../style-constants";
 
 export const Spinner = styled.svg`
-    width: 2.5em;
-    height: 2.5em;
-
-    position: absolute;
-    
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
+    width: 1.75em;
+    height: 1.75em;
 
     animation: rotate 2s linear infinite;
 
@@ -45,13 +37,4 @@ export const Spinner = styled.svg`
         stroke-dashoffset: -124;
       }
     }  
-`;
-
-export const Container = styled.div`
-   width: 100%;
-   height: 100%;
-   position: absolute;
-   top: 0;
-   left: 0;
-   overflow: auto;
 `;

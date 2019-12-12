@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {
-  getBookData,
-  getBookDataSuccess,
-  getBookDataFailure
-} from "../../actions/books";
+import { getBookData, getBookDataSuccess, getBookDataFailure } from "../../actions/books";
 
 import ConfirmEmailMessage from "../../components/messages/confirm-email-message";
 import BookContent from "../../components/contents/book-content/book-content";
@@ -48,11 +44,7 @@ class BookPage extends Component {
     return (
       <>
         {isAuthenticated && !isConfirmed && <ConfirmEmailMessage />}
-        <BookContent
-          isAuthenticated={isAuthenticated}
-          book={book}
-          isConfirmed={isConfirmed}
-        />
+        <BookContent book={book} />
       </>
     );
   }
@@ -62,7 +54,7 @@ BookPage.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   book: PropTypes.shape({
     authors: PropTypes.string.isRequired,
-    average_rating: PropTypes.string.isRequired,
+    average_rating: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
     format: PropTypes.string.isRequired,
     likeStatus: PropTypes.bool.isRequired,
@@ -93,7 +85,7 @@ BookPage.propTypes = {
 function mapStateToProps(state) {
   return {
     isAuthenticated: !!state.user.email,
-    book: state.books.data,
+    book: state.books.data[0],
     loading: state.books.loading,
     error: state.books.error,
     isConfirmed: state.user.confirmed
