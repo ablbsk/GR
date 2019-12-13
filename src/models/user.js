@@ -52,11 +52,11 @@ schema.methods.setConfirmationToken = function setConfirmationToken() {
 };
 
 schema.methods.generateConfirmationUrl = function generateConfirmationUrl() {
-  return `${process.env.HOST}/confirmation/${this.confirmationToken}`; //TODO HEROKU_URL
+  return `${process.env.HEROKU_URL}/confirmation/${this.confirmationToken}`; //TODO HEROKU_URL | HOST
 };
 
 schema.methods.generateResetPasswordLink = function generateResetPasswordLink() {
-  return `${process.env.HOST}/reset_password/${this.generateResetPasswordToken()}`; //TODO HEROKU_URL
+  return `${process.env.HEROKU_URL}/reset_password/${this.generateResetPasswordToken()}`; //TODO HEROKU_URL | HOST
 };
 
 schema.methods.generateJWT = function generateJWT() {
