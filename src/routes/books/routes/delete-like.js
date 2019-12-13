@@ -15,14 +15,21 @@ module.exports = router.post("/", authenticate, async function(req, res) {
     await removeBookId(id);
 
     let updateBook;
-    book.likeCounter > 1 || book.numberOfEntities >= 1
-      ? updateBook = await updateLikeCount(-1, id)
-      : await Book.findByIdAndRemove(id);
-    await res.json({
-      goodreadsId,
-      likeCounter: updateBook.likeCounter,
-      likeStatus: false,
-    });
+    if (book.likeCounter > 1 || book.numberOfEntities >= 1) {
+      updateBook = await updateLikeCount(-1, id);
+      await res.json({
+        goodreadsId,
+        likeCounter: updateBook.likeCounter,
+        likeStatus: false,
+      });
+    } else {
+      await Book.findByIdAndRemove(id);
+      await res.json({
+        goodreadsId,
+        likeCounter: 0,
+        likeStatus: false,
+      });
+    }
   } catch (e) {
     res
       .status(500)

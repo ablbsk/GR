@@ -30,7 +30,7 @@ module.exports = router.get("/", authenticate, async function(req, res) {
       const readStatus = await checkReadInCollection(book._id, collection);
       await res.json({
         book: {
-          ...data,
+          ...book._doc,
           likeStatus,
           likeCounter: book.likeCounter,
           numberOfEntities: book.numberOfEntities,

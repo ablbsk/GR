@@ -22,10 +22,10 @@ class BookPage extends Component {
   }
 
   fetchBook = () => {
-    const { id } = this.props.match.params;
+    const goodreadsId = this.props.match.params.id;
     const { getBookData, getBookDataSuccess, getBookDataFailure } = this.props;
 
-    getBookData(id)
+    getBookData(goodreadsId)
       .then(book => getBookDataSuccess(book))
       .catch(error => getBookDataFailure(error));
   };
@@ -33,7 +33,7 @@ class BookPage extends Component {
   render() {
     const { isAuthenticated, book, loading, error, isConfirmed } = this.props;
 
-    if (loading) {
+    if (loading || book === undefined) {
       return <CenterLoading />;
     }
 
@@ -56,18 +56,22 @@ BookPage.propTypes = {
     authors: PropTypes.string.isRequired,
     average_rating: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
-    format: PropTypes.string.isRequired,
-    likeStatus: PropTypes.bool.isRequired,
+    format: PropTypes.string,
+    likeStatus: PropTypes.bool,
     goodreadsId: PropTypes.string.isRequired,
-    pages: PropTypes.string.isRequired,
-    publication_day: PropTypes.string.isRequired,
-    publication_month: PropTypes.string.isRequired,
-    publication_year: PropTypes.string.isRequired,
-    publisher: PropTypes.string.isRequired,
-    readPages: PropTypes.number.isRequired,
-    readStatus: PropTypes.number.isRequired,
+    pages: PropTypes.number.isRequired,
+    publication_day: PropTypes.number,
+    publication_month: PropTypes.number,
+    publication_year: PropTypes.number,
+    publisher: PropTypes.string,
+    readPages: PropTypes.number,
+    readStatus: PropTypes.bool,
     image_url: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    options: PropTypes.shape({
+      whatLoading: PropTypes.string,
+      error: PropTypes.string
+    }).isRequired,
   }).isRequired,
   loading: PropTypes.bool.isRequired,
   isConfirmed: PropTypes.bool.isRequired,
@@ -77,6 +81,7 @@ BookPage.propTypes = {
       id: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
+
   getBookData: PropTypes.func.isRequired,
   getBookDataSuccess: PropTypes.func.isRequired,
   getBookDataFailure: PropTypes.func.isRequired

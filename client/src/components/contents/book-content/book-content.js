@@ -33,11 +33,7 @@ const BookContent = ({ book }) => {
   const leftCoverAndBtns = (
     <S.Left>
       <S.Cover src={book.image_url} alt={`${book.title} cover`} />
-      <BookFeatures
-        book={book}
-        onDashboardPage={false}
-        viewProgress={true}
-      />
+      <BookFeatures book={book} onDashboardPage={false} viewProgress={true} />
     </S.Left>
   );
 
@@ -80,18 +76,22 @@ BookContent.propTypes = {
     authors: PropTypes.string.isRequired,
     average_rating: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
-    format: PropTypes.string.isRequired,
-    likeStatus: PropTypes.bool.isRequired,
+    format: PropTypes.string,
+    likeStatus: PropTypes.bool,
     goodreadsId: PropTypes.string.isRequired,
-    pages: PropTypes.string.isRequired,
-    publication_day: PropTypes.string.isRequired,
-    publication_month: PropTypes.string.isRequired,
-    publication_year: PropTypes.string.isRequired,
-    publisher: PropTypes.string.isRequired,
-    readPages: PropTypes.number.isRequired,
-    readStatus: PropTypes.number.isRequired,
+    pages: PropTypes.number.isRequired,
+    publication_day: PropTypes.number,
+    publication_month: PropTypes.number,
+    publication_year: PropTypes.number,
+    publisher: PropTypes.string,
+    readPages: PropTypes.number,
+    readStatus: PropTypes.bool,
     image_url: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    options: PropTypes.shape({
+      whatLoading: PropTypes.string,
+      error: PropTypes.string
+    }).isRequired,
   }).isRequired
 };
 

@@ -22,12 +22,12 @@ function fetchBookData(result) {
         title: path.title[0],
         description: path.description[0],
         authors: path.authors[0].author[0].name[0],
-        average_rating: path.average_rating[0],
-        pages: path.num_pages[0],
+        average_rating: Number(path.average_rating[0]),
+        pages: Number(path.num_pages[0]),
         publisher: path.publisher[0],
-        publication_day: path.publication_day[0],
-        publication_month: path.publication_month[0],
-        publication_year: path.publication_year[0],
+        publication_day: Number(path.publication_day[0]),
+        publication_month: Number(path.publication_month[0]),
+        publication_year: Number(path.publication_year[0]),
         format: path.format[0]
       };
       err ? reject(err) : resolve(book);
@@ -54,4 +54,50 @@ function updateEntitiesCount(i, id) {
   return Book.findByIdAndUpdate(id, { $inc: { numberOfEntities: i } }, { new: true });
 }
 
-module.exports = { getSearchRequest, checkReadInCollection, checkLikeInCollection, fetchBookData, updateLikeCount, getRequest, updateEntitiesCount };
+function addStatus(likeBookList, books, readBookIds, bookList) {
+  return books.map(book => {
+    book = book.toJSON();
+    if (likeBookList.length === 0) {
+      book.likeStatus = false;
+    } else {
+      for (let i = 0; i < likeBookList.length; i++) {
+        if (book._id.equals(likeBookList[i])) {
+          book.likeStatus = true;
+          break;
+        } else {
+          book.likeStatus = false;
+        }
+      }
+    }
+
+    if (readBookIds.length === 0) {
+      book.readPages = 0;
+      book.readStatus = false;
+    } else {
+      for (let i = 0; i < readBookIds.length; i++) {
+        if (book._id.equals(readBookIds[i])) {
+          book.readPages = bookList[i].readPages;
+          book.readStatus = true;
+          break;
+        } else {
+          book.readPages = 0;
+          book.readStatus = false;
+        }
+      }
+    }
+    return book;
+  });
+}
+
+async function createBook(goodreadsId) {
+  const book = await Book.findOne({ goodreadsId });
+  if (!book) {
+    const resultRequest = await getRequest(goodreadsId);
+    const data = await fetchBookData(resultRequest);
+    return Book.create({ ...data });
+  } else {
+    return book;
+  }
+}
+
+module.exports = { addStatus, getSearchRequest, checkReadInCollection, checkLikeInCollection, fetchBookData, updateLikeCount, getRequest, updateEntitiesCount, createBook };

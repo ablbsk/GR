@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { search } from "../../../actions/books";
+import { search } from "../../actions/books";
 
-import SearchLoading from "../../loaders/search-loading/search-loading";
-import DropdownBookList from "../../lists/dropdown-book-list/dropdown-book-list";
+import SearchLoading from "../../components/loaders/search-loading/search-loading";
+import DropdownBookList from "../../components/lists/dropdown-book-list/dropdown-book-list";
 
 import * as S from "./style";
 
@@ -101,7 +101,4 @@ Search.propTypes = {
   search: PropTypes.func.isRequired
 };
 
-export default connect(
-  null,
-  { search }
-)(Search);
+export default connect(null, { search })(Search);

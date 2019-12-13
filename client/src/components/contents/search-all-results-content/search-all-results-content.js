@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import * as S from "./style";
 
 const SearchAllResultsContent = (props) => {
@@ -26,6 +28,17 @@ const SearchAllResultsContent = (props) => {
       {props.pagination}
     </S.Container>
   );
+};
+
+SearchAllResultsContent.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  query: PropTypes.string.isRequired,
+  pagination: PropTypes.element,
+  result: PropTypes.element,
+  resultMsg: PropTypes.element,
+
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default SearchAllResultsContent;

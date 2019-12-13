@@ -12,18 +12,24 @@ module.exports = router.post("/", authenticate, async function(req, res) {
   try {
     const book = await Book.findOne({ goodreadsId });
     let updateBook;
+    await bookCollectionUpdate(book._id);
     if (book.numberOfEntities > 1 || book.likeCounter >= 1) {
       updateBook = await updateEntitiesCount(-1, book._id);
+      await res.json({
+        goodreadsId,
+        numberOfEntities: updateBook.numberOfEntities,
+        readStatus: false,
+        readPages: 0
+      });
     } else {
       await Book.findOneAndRemove({ goodreadsId });
+      await res.json({
+        goodreadsId,
+        numberOfEntities: 0,
+        readStatus: false,
+        readPages: 0
+      });
     }
-    await bookCollectionUpdate(book._id);
-    await res.json({
-      goodreadsId,
-      numberOfEntities: updateBook.numberOfEntities,
-      readStatus: false,
-      readPages: 0
-    });
   } catch (e) {
     res.status(500).json({ errors: { global: "Error. Something went wrong." } });
   }

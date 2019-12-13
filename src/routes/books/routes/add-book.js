@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const authenticate = require("../../../middlewares/authenticate");
-const Book = require("../../../models/book");
 const BookCollection = require("../../../models/book-collection");
 
+const createBook = require("../helper").createBook;
 const updateEntitiesCount = require("../helper").updateEntitiesCount;
 
 module.exports = router.post("/", authenticate, async function(req, res) {
@@ -10,8 +10,7 @@ module.exports = router.post("/", authenticate, async function(req, res) {
   const { bookCollectionId } = req.currentUser;
 
   try {
-    const book = await Book.findOne({ goodreadsId });
-    let entity = book ? book : await Book.create({ ...req.body.book });
+    const entity = await createBook(goodreadsId);
     await bookCollectionUpdate(entity);
     const updateEntity = await updateEntitiesCount(1, entity._id);
     await res.json({

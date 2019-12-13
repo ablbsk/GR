@@ -1,12 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import queryString from "query-string";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
-import {
-  searchByPage,
-  searchBooksSuccess,
-  searchBooksFailure
-} from "../../actions/books";
+import { searchByPage, searchBooksSuccess, searchBooksFailure } from "../../actions/books";
 
 import PaginationComp from "../../components/navigation/pagination/pagination";
 import PageError from "../../components/errors/page-error/page-error";
@@ -26,19 +23,16 @@ class SearchAllResultPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.query !== prevState.query) {
+    const { query } = this.state;
+    if (query !== prevState.query) {
       this.fetchBooksByPage();
+      this.props.history.replace(`/search?q=${query.q}&page=${query.page}`);
     }
   }
 
   fetchBooksByPage = () => {
     const { query } = this.state;
-    const {
-      history,
-      searchByPage,
-      searchBooksSuccess,
-      searchBooksFailure
-    } = this.props;
+    const { searchByPage, searchBooksSuccess, searchBooksFailure } = this.props;
 
     if (this.state.query.q === '') {
       toastr.error('Error', "Invalid value");
@@ -46,17 +40,13 @@ class SearchAllResultPage extends Component {
     }
 
     searchByPage(query.q, query.page)
-      .then(history.push(`/search?q=${query.q}&page=${query.page}`))
       .then(books => searchBooksSuccess(books))
       .catch(error => searchBooksFailure(error));
   };
 
   handlePageChange = (e, data) => {
     this.setState({
-      query: {
-        ...this.state.query,
-        page: data.activePage
-      }
+      query: { q: this.state.query.q, page: data.activePage }
     });
 
     const input = document.getElementById("inputValue");
@@ -71,12 +61,7 @@ class SearchAllResultPage extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    this.setState({
-      query: {
-        q: this.state.inputValue,
-        page: 1
-      }
-    });
+    this.setState({ query: { q: this.state.inputValue, page: 1 } });
   };
 
   render() {
@@ -90,10 +75,7 @@ class SearchAllResultPage extends Component {
       : <SearchAllResultsList books={books} />;
 
     const resultMsg = (
-      <span>
-        Page {query.page} of about {total_results} results ({query_time_seconds}{" "}
-        seconds)
-      </span>
+      <span>Page {query.page} of about {total_results} results ({query_time_seconds}{" "}seconds)</span>
     );
 
     const pagination = loading || isBookString || !length
@@ -128,6 +110,22 @@ function mapStateToProps(state) {
     error: state.books.error
   };
 }
+
+SearchAllResultPage.propTypes = {
+  books: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      authors: PropTypes.string.isRequired,
+      average_rating: PropTypes.number,
+      image_url: PropTypes.string.isRequired,
+      goodreadsId: PropTypes.string.isRequired
+    }).isRequired
+  ),
+  query_time_seconds: PropTypes.string,
+  total_results: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.string
+};
 
 export default connect(
   mapStateToProps,

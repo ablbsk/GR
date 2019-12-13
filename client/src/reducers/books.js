@@ -69,7 +69,7 @@ export default function books(state = initialState, action = {}) {
   }
 
   if (action.type.endsWith('_REQUEST')) {
-    return { ...state, loading: true, error: null };
+    return { ...state, data: {}, loading: true, error: null };
   }
 
   if (!action.type.includes('_ON_DASHBOARD_PAGE_SUCCESS') && action.type.endsWith('_SUCCESS')) {

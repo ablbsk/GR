@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import Search from "../../search/search/search";
+import Search from "../../../containers/search/search";
 import UserButton from "../../buttons/user-button/user-button";
 
 import vectorGR from "../../../img/vector.png";

@@ -20,36 +20,25 @@ class HomePage extends Component {
   render() {
     const { isAuthenticated, isConfirmed, books, loading, error } = this.props;
 
-    if (loading) {
+    if (loading || books === undefined) {
       return <CenterLoading />;
     }
 
-    if (error) {
-      return <PageError title={error} />;
+    if (error || !Array.isArray(books)) {
+      return <PageError title={error || "Something went wrong..."} />;
     }
 
     return (
       <>
         {isAuthenticated && !isConfirmed && <ConfirmEmailMessage />}
-        <TopBooksList
-          topLikes={true}
-          books={books.slice(0, 2)}
-          isAuthenticated={isAuthenticated}
-          isConfirmed={isConfirmed}
-        />
-        <TopBooksList
-          topLikes={false}
-          books={books.slice(2)}
-          isAuthenticated={isAuthenticated}
-          isConfirmed={isConfirmed}
-        />
+        <TopBooksList topLikes={true} books={books.slice(0, 2)} />
+        <TopBooksList topLikes={false} books={books.slice(2)} />
       </>
     );
   }
 }
 
 HomePage.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
   books: PropTypes.arrayOf(
     PropTypes.shape({
       authors: PropTypes.string.isRequired,
@@ -63,14 +52,16 @@ HomePage.propTypes = {
       _id: PropTypes.string
     }).isRequired
   ).isRequired,
+  loading: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  isConfirmed: PropTypes.bool,
+  error: PropTypes.bool,
+
   getTop: PropTypes.func.isRequired,
   getTopSuccess: PropTypes.func.isRequired,
   getTopFailure: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-
-  isConfirmed: PropTypes.bool.isRequired,
-  error: PropTypes.bool
 };
+
 
 function mapStateToProps(state) {
   return {

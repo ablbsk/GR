@@ -56,14 +56,15 @@ const ReadAndLikeButtons = (props) => {
 };
 
 ReadAndLikeButtons.propTypes = {
-  submitLike: PropTypes.func.isRequired,
-  submitBook: PropTypes.func.isRequired,
   whatLoading: PropTypes.string,
   showBtn: PropTypes.bool.isRequired,
-  readStatus: PropTypes.bool.isRequired,
-  likeStatus: PropTypes.bool.isRequired,
+  readStatus: PropTypes.bool,
+  likeStatus: PropTypes.bool,
   numberOfEntities: PropTypes.number.isRequired,
-  likeCounter: PropTypes.number.isRequired
+  likeCounter: PropTypes.number.isRequired,
+
+  submitLike: PropTypes.func.isRequired,
+  submitBook: PropTypes.func.isRequired
 };
 
 export default ReadAndLikeButtons;

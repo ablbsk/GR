@@ -1,6 +1,7 @@
 import React from "react";
-import Rating from "react-rating";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import Rating from "react-rating";
 
 import BookFeatures from "../../../containers/book-features";
 
@@ -10,7 +11,7 @@ import { linkStyle } from "../../../style-constants";
 import starBorder from "../../../img/star_border.png";
 import star from "../../../img/star.png";
 
-const TopBooksItem = ({ isAuthenticated, isConfirmed, book }) => {
+const TopBooksItem = ({ book }) => {
   const createDescription = () => {
     const { description } = book;
     return { __html: description };
@@ -19,20 +20,13 @@ const TopBooksItem = ({ isAuthenticated, isConfirmed, book }) => {
   return (
     <S.Article>
       <S.Left>
-        <S.Cover src={book.image_url} alt="" />
+        <S.Cover src={book.image_url} alt={`${book.title}} title`} />
         <S.Widget>
-          <BookFeatures
-            book={book}
-            onDashboardPage={false}
-            viewProgress={false}
-          />
+          <BookFeatures book={book} onDashboardPage={false} viewProgress={false} />
         </S.Widget>
       </S.Left>
       <S.Right>
-        <Link
-          style={{ ...linkStyle }}
-          to={`/books/new/${book.goodreadsId}`}
-        >
+        <Link style={{ ...linkStyle }} to={`/books/new/${book.goodreadsId}`}>
           <S.Title title={book.title}>{book.title}</S.Title>
         </Link>
         <S.Author>by {book.authors}</S.Author>
@@ -49,6 +43,20 @@ const TopBooksItem = ({ isAuthenticated, isConfirmed, book }) => {
       </S.Right>
     </S.Article>
   );
+};
+
+TopBooksItem.propTypes = {
+  book: PropTypes.shape({
+    authors: PropTypes.string.isRequired,
+    average_rating: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    goodreadsId: PropTypes.string.isRequired,
+    image_url: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    likeCounter: PropTypes.number.isRequired,
+    numberOfEntities: PropTypes.number.isRequired,
+    _id: PropTypes.string
+  }).isRequired
 };
 
 export default TopBooksItem;

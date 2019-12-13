@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { headerBackground, searchColor, border, sizes } from "../../../style-constants";
+import { headerBackground, searchColor, border, sizes } from "../../style-constants";
 
 export const Search = styled.div`
     font-weight: normal;
