@@ -19,7 +19,9 @@ class SearchAllResultPage extends Component {
   };
 
   componentDidMount() {
-    this.fetchBooksByPage();
+    if (this.state.query.q !== '') {
+      this.fetchBooksByPage();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -70,12 +72,17 @@ class SearchAllResultPage extends Component {
     const isBookString = typeof(books) === 'string';
     const length = typeof(books) === "object" && books.length === 20;
 
-    const result = isBookString
-      ? <p>{books}</p>
-      : <SearchAllResultsList books={books} />;
+    const result = isBookString ? (
+      <p>{books}</p>
+    ) : (
+      <SearchAllResultsList books={books} />
+    );
 
-    const resultMsg = (
-      <span>Page {query.page} of about {total_results} results ({query_time_seconds}{" "}seconds)</span>
+    const resultMsg = query.q && (
+      <span>
+        Page {query.page} of about {total_results} results ({query_time_seconds}{" "}
+        seconds)
+      </span>
     );
 
     const pagination = loading || isBookString || !length
