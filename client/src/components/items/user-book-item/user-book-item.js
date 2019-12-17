@@ -34,11 +34,7 @@ const UserBookItem = ({ book }) => {
           </S.RatingNum>
         </S.Rating>
         <S.Buttons>
-          <BookFeatures
-            book={book}
-            onDashboardPage={true}
-            viewProgress={true}
-          />
+          <BookFeatures book={book} onDashboardPage={true} viewProgress={true} location={'dashboard'} />
         </S.Buttons>
       </S.Right>
     </S.Article>

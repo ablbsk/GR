@@ -92,7 +92,7 @@ class BookFeatures extends Component {
   };
 
   render() {
-    const { book, isAuthenticated, isConfirmed, viewProgress } = this.props;
+    const { book, isAuthenticated, isConfirmed, viewProgress, location } = this.props;
     const { whatLoading } = book.options;
     const { visibilityProgress } = this.state;
 
@@ -116,6 +116,7 @@ class BookFeatures extends Component {
         readPages={book.readPages}
         visibilityProgress={visibilityProgress}
         loading={whatLoading === 'progress'}
+        location={location}
       />
       : null;
 
@@ -155,6 +156,7 @@ BookFeatures.propTypes = {
   }).isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   isConfirmed: PropTypes.bool,
+  location: PropTypes.string,
 
   readBook: PropTypes.func.isRequired,
   readBookSuccess: PropTypes.func.isRequired,

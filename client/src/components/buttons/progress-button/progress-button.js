@@ -8,11 +8,11 @@ import progress from "../../../img/progress_full.png";
 import accept from "../../../img/accept.png";
 
 const ProgressButton = props => {
-  const { visibilityProgress, pages, readPages, onChange, submit, changeVisibility, loading } = props;
+  const { visibilityProgress, pages, readPages, onChange, submit, changeVisibility, loading, location } = props;
   const value = readPages || 0;
 
   return visibilityProgress ? (
-    <span>
+    <S.Container location={location}>
       <S.IconBtn src={accept} onClick={submit} />
       <S.Input
         type="text"
@@ -22,12 +22,12 @@ const ProgressButton = props => {
         onChange={onChange}
       />
       <span>/{pages}</span>
-    </span>
+    </S.Container>
   ) : (
-    <span>
+    <S.Container location={location}>
       {loading ? <ButtonLoading /> : <S.IconBtn src={progress} onClick={changeVisibility} />}
       <span>{value}/{pages}</span>
-    </span>
+    </S.Container>
   );
 };
 

@@ -33,7 +33,7 @@ const BookContent = ({ book }) => {
   const leftCoverAndBtns = (
     <S.Left>
       <S.Cover src={book.image_url} alt={`${book.title} cover`} />
-      <BookFeatures book={book} onDashboardPage={false} viewProgress={true} />
+      <BookFeatures book={book} onDashboardPage={false} viewProgress={true} location={'book'} />
     </S.Left>
   );
 
@@ -44,7 +44,7 @@ const BookContent = ({ book }) => {
       </S.MainCover>
       <div>
         {authorAndRating}
-        <BookFeatures book={book} onDashboardPage={false} viewProgress={true} />
+        <BookFeatures book={book} onDashboardPage={false} viewProgress={true} location={'book'} />
       </div>
     </S.Main>
   );
