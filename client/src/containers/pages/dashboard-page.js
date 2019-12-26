@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { allBooksSelector } from "../../reducers/books";
 import { getUserBooks, getUserBooksSuccess, getUserBooksFailure, changeFilters } from "../../actions/books";
 
 import DashboardContent from "../../components/contents/dashboard-content/dashboard-content";
@@ -95,7 +94,7 @@ DashboardPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    books: allBooksSelector(state),
+    books: state.books.data,
     loading: state.books.loading,
     error: state.books.error,
     filter: state.books.filter,

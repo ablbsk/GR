@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getTop, getTopSuccess, getTopFailure } from "../../actions/books";
-import { allBooksSelector } from "../../reducers/books";
 
 import ConfirmEmailMessage from "../../components/messages/confirm-email-message";
 import TopBooksList from "../../components/lists/top-books-list/top-books-list";
@@ -66,7 +65,7 @@ HomePage.propTypes = {
 function mapStateToProps(state) {
   return {
     isAuthenticated: !!state.user.email,
-    books: allBooksSelector(state),
+    books: state.books.data,
     loading: state.books.loading,
     error: state.books.error,
     isConfirmed: state.user.confirmed

@@ -20,7 +20,7 @@ const DashboardContent = ({ booksLength, books, changeFilters }) => {
           <S.Button key={btn.id} onClick={() => changeFilters(btn.id)}>{btn.text}</S.Button>
         ))}
       </S.FilterContainer>
-      {Array.isArray(books) ? <UserBooksList books={books} /> : <S.NoBooks>{books}</S.NoBooks>}
+      {Array.isArray(books) ? <UserBooksList books={books} /> : <S.NoBooks>No books</S.NoBooks>}
     </S.Section>
   )
 };

@@ -1,4 +1,3 @@
-import { createSelector } from "reselect";
 import { CHANGE_FILTERS_TYPE, DELETE_BOOK_TYPE, DELETE_LIKE_TYPE } from "../types";
 
 const createActionType = (type, suffix) => `${type}_${suffix}`;
@@ -69,7 +68,7 @@ export default function books(state = initialState, action = {}) {
   }
 
   if (action.type.endsWith('_REQUEST')) {
-    return { ...state, data: {}, loading: true, error: null };
+    return { ...state, loading: true, error: null };
   }
 
   if (!action.type.includes('_ON_DASHBOARD_PAGE_SUCCESS') && action.type.endsWith('_SUCCESS')) {
@@ -135,12 +134,3 @@ export default function books(state = initialState, action = {}) {
   }
 
 }
-
-// SELECTORS
-
-export const booksSelector = state => state.books.data;
-
-export const allBooksSelector = createSelector(
-  booksSelector,
-  booksHash => Object.values(booksHash)
-);
