@@ -5,6 +5,7 @@ import {
   FETCH_USER_BOOKS_TYPE,
   SEARCH_BOOKS_BY_PAGE_TYPE,
   CHANGE_FILTERS_TYPE,
+  SORTING_BOOKS_TYPE,
 
   ADD_BOOK_TYPE,
   DELETE_BOOK_TYPE,
@@ -86,7 +87,12 @@ export const searchBooksFailure = error => dispatch =>
 /* ======================= CHANGE_FILTERS ======================= */
 
 export const changeFilters = filter => dispatch =>
-  dispatch(makeActionCreator(CHANGE_FILTERS_TYPE, '', 'filter')(filter));
+  dispatch(makeActionCreator(CHANGE_FILTERS_TYPE, "", "filter")(filter));
+
+/* ======================== SORTING_BOOKS ======================= */
+
+export const sortingBooks = (key, order) => dispatch =>
+  dispatch(makeActionCreator(SORTING_BOOKS_TYPE, "", "data")({ key, order }));
 
 /* ========================== READ_BOOK ========================= */
 

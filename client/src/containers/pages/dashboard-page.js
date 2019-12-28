@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getUserBooks, getUserBooksSuccess, getUserBooksFailure, changeFilters } from "../../actions/books";
+import { getUserBooks, getUserBooksSuccess, getUserBooksFailure, changeFilters, sortingBooks } from "../../actions/books";
 
 import DashboardContent from "../../components/contents/dashboard-content/dashboard-content";
 import ConfirmEmailMessage from "../../components/messages/confirm-email-message";
@@ -36,7 +36,7 @@ class DashboardPage extends Component {
   };
 
   render() {
-    const { isConfirmed, books, loading, filter, changeFilters, error } = this.props;
+    const { isConfirmed, books, loading, filter, changeFilters, sortingBooks, error } = this.props;
     const filterBooks = this.filterBooks(books, filter);
     const content = this.showContent(books, filterBooks);
 
@@ -55,6 +55,7 @@ class DashboardPage extends Component {
           booksLength={books.length}
           books={content}
           changeFilters={changeFilters}
+          sortingBooks={sortingBooks}
         />
       </>
     );
@@ -90,6 +91,7 @@ DashboardPage.propTypes = {
   getUserBooksSuccess: PropTypes.func.isRequired,
   getUserBooksFailure: PropTypes.func.isRequired,
   changeFilters: PropTypes.func.isRequired,
+  sortingBooks: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -104,5 +106,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { getUserBooks, getUserBooksSuccess, getUserBooksFailure, changeFilters }
+  { getUserBooks, getUserBooksSuccess, getUserBooksFailure, changeFilters, sortingBooks }
 )(DashboardPage);
