@@ -30,9 +30,7 @@ class LoginForm extends Component {
     e.preventDefault();
     const { data } = this.state;
     const errors = loginValidation(data);
-    this.setState({
-      errors
-    });
+    this.setState({ errors });
 
     if (Object.keys(errors).length === 0) {
       this.props

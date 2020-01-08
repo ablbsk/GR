@@ -3,7 +3,6 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-const Promise = require('bluebird');
 
 const auth = require('./routes/auth');
 const users = require('./routes/users');
@@ -15,7 +14,6 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
-mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGODB_URL, { useNewUrlParser: true });
 
 app.use('/api/auth', auth);

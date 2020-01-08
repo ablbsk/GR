@@ -39,13 +39,13 @@ const DashboardContent = ({ booksLength, books, changeFilters, sortingBooks }) =
           <S.Button key={btn.id} onClick={() => changeFilters(btn.id)}>{btn.text}</S.Button>
         ))}
       </S.FilterContainer>
-      <S.SortContainer>
+      {booksLength > 1 && <S.SortContainer>
         {select}
         <div>
           <S.SortButton onClick={() => sortingBooks(selectValue(), 'asc')}>asc</S.SortButton>
           <S.SortButton onClick={() => sortingBooks(selectValue(), 'desc')}>desc</S.SortButton>
         </div>
-      </S.SortContainer>
+      </S.SortContainer>}
       {Array.isArray(books) ? <UserBooksList books={books} /> : <S.NoBooks>No books</S.NoBooks>}
     </S.Section>
   )
