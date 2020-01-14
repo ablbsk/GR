@@ -88,12 +88,13 @@ BookPage.propTypes = {
 };
 
 function mapStateToProps(state) {
+  const { content, user } = state;
   return {
-    isAuthenticated: !!state.user.email,
-    book: state.books.data[0],
-    loading: state.books.loading,
-    error: state.books.error,
-    isConfirmed: state.user.confirmed
+    isAuthenticated: !!user.email,
+    isConfirmed: user.confirmed,
+    book: content.books.data[0],
+    loading: content.books.loading,
+    error: content.books.error
   };
 }
 

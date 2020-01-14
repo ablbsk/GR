@@ -11,7 +11,7 @@ import { linkStyle } from "../../../style-constants";
 import starBorder from "../../../img/star_border.png";
 import star from "../../../img/star.png";
 
-const UserBookItem = ({ book }) => {
+const UserBookItem = ({ book, location }) => {
   return (
     <S.Article>
       <S.Left>
@@ -34,7 +34,7 @@ const UserBookItem = ({ book }) => {
           </S.RatingNum>
         </S.Rating>
         <S.Buttons>
-          <BookFeatures book={book} onDashboardPage={true} viewProgress={true} location={'dashboard'} />
+          <BookFeatures book={book} viewProgress={true} location={location} />
         </S.Buttons>
       </S.Right>
     </S.Article>

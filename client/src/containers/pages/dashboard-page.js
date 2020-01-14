@@ -10,7 +10,7 @@ import PageError from "../../components/errors/page-error/page-error";
 
 class DashboardPage extends Component {
   componentDidMount() {
-    const { getUserBooks, getUserBooksSuccess, getUserBooksFailure } = this.props;
+    const {getUserBooks, getUserBooksSuccess, getUserBooksFailure} = this.props;
     getUserBooks()
       .then(books => getUserBooksSuccess(books))
       .catch(error => getUserBooksFailure(error));
@@ -39,12 +39,13 @@ class DashboardPage extends Component {
     const { isConfirmed, books, loading, filter, changeFilters, sortingBooks, error } = this.props;
     const filterBooks = this.filterBooks(books, filter);
     const content = this.showContent(books, filterBooks);
+    const location = 'dashboard';
 
     if (loading || books === undefined) {
       return <CenterLoading />;
     }
 
-    if (error) {
+    if (error && books.length === 0) {
       return <PageError title={error || "Something went wrong..."} />;
     }
 
@@ -56,6 +57,7 @@ class DashboardPage extends Component {
           books={content}
           changeFilters={changeFilters}
           sortingBooks={sortingBooks}
+          location={location}
         />
       </>
     );
@@ -95,12 +97,13 @@ DashboardPage.propTypes = {
 };
 
 function mapStateToProps(state) {
+  const { content, user } = state;
   return {
-    books: state.books.data,
-    loading: state.books.loading,
-    error: state.books.error,
-    filter: state.books.filter,
-    isConfirmed: !!state.user.confirmed
+    isConfirmed: !!user.confirmed,
+    books: content.books.data.userBooks,
+    loading: content.books.loading,
+    error: content.books.error,
+    filter: content.books.filter,
   };
 }
 

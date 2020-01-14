@@ -1,4 +1,4 @@
-import { SORTING_BOOKS_TYPE, CHANGE_FILTERS_TYPE, DELETE_BOOK_TYPE, DELETE_LIKE_TYPE } from "../types";
+import { SORTING_BOOKS_TYPE, CHANGE_FILTERS_TYPE } from "../types";
 
 const createActionType = (type, suffix) => `${type}_${suffix}`;
 
@@ -6,21 +6,147 @@ const CHANGE_FILTERS = createActionType(CHANGE_FILTERS_TYPE, '');
 
 const SORTING_BOOKS = createActionType(SORTING_BOOKS_TYPE, '');
 
-const DELETE_BOOK_FEATURE_ON_DASHBOARD_PAGE_SUCCESS = createActionType(DELETE_BOOK_TYPE, 'ON_DASHBOARD_PAGE_SUCCESS');
-
-const DELETE_LIKE_FEATURE_ON_DASHBOARD_PAGE_SUCCESS = createActionType(DELETE_LIKE_TYPE, 'ON_DASHBOARD_PAGE_SUCCESS');
-
-
 const initialState = {
+  data: {
+    topBooks: {},
+    userBooks: []
+  },
   loading: false,
   error: null,
-  data: {},
   filter: 'all'
 };
 
 export default function books(state = initialState, action = {}) {
+  const { topBooks, userBooks } = state.data;
 
   if (action.type.endsWith('_FEATURE_REQUEST')) {
+    const { data, location } = action.payload;
+
+    const updateLoading = key => key.map(item => {
+      return item.goodreadsId === data.goodreadsId
+        ? { ...item, options: { whatLoading: data.whatLoading, error: null } }
+        : item
+    });
+
+    switch (location) {
+      case 'top':
+        const updateTopBooks = {};
+
+        for (let objKey in topBooks) {
+          updateTopBooks[objKey] = updateLoading(topBooks[objKey]);
+        }
+
+        return {
+          data: { userBooks, topBooks: updateTopBooks },
+          loading: false,
+          error: null
+        };
+
+      case "dashboard":
+        const updateUserBooks = updateLoading(userBooks);
+        return {
+          data: { userBooks: updateUserBooks, topBooks },
+          loading: false,
+          error: null
+        };
+
+      // case "book":
+      default:
+        return state;
+    }
+  }
+
+  if (action.type.endsWith('_FEATURE_SUCCESS')) {
+    const { data, location } = action.payload;
+
+    const updateValue = key => key.map(item => {
+      return item.goodreadsId === data.goodreadsId
+        ? { ...item, ...data, options: { whatLoading: null, error: null } }
+        : item;
+    });
+
+    switch (location) {
+      case 'top':
+        const updateTopBooks = {};
+
+        for (let objKey in topBooks) {
+          updateTopBooks[objKey] = updateValue(topBooks[objKey]);
+        }
+
+        return {
+          ...state,
+          data: { userBooks, topBooks: updateTopBooks },
+          loading: false,
+          error: null
+        };
+
+      case 'dashboard':
+        if (action.type.startsWith('DELETE')) {
+          const type = !!action.type.includes('LIKE');
+          const index = userBooks.findIndex(item => item.goodreadsId === data.goodreadsId);
+
+          if ((type && userBooks[index].readStatus) || (!type && userBooks[index].likeStatus)) {
+            const newUserBooks = userBooks.map((item, itemIndex) =>
+                index === itemIndex
+                  ? { ...item, ...data, options: { whatLoading: null, error: null } }
+                  : item
+              );
+
+            return {
+              ...state,
+              data: { userBooks: newUserBooks, topBooks: { ...topBooks } },
+              loading: false,
+              error: null
+            }
+          }
+
+          const updateUserBooks = [...userBooks.slice(0, index), ...userBooks.slice(index + 1)];
+          const updateUserBooksWithOptions = updateUserBooks.map(item =>
+              ({ ...item, options: { whatLoading: null, error: null }}));
+          return {
+            ...state,
+            data: { userBooks: updateUserBooksWithOptions, topBooks },
+            loading: false,
+            error: null
+          };
+        } else {
+          const updateUserBooks = updateValue(userBooks);
+          return {
+            ...state,
+            data: { topBooks, userBooks: updateUserBooks },
+            loading: false,
+            error: null
+          };
+        }
+
+      // case 'book':
+      //   return state;
+      default:
+        return state;
+    }
+  }
+
+
+  if (action.type === 'FETCH_TOP_SUCCESS') {
+    return {
+      data: { ...state.data, topBooks: action.data },
+      loading: false,
+      error: null
+    }
+  }
+
+  if (action.type === 'FETCH_USER_BOOKS_SUCCESS') {
+    return {
+      data: { ...state.data, userBooks: action.data },
+      loading: false,
+      error: null
+    }
+  }
+
+
+  /* --------------------------------------------------- */
+
+/*  if (action.type.endsWith('_FEATURE_REQUEST')) {
     return {
       ...state,
       data: state.data.map(item => {
@@ -31,26 +157,9 @@ export default function books(state = initialState, action = {}) {
       loading: false,
       error: null
     }
-  }
+  }*/
 
-  if (action.type.endsWith("_FEATURE_SUCCESS")) {
-    return {
-      ...state,
-      data: state.data.map(item => {
-        return item.goodreadsId === action.data.goodreadsId
-          ? {
-              ...item,
-              ...action.data,
-              options: { whatLoading: null, error: null }
-            }
-          : item;
-      }),
-      loading: false,
-      error: null
-    };
-  }
-
-  if (action.type.endsWith("_FEATURE_FAILURE")) {
+  if (action.type.endsWith('_FEATURE_FAILURE')) {
     return {
       ...state,
       data: state.data.map(item => {
@@ -82,52 +191,6 @@ export default function books(state = initialState, action = {}) {
   }
 
   switch (action.type) {
-    case DELETE_LIKE_FEATURE_ON_DASHBOARD_PAGE_SUCCESS:
-      const k = state.data.findIndex(item => item.goodreadsId === action.data.goodreadsId);
-      if (state.data[k].readStatus) {
-        return {
-          ...state,
-          data: state.data.map((item, j) =>
-            k === j
-              ? { ...item, ...action.data, options: { whatLoading: null, error: null } }
-              : item
-          ),
-          loading: false,
-          error: null
-        }
-      }
-
-      const newDataWithLike = [...state.data.slice(0, k), ...state.data.slice(k + 1)];
-      return {
-        ...state,
-        data: newDataWithLike.map(item => ({ ...item, options: { whatLoading: null, error: null }})),
-        loading: false,
-        error: null
-      };
-
-    case DELETE_BOOK_FEATURE_ON_DASHBOARD_PAGE_SUCCESS:
-      const i = state.data.findIndex(item => item.goodreadsId === action.data.goodreadsId);
-      if (state.data[i].likeStatus) {
-        return {
-          ...state,
-          data: state.data.map((item, j) =>
-            i === j
-              ? { ...item, ...action.data, options: { whatLoading: null, error: null } }
-              : item
-          ),
-          loading: false,
-          error: null
-        }
-      }
-
-      const newDataWithBook = [...state.data.slice(0, i), ...state.data.slice(i + 1)];
-      return {
-        ...state,
-        data: newDataWithBook.map(item => ({ ...item, options: { whatLoading: null, error: null }})),
-        loading: false,
-        error: null
-      };
-
     case CHANGE_FILTERS:
       return { ...state, filter: action.filter };
 
@@ -161,8 +224,6 @@ function compareValues(key, order = 'asc') {
     } else if (varA < varB) {
       comparison = -1;
     }
-    return (
-      (order === 'desc') ? (comparison * -1) : comparison
-    );
+    return order === "desc" ? comparison * -1 : comparison;
   };
 }

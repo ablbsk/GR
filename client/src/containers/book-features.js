@@ -34,7 +34,7 @@ class BookFeatures extends Component {
 
   saveProgressClick = e => {
     e.preventDefault();
-    const { onDashboardPage, updateProgress, updateProgressSuccess, updateProgressFailure } = this.props;
+    const { location, updateProgress, updateProgressSuccess, updateProgressFailure } = this.props;
     const { pages, goodreadsId } = this.props.book;
     const readPages = parseInt(this.state.readPages);
 
@@ -42,7 +42,7 @@ class BookFeatures extends Component {
       toastr.error('Error', "Invalid value");
       return
     } else {
-      this.viewMsg(updateProgress(readPages, goodreadsId), onDashboardPage, updateProgressSuccess, updateProgressFailure, true)
+      this.viewMsg(location, updateProgress(readPages, goodreadsId, location), updateProgressSuccess, updateProgressFailure, true)
     }
   };
 
@@ -53,36 +53,36 @@ class BookFeatures extends Component {
   submitBook = e => {
     e.preventDefault();
     const { goodreadsId, readStatus } = this.props.book;
-    const { onDashboardPage } = this.props;
+    const { location } = this.props;
     if (readStatus) {
       const { deleteBook, deleteBookSuccess, deleteBookFailure } = this.props;
-      this.viewMsg(deleteBook(goodreadsId), onDashboardPage, deleteBookSuccess, deleteBookFailure);
+      this.viewMsg(location, deleteBook(goodreadsId, location), deleteBookSuccess, deleteBookFailure);
     } else {
       const { readBook, readBookSuccess, readBookFailure } = this.props;
-      this.viewMsg(readBook(goodreadsId), onDashboardPage, readBookSuccess, readBookFailure);
+      this.viewMsg(location, readBook(goodreadsId, location), readBookSuccess, readBookFailure);
     }
   };
 
   submitLike = e => {
     e.preventDefault();
     const { goodreadsId, likeStatus } = this.props.book;
-    const { onDashboardPage } = this.props;
+    const { location } = this.props;
     if (likeStatus) {
       const { deleteLike, deleteLikeSuccess, deleteLikeFailure } = this.props;
-      this.viewMsg(deleteLike(goodreadsId), onDashboardPage, deleteLikeSuccess, deleteLikeFailure);
+      this.viewMsg(location, deleteLike(goodreadsId, location), deleteLikeSuccess, deleteLikeFailure);
     } else {
       const { addLike, addLikeSuccess, addLikeFailure } = this.props;
-      this.viewMsg(addLike(goodreadsId), onDashboardPage, addLikeSuccess, addLikeFailure);
+      this.viewMsg(location, addLike(goodreadsId, location), addLikeSuccess, addLikeFailure);
     }
   };
 
-  viewMsg = (result, page, success, failure, progress = false) => {
+  viewMsg = (location, result, success, failure, progress = false) => {
     result
       .then(book => {
         if (progress) {
           this.setState({ visibilityProgress: false });
         }
-        success(book, page);
+        success(book, location);
         toastr.success("Successful", "Changes installed successfully");
       })
       .catch(error => {
@@ -130,9 +130,10 @@ class BookFeatures extends Component {
 }
 
 function mapStateToProps(state) {
+  const { user } = state;
   return {
-    isAuthenticated: !!state.user.email,
-    isConfirmed: state.user.confirmed
+    isAuthenticated: !!user.email,
+    isConfirmed: user.confirmed
   };
 }
 

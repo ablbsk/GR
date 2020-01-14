@@ -109,12 +109,13 @@ class SearchAllResultPage extends Component {
 }
 
 function mapStateToProps(state) {
+  const { content } = state;
   return {
-    books: state.books.data.books,
-    query_time_seconds: state.books.data.query_time_seconds,
-    total_results: state.books.data.total_results,
-    loading: state.books.loading,
-    error: state.books.error
+    books: content.books.data.books,
+    query_time_seconds: content.books.data.query_time_seconds,
+    total_results: content.books.data.total_results,
+    loading: content.books.loading,
+    error: content.books.error
   };
 }
 

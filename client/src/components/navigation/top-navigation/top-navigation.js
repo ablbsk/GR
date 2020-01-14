@@ -46,9 +46,10 @@ const TopNavigation = ({ isAuthenticated, username }) => {
 };
 
 function mapStateToProps(state) {
+  const { user } = state;
   return {
-    username: state.user.username,
-    isAuthenticated: !!state.user.email
+    username: user.username,
+    isAuthenticated: !!user.email
   };
 }
 

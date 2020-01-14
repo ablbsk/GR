@@ -4,10 +4,11 @@ import UserBookItem from "../../items/user-book-item/user-book-item";
 
 import * as S from "./style";
 
-const UserBooksList = ({ books }) => {
+const UserBooksList = ({ books, location }) => {
   return (
     <S.Container>
-      {books && books.map(item => <UserBookItem book={item} key={item._id} />)}
+      {books && books.map(item =>
+        <UserBookItem book={item} key={item._id} location={location} />)}
     </S.Container>
   );
 };
@@ -32,7 +33,8 @@ UserBooksList.propTypes = {
       }).isRequired,
       _id: PropTypes.string
     }).isRequired
-  ).isRequired
+  ).isRequired,
+  location: PropTypes.string.isRequired
 };
 
 export default UserBooksList;

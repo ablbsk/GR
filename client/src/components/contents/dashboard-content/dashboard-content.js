@@ -5,7 +5,7 @@ import UserBooksList from "../../lists/user-books-list/user-books-list";
 
 import * as S from "./style";
 
-const DashboardContent = ({ booksLength, books, changeFilters, sortingBooks }) => {
+const DashboardContent = ({ booksLength, books, changeFilters, sortingBooks, location }) => {
   const selectValue = () => document.getElementById('sort-select').value;
 
   const filtersBtn = [
@@ -46,7 +46,9 @@ const DashboardContent = ({ booksLength, books, changeFilters, sortingBooks }) =
           <S.SortButton onClick={() => sortingBooks(selectValue(), 'desc')}>desc</S.SortButton>
         </div>
       </S.SortContainer>}
-      {Array.isArray(books) ? <UserBooksList books={books} /> : <S.NoBooks>No books</S.NoBooks>}
+      {Array.isArray(books)
+        ? <UserBooksList books={books} location={location}/>
+        : <S.NoBooks>No books</S.NoBooks>}
     </S.Section>
   )
 };
@@ -73,6 +75,7 @@ DashboardContent.propTypes = {
     })
   ),
   bookLength: PropTypes.number,
+  location: PropTypes.string.isRequired,
 
   changeFilters: PropTypes.func.isRequired
 };

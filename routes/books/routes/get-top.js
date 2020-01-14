@@ -18,17 +18,24 @@ module.exports = router.get("/", authenticate, async function(req, res) {
       .sort({numberOfEntities: -1})
       .limit(num);
 
-    const books = topLikeBooks.concat(topReadBooks);
     if (req.currentUser) {
       const {bookCollectionId} = req.currentUser;
       const collection = await BookCollection.findById(bookCollectionId);
       const bookList = collection.list;
       const {likeBookList} = collection;
       const readBookIds = bookList.map(item => item.bookId);
-      const data = await addStatus(likeBookList, books, readBookIds, bookList);
-      await res.json({ books: data });
+
+      const topLikeBooksWithStatus = await addStatus(likeBookList, topLikeBooks, readBookIds, bookList);
+      const topReadBooksWithStatus = await addStatus(likeBookList, topReadBooks, readBookIds, bookList);
+
+      await res.json({
+        books: {
+          topLikeBooks: topLikeBooksWithStatus,
+          topReadBooks: topReadBooksWithStatus
+        }
+      });
     } else {
-      await res.json({ books });
+      await res.json({ books: { topLikeBooks, topReadBooks } });
     }
   }
   catch(e) {

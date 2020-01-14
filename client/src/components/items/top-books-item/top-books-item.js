@@ -11,7 +11,7 @@ import { linkStyle } from "../../../style-constants";
 import starBorder from "../../../img/star_border.png";
 import star from "../../../img/star.png";
 
-const TopBooksItem = ({ book }) => {
+const TopBooksItem = ({ book, location }) => {
   const createDescription = () => {
     const { description } = book;
     return { __html: description };
@@ -22,7 +22,7 @@ const TopBooksItem = ({ book }) => {
       <S.Left>
         <S.Cover src={book.image_url} alt={`${book.title}} title`} />
         <S.Widget>
-          <BookFeatures book={book} onDashboardPage={false} viewProgress={false} />
+          <BookFeatures book={book} viewProgress={false} location={location} />
         </S.Widget>
       </S.Left>
       <S.Right>
@@ -56,7 +56,8 @@ TopBooksItem.propTypes = {
     likeCounter: PropTypes.number.isRequired,
     numberOfEntities: PropTypes.number.isRequired,
     _id: PropTypes.string
-  }).isRequired
+  }).isRequired,
+  location: PropTypes.string.isRequired
 };
 
 export default TopBooksItem;

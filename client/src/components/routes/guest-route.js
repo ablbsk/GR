@@ -18,8 +18,9 @@ GuestRoute.propTypes = {
 };
 
 function mapStateToProps(state) {
+  const { user } = state;
   return {
-    isAuthenticated: !!state.user.email
+    isAuthenticated: !!user.email
   };
 }
 
