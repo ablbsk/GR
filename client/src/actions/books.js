@@ -1,8 +1,8 @@
 import api from "../api";
 import {
-  FETCH_TOP_TYPE,
+  FETCH_TOP_DATA_TYPE,
   FETCH_BOOK_DATA_TYPE,
-  FETCH_USER_BOOKS_TYPE,
+  FETCH_USER_BOOKS_DATA_TYPE,
   SEARCH_BOOKS_BY_PAGE_TYPE,
   CHANGE_FILTERS_TYPE,
   SORTING_BOOKS_TYPE,
@@ -41,13 +41,13 @@ const addPropsToTop = data => {
 export const getTop = () => dispatch =>
   api.books
     .getTop()
-    .then(dispatch(makeActionCreator(FETCH_TOP_TYPE, 'REQUEST')()));
+    .then(dispatch(makeActionCreator(FETCH_TOP_DATA_TYPE, 'REQUEST')()));
 
 export const getTopSuccess = books => dispatch =>
-  dispatch(makeActionCreator(FETCH_TOP_TYPE, 'SUCCESS', 'data')(addPropsToTop(books)));
+  dispatch(makeActionCreator(FETCH_TOP_DATA_TYPE, 'SUCCESS', 'data')(addPropsToTop(books)));
 
 export const getTopFailure = error => dispatch =>
-  dispatch(makeActionCreator(FETCH_TOP_TYPE, 'FAILURE', 'error')(error));
+  dispatch(makeActionCreator(FETCH_TOP_DATA_TYPE, 'FAILURE', 'error')(error));
 
 /* ================== FETCH_BOOK_DATA ====================== */
 
@@ -67,13 +67,13 @@ export const getBookDataFailure = error => dispatch =>
 export const getUserBooks = () => dispatch =>
   api.books
     .fetchUserBooks()
-    .then(dispatch(makeActionCreator(FETCH_USER_BOOKS_TYPE, 'REQUEST')()));
+    .then(dispatch(makeActionCreator(FETCH_USER_BOOKS_DATA_TYPE, 'REQUEST')()));
 
 export const getUserBooksSuccess = books => dispatch =>
-  dispatch(makeActionCreator(FETCH_USER_BOOKS_TYPE, 'SUCCESS', 'data')(addProps(books)));
+  dispatch(makeActionCreator(FETCH_USER_BOOKS_DATA_TYPE, 'SUCCESS', 'data')(addProps(books)));
 
 export const getUserBooksFailure = error => dispatch =>
-  dispatch(makeActionCreator(FETCH_USER_BOOKS_TYPE, 'FAILURE', 'error')(error));
+  dispatch(makeActionCreator(FETCH_USER_BOOKS_DATA_TYPE, 'FAILURE', 'error')(error));
 
 /* ========================= SEARCH ======================== */
 
