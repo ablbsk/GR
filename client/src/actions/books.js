@@ -57,7 +57,7 @@ export const getBookData = goodreadsId => dispatch =>
     .then(dispatch(makeActionCreator(FETCH_BOOK_DATA_TYPE, "REQUEST")()));
 
 export const getBookDataSuccess = book => dispatch =>
-  dispatch(makeActionCreator(FETCH_BOOK_DATA_TYPE, 'SUCCESS', 'data')(addProps([book])));
+  dispatch(makeActionCreator(FETCH_BOOK_DATA_TYPE, 'SUCCESS', 'data')({ ...book, options: { whatLoading: null, error: null } }));
 
 export const getBookDataFailure = error => dispatch =>
   dispatch(makeActionCreator(FETCH_BOOK_DATA_TYPE, 'FAILURE', 'error')(error));

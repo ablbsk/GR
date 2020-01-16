@@ -9,7 +9,7 @@ import star from "../../../img/star.png";
 
 import * as S from "./style";
 
-const BookContent = ({ book }) => {
+const BookContent = ({ book, location }) => {
 
   const createDescription = () => {
     return { __html: book.description };
@@ -33,7 +33,7 @@ const BookContent = ({ book }) => {
   const leftCoverAndBtns = (
     <S.Left>
       <S.Cover src={book.image_url} alt={`${book.title} cover`} />
-      <BookFeatures book={book} viewProgress={true} location={'book'} />
+      <BookFeatures book={book} viewProgress={true} location={location} />
     </S.Left>
   );
 

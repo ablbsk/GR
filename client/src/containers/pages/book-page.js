@@ -32,8 +32,9 @@ class BookPage extends Component {
 
   render() {
     const { isAuthenticated, book, loading, error, isConfirmed } = this.props;
+    const location = 'book';
 
-    if (loading || book === undefined) {
+    if (loading || Object.entries(book).length === 0) {
       return <CenterLoading />;
     }
 
@@ -44,7 +45,7 @@ class BookPage extends Component {
     return (
       <>
         {isAuthenticated && !isConfirmed && <ConfirmEmailMessage />}
-        <BookContent book={book} />
+        <BookContent book={book} location={location} />
       </>
     );
   }
@@ -92,7 +93,7 @@ function mapStateToProps(state) {
   return {
     isAuthenticated: !!user.email,
     isConfirmed: user.confirmed,
-    book: content.books.data[0],
+    book: content.books.data.book.data,
     loading: content.books.loading,
     error: content.books.error
   };

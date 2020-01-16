@@ -9,7 +9,11 @@ const SORTING_BOOKS = createActionType(SORTING_BOOKS_TYPE, '');
 const initialState = {
   data: {
     topBooks: {},
-    userBooks: []
+    userBooks: [],
+    book: {
+      data: {},
+      severalBooks: []
+    }
   },
   loading: false,
   error: null,
@@ -17,7 +21,7 @@ const initialState = {
 };
 
 export default function books(state = initialState, action = {}) {
-  const { topBooks, userBooks } = state.data;
+  const { topBooks, userBooks, book } = state.data;
 
   if (action.type.endsWith('_FEATURE_REQUEST')) {
     const { data, location } = action.payload;
@@ -37,20 +41,33 @@ export default function books(state = initialState, action = {}) {
         }
 
         return {
-          data: { userBooks, topBooks: updateTopBooks },
+          data: { ...state.data, topBooks: updateTopBooks },
           loading: false,
           error: null
         };
 
-      case "dashboard":
+      case 'dashboard':
         const updateUserBooks = updateLoading(userBooks);
         return {
-          data: { userBooks: updateUserBooks, topBooks },
+          data: { ...state.data, userBooks: updateUserBooks },
           loading: false,
           error: null
         };
 
-      // case "book":
+      case 'book':
+        return {
+          data: {
+            ...state.data,
+            book: {
+              ...book,
+              data: {
+                ...book.data,
+                options: { whatLoading: data.whatLoading, error: null } }
+            }
+          },
+          loading: false,
+          error: null
+        };
       default:
         return state;
     }
@@ -75,7 +92,7 @@ export default function books(state = initialState, action = {}) {
 
         return {
           ...state,
-          data: { userBooks, topBooks: updateTopBooks },
+          data: { ...state.data, topBooks: updateTopBooks },
           loading: false,
           error: null
         };
@@ -119,11 +136,43 @@ export default function books(state = initialState, action = {}) {
           };
         }
 
-      // case 'book':
-      //   return state;
+      case 'book':
+        return {
+          data: {
+            ...state.data,
+            book: {
+              ...book,
+              data: {
+                ...book.data,
+                ...data,
+                options: { whatLoading: null, error: null } }
+            }
+          },
+          loading: false,
+          error: null
+        };
       default:
         return state;
     }
+  }
+
+  if (action.type.endsWith('_FEATURE_FAILURE')) { //TODO Нужен ли error в каждой книге?
+    return {
+      ...state,
+      data: state.data.map(item => {
+        return item.goodreadsId === action.goodreadsId
+          ? {
+            ...item,
+            options: {
+              whatLoading: null,
+              error: action.error.response.data.errors.global
+            }
+          }
+          : item;
+      }),
+      loading: false,
+      error: null
+    };
   }
 
 
@@ -143,47 +192,18 @@ export default function books(state = initialState, action = {}) {
     }
   }
 
-
-  /* --------------------------------------------------- */
-
-/*  if (action.type.endsWith('_FEATURE_REQUEST')) {
+  if (action.type === 'FETCH_BOOK_DATA_SUCCESS') {
     return {
-      ...state,
-      data: state.data.map(item => {
-        return item.goodreadsId === action.data.goodreadsId
-          ? { ...item, options: { whatLoading: action.data.whatLoading, error: null } }
-          : item
-      }),
+      data: { ...state.data, book: { data: action.data, severalBooks: [] } },
       loading: false,
       error: null
     }
-  }*/
-
-  if (action.type.endsWith('_FEATURE_FAILURE')) {
-    return {
-      ...state,
-      data: state.data.map(item => {
-        return item.goodreadsId === action.goodreadsId
-          ? {
-              ...item,
-              options: {
-                whatLoading: null,
-                error: action.error.response.data.errors.global
-              }
-            }
-          : item;
-      }),
-      loading: false,
-      error: null
-    };
   }
+
+  /* --------------------------------------------------- */
 
   if (action.type.endsWith('_REQUEST')) {
     return { ...state, loading: true, error: null };
-  }
-
-  if (!action.type.includes('_ON_DASHBOARD_PAGE_SUCCESS') && action.type.endsWith('_SUCCESS')) {
-    return { ...state, data: action.data, loading: false, error: null };
   }
 
   if (action.type.endsWith('_FAILURE')) {
