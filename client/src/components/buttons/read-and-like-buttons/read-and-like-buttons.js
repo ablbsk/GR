@@ -16,14 +16,14 @@ const ReadAndLikeButtons = (props) => {
   const altTitle = "You are limited to this feature";
   const icons = (
     <>
-        <span>
-          <S.Icon src={addBook} title={altTitle} />
-          <span>{props.numberOfEntities}</span>
-        </span>
       <span>
-          <S.Icon src={likeEmpty} title={altTitle} />
-          <span>{props.likeCounter}</span>
-        </span>
+        <S.Icon src={addBook} title={altTitle} />
+        <span>{props.numberOfEntities}</span>
+      </span>
+      <span>
+        <S.Icon src={likeEmpty} title={altTitle} />
+        <span>{props.likeCounter}</span>
+      </span>
     </>
   );
 
@@ -45,9 +45,9 @@ const ReadAndLikeButtons = (props) => {
 
   const buttons = (
     <>
-      {props.whatLoading === 'read' ? <ButtonLoading /> : read}
+      {props.loading.read ? <ButtonLoading /> : read}
       <S.Count status={props.readStatus}>{props.numberOfEntities}</S.Count>
-      {props.whatLoading === 'like' ? <ButtonLoading /> : like}
+      {props.loading.like ? <ButtonLoading /> : like}
       <S.Count status={props.likeStatus}>{props.likeCounter}</S.Count>
     </>
   );
@@ -56,7 +56,11 @@ const ReadAndLikeButtons = (props) => {
 };
 
 ReadAndLikeButtons.propTypes = {
-  whatLoading: PropTypes.string,
+  loading: PropTypes.shape({
+    read: PropTypes.bool.isRequired,
+    like: PropTypes.bool.isRequired,
+    progress: PropTypes.bool,
+  }),
   showBtn: PropTypes.bool.isRequired,
   readStatus: PropTypes.bool,
   likeStatus: PropTypes.bool,

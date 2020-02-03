@@ -86,20 +86,19 @@ class BookFeatures extends Component {
         toastr.success("Successful", "Changes installed successfully");
       })
       .catch(error => {
-        failure(error);
-        toastr.error("Server Error", error.response.data.errors.global);
+        failure(error, location);
+        toastr.error("Server Error", this.props.error);
       });
   };
 
   render() {
     const { book, isAuthenticated, isConfirmed, viewProgress, location } = this.props;
-    const { whatLoading } = book.options;
     const { visibilityProgress } = this.state;
 
     const buttons = <ReadAndLikeButtons
       submitBook={this.submitBook}
       submitLike={this.submitLike}
-      whatLoading={whatLoading}
+      loading={book.loading}
       showBtn={isAuthenticated && isConfirmed}
       numberOfEntities={book.numberOfEntities}
       likeCounter={book.likeCounter}
@@ -115,7 +114,7 @@ class BookFeatures extends Component {
         pages={book.pages}
         readPages={book.readPages}
         visibilityProgress={visibilityProgress}
-        loading={whatLoading === 'progress'}
+        loading={book.loading.progress}
         location={location}
       />
       : null;
@@ -130,10 +129,11 @@ class BookFeatures extends Component {
 }
 
 function mapStateToProps(state) {
-  const { user } = state;
+  const { user, content } = state;
   return {
     isAuthenticated: !!user.email,
-    isConfirmed: user.confirmed
+    isConfirmed: user.confirmed,
+    error: content.books.error.operations
   };
 }
 
@@ -158,6 +158,7 @@ BookFeatures.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   isConfirmed: PropTypes.bool,
   location: PropTypes.string,
+  error: PropTypes.string,
 
   readBook: PropTypes.func.isRequired,
   readBookSuccess: PropTypes.func.isRequired,

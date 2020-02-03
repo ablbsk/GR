@@ -1,155 +1,132 @@
 export default function operations(state, action) {
   const { topBooks, userBooks, book } = state.data;
 
-  if (action.type.endsWith('REQUEST')) {
-    const { data, location } = action.payload;
+  const determineType = type => type.toLowerCase().split("_")[1];
 
-    const updateLoading = key => key.map(item => {
-      return item.goodreadsId === data.goodreadsId
-        ? { ...item, options: { whatLoading: data.whatLoading, error: null } }
-        : item
-    });
-
+  const updateLoadingAccordingToLocation = (location, isNotSuccess, loadingValue) => {
     switch (location) {
       case 'top':
         const updateTopBooks = {};
-
         for (let objKey in topBooks) {
-          updateTopBooks[objKey] = updateLoading(topBooks[objKey]);
+          updateTopBooks[objKey] = updateLoading(topBooks[objKey], isNotSuccess, loadingValue);
         }
-
-        return {
-          data: { ...state.data, topBooks: updateTopBooks },
-          loading: false,
-          error: null
-        };
-
+        return { ...state.data, topBooks: updateTopBooks };
       case 'dashboard':
-        const updateUserBooks = updateLoading(userBooks);
-        return {
-          data: { ...state.data, userBooks: updateUserBooks },
-          loading: false,
-          error: null
-        };
-
+        const updateUserBooks = updateLoading(userBooks, isNotSuccess, loadingValue);
+        return { ...state.data, userBooks: updateUserBooks };
       case 'book':
+        const operation = determineType(action.type);
         return {
-          data: {
-            ...state.data,
-            book: {
-              ...book,
-              data: {
-                ...book.data,
-                options: { whatLoading: data.whatLoading, error: null } }
+          ...state.data,
+          book: {
+            ...book,
+            data: {
+              ...book.data,
+              loading: { ...book.data.loading, [operation]: loadingValue }
             }
-          },
-          loading: false,
-          error: null
+          }
         };
       default:
         return state;
+    }
+  };
+
+  const updateLoading = (key, isNotSuccess, value) => key.map(item => {
+    const { data } = action.payload;
+    const operation = determineType(action.type);
+    const loading = { ...item.loading, [operation]: value };
+    const itemWithUpdateLoading = { ...item, loading };
+
+    if(action.type.endsWith("FAILURE")) {
+      return item.loading[operation] ? itemWithUpdateLoading : item;
+    } else if (item.goodreadsId === data.goodreadsId) {
+      return isNotSuccess ? itemWithUpdateLoading : { ...item, ...data, loading };
+    }
+    return item
+  });
+
+  if (action.type.endsWith('REQUEST')) {
+    const { location } = action.payload;
+    const loadingValue = true;
+    const isNotSuccess = true;
+    const newData = updateLoadingAccordingToLocation(location, isNotSuccess, loadingValue);
+
+    return {
+      data: newData,
+      loading: false,
+      error: { data: null, operations: null }
     }
   }
 
   if (action.type.endsWith('SUCCESS')) {
     const { data, location } = action.payload;
-
-    const updateValue = key => key.map(item => {
-      return item.goodreadsId === data.goodreadsId
-        ? { ...item, ...data, options: { whatLoading: null, error: null } }
-        : item;
-    });
+    const loadingValue = false;
+    const isNotSuccess = false;
+    let newData;
 
     switch (location) {
       case 'top':
-        const updateTopBooks = {};
-
+        const newTopBooks = {};
         for (let objKey in topBooks) {
-          updateTopBooks[objKey] = updateValue(topBooks[objKey]);
+          newTopBooks[objKey] = updateLoading(topBooks[objKey], isNotSuccess, loadingValue);
         }
-
-        return {
-          ...state,
-          data: { ...state.data, topBooks: updateTopBooks },
-          loading: false,
-          error: null
-        };
-
+        newData = { ...state.data, topBooks: newTopBooks };
+        break;
       case 'dashboard':
+        let newUserBooks;
+
         if (action.type.startsWith('DELETE')) {
           const type = !!action.type.includes('LIKE');
           const index = userBooks.findIndex(item => item.goodreadsId === data.goodreadsId);
 
           if ((type && userBooks[index].readStatus) || (!type && userBooks[index].likeStatus)) {
-            const newUserBooks = userBooks.map((item, itemIndex) =>
-              index === itemIndex
-                ? { ...item, ...data, options: { whatLoading: null, error: null } }
-                : item
-            );
-
-            return {
-              ...state,
-              data: { userBooks: newUserBooks, topBooks: { ...topBooks } },
-              loading: false,
-              error: null
+            newUserBooks = updateLoading(userBooks, isNotSuccess, loadingValue);
+          } else {
+            const filterUserBooks = [...userBooks.slice(0, index), ...userBooks.slice(index + 1)];
+            newUserBooks = updateLoading(filterUserBooks, !isNotSuccess, loadingValue);
+          }
+        } else {
+          newUserBooks = updateLoading(userBooks, isNotSuccess, loadingValue);
+        }
+        newData = { ...state.data, userBooks: newUserBooks };
+      break;
+      case 'book':
+        const operation = determineType(action.type);
+        newData = {
+          ...state.data,
+          book: {
+            ...book,
+            data: {
+              ...book.data,
+              ...data,
+              loading: { ...book.data.loading, [operation]: loadingValue }
             }
           }
-
-          const updateUserBooks = [...userBooks.slice(0, index), ...userBooks.slice(index + 1)];
-          const updateUserBooksWithOptions = updateUserBooks.map(item =>
-            ({ ...item, options: { whatLoading: null, error: null }}));
-          return {
-            ...state,
-            data: { userBooks: updateUserBooksWithOptions, topBooks },
-            loading: false,
-            error: null
-          };
-        } else {
-          const updateUserBooks = updateValue(userBooks);
-          return {
-            ...state,
-            data: { topBooks, userBooks: updateUserBooks },
-            loading: false,
-            error: null
-          };
-        }
-
-      case 'book':
-        return {
-          data: {
-            ...state.data,
-            book: {
-              ...book,
-              data: {
-                ...book.data,
-                ...data,
-                options: { whatLoading: null, error: null } }
-            }
-          },
-          loading: false,
-          error: null
         };
+        break;
       default:
         return state;
+    }
+    return {
+      data: newData,
+      loading: false,
+      error: { data: null, operations: null }
     }
   }
 
   if (action.type.endsWith('FAILURE')) {
+    const { location } = action.payload;
+    const loadingValue = false;
+    const isNotSuccess = true;
+    const newData = updateLoadingAccordingToLocation(location, isNotSuccess, loadingValue);
+
     return {
-      ...state,
-      data: state.data.map(item => {
-        return item.goodreadsId === action.goodreadsId
-          ? {
-            ...item,
-            options: {
-              whatLoading: null,
-              error: action.error.response.data.errors.global
-            }
-          }
-          : item;
-      }),
+      data: newData,
       loading: false,
-      error: null
+      error: {
+        data: null,
+        operations: action.payload.error.response.data.errors.global
+      }
     };
   }
 }

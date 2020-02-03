@@ -33,7 +33,7 @@ const ProgressButton = props => {
 
 ProgressButton.propTypes = {
   visibilityProgress: PropTypes.bool.isRequired,
-  loading: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
   pages: PropTypes.number.isRequired,
   readPages: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,

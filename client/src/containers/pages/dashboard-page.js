@@ -102,7 +102,7 @@ function mapStateToProps(state) {
     isConfirmed: !!user.confirmed,
     books: content.books.data.userBooks,
     loading: content.books.loading,
-    error: content.books.error,
+    error: content.books.error.data,
     filter: content.books.filter,
   };
 }

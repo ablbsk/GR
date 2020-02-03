@@ -1,35 +1,49 @@
+import { FETCH_TOP_BOOK_DATA_TYPE, FETCH_BOOK_DATA_TYPE, FETCH_USER_BOOKS_DATA_TYPE } from "../../types";
+
 export default function data(state, action) {
-  if (action.type === 'FETCH_TOP_DATA_SUCCESS') {
+  const findSubString = str => action.type.includes(str);
+
+  if (action.type.endsWith("_REQUEST")) {
     return {
-      data: { ...state.data, topBooks: action.data },
+      ...state,
+      loading: true,
+      error: { data: null, operations: null }
+    };
+  }
+
+  if (action.type.endsWith("_SUCCESS")) {
+    let data;
+    switch (true) {
+      case findSubString(FETCH_TOP_BOOK_DATA_TYPE):
+        data = { ...state.data, topBooks: action.data };
+        break;
+      case findSubString(FETCH_USER_BOOKS_DATA_TYPE):
+        data = { ...state.data, userBooks: action.data };
+        break;
+      case findSubString(FETCH_BOOK_DATA_TYPE):
+        data = {
+          ...state.data,
+          book: { data: action.data, severalBooks: [] }
+        };
+        break;
+      default:
+        data = state;
+    }
+    return {
+      data,
       loading: false,
-      error: null
+      error: { data: null, operations: null }
     }
   }
 
-  if (action.type === 'FETCH_USER_BOOKS_DATA_SUCCESS') {
+  if (action.type.endsWith("_FAILURE")) {
     return {
-      data: { ...state.data, userBooks: action.data },
+      ...state,
       loading: false,
-      error: null
-    }
-  }
-
-  if (action.type === 'FETCH_BOOK_DATA_SUCCESS') {
-    return {
-      data: { ...state.data, book: { data: action.data, severalBooks: [] } },
-      loading: false,
-      error: null
-    }
-  }
-
-  /* --------------------------------------------------- */
-
-  if (action.type.endsWith('_REQUEST')) {
-    return { ...state, loading: true, error: null };
-  }
-
-  if (action.type.endsWith('_FAILURE')) {
-    return { ...state, loading: false, error: action.error.response.data.errors.global };
+      error: {
+        data: action.error.response.data.errors.global,
+        operations: null
+      }
+    };
   }
 }

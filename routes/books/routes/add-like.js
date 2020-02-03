@@ -19,7 +19,7 @@ module.exports = router.post("/", authenticate, async function(req, res) {
       likeStatus: true
     });
   } catch (e) {
-    res.status(500).json({ errors: { global: "Error. Something went wrong." } });
+    await res.status(500).json({ errors: { global: "Error. Something went wrong." } });
   }
 
   function addBookId(id) {

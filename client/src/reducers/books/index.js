@@ -18,17 +18,20 @@ const initialState = {
     }
   },
   loading: false,
-  error: null,
+  error: {
+    data: null,
+    operations: null
+  },
   filter: 'all'
 };
 
 export default function books(state = initialState, action = {}) {
+
   /* DATA (TYPES):
   *  FETCH_TOP_DATA_TYPE,
   *  FETCH_USER_BOOKS_TYPE
   *  FETCH_BOOK_DATA_TYPE
   * */
-
   if (action.type.includes('DATA')) {
     return data(state, action);
   }
@@ -40,7 +43,6 @@ export default function books(state = initialState, action = {}) {
   *  DELETE_LIKE_TYPE,
   *  UPDATE_PROGRESS_TYPE
   * */
-
   if (action.type.includes('OPERATIONS')) {
     return operations(state, action);
   }

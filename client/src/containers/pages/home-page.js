@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getTop, getTopSuccess, getTopFailure } from "../../actions/books";
 
@@ -46,29 +46,40 @@ class HomePage extends Component {
   }
 }
 
-// HomePage.propTypes = {
-//   books: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       authors: PropTypes.string.isRequired,
-//       average_rating: PropTypes.number.isRequired,
-//       description: PropTypes.string.isRequired,
-//       goodreadsId: PropTypes.string.isRequired,
-//       image_url: PropTypes.string.isRequired,
-//       title: PropTypes.string.isRequired,
-//       likeCounter: PropTypes.number.isRequired,
-//       numberOfEntities: PropTypes.number.isRequired,
-//       _id: PropTypes.string
-//     }).isRequired
-//   ).isRequired,
-//   loading: PropTypes.bool.isRequired,
-//   isAuthenticated: PropTypes.bool.isRequired,
-//   isConfirmed: PropTypes.bool,
-//   error: PropTypes.bool,
-//
-//   getTop: PropTypes.func.isRequired,
-//   getTopSuccess: PropTypes.func.isRequired,
-//   getTopFailure: PropTypes.func.isRequired,
-// };
+HomePage.propTypes = {
+  books: PropTypes.shape({
+    topLikeBooks: PropTypes.arrayOf({
+      authors: PropTypes.string.isRequired,
+      average_rating: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+      goodreadsId: PropTypes.string.isRequired,
+      image_url: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      likeCounter: PropTypes.number.isRequired,
+      numberOfEntities: PropTypes.number.isRequired,
+      _id: PropTypes.string
+    }).isRequired,
+    topReadBooks: PropTypes.arrayOf({
+      authors: PropTypes.string.isRequired,
+      average_rating: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+      goodreadsId: PropTypes.string.isRequired,
+      image_url: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      likeCounter: PropTypes.number.isRequired,
+      numberOfEntities: PropTypes.number.isRequired,
+      _id: PropTypes.string
+    }).isRequired
+  }).isRequired,
+  loading: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  isConfirmed: PropTypes.bool,
+  error: PropTypes.string,
+
+  getTop: PropTypes.func.isRequired,
+  getTopSuccess: PropTypes.func.isRequired,
+  getTopFailure: PropTypes.func.isRequired,
+};
 
 function mapStateToProps(state) {
   const { content, user } = state;
@@ -77,7 +88,7 @@ function mapStateToProps(state) {
     isConfirmed: user.confirmed,
     books: content.books.data.topBooks,
     loading: content.books.loading,
-    error: content.books.error
+    error: content.books.error.data
   };
 }
 
