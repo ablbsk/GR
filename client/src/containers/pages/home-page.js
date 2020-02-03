@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getTop, getTopSuccess, getTopFailure } from "../../actions/books";
+import { getTop, getTopSuccess, getTopFailure } from "../../actions/books/data";
 
 import ConfirmEmailMessage from "../../components/messages/confirm-email-message";
 import TopBooksList from "../../components/lists/top-books-list/top-books-list";

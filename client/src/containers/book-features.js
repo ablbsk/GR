@@ -22,7 +22,7 @@ import {
   updateProgress,
   updateProgressSuccess,
   updateProgressFailure
-} from "../actions/books";
+} from "../actions/books/operations";
 
 import ReadAndLikeButtons from "../components/buttons/read-and-like-buttons/read-and-like-buttons";
 import ProgressButton from "../components/buttons/progress-button/progress-button";

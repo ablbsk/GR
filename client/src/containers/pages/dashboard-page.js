@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getUserBooks, getUserBooksSuccess, getUserBooksFailure, changeFilters, sortingBooks } from "../../actions/books";
+import { getUserBooks, getUserBooksSuccess, getUserBooksFailure } from "../../actions/books/data";
+import { changeFilters, sortingBooks } from "../../actions/books/books";
 
 import DashboardContent from "../../components/contents/dashboard-content/dashboard-content";
 import ConfirmEmailMessage from "../../components/messages/confirm-email-message";

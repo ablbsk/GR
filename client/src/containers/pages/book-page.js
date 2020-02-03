@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getBookData, getBookDataSuccess, getBookDataFailure } from "../../actions/books";
+import { getBookData, getBookDataSuccess, getBookDataFailure } from "../../actions/books/data";
 
 import ConfirmEmailMessage from "../../components/messages/confirm-email-message";
 import BookContent from "../../components/contents/book-content/book-content";

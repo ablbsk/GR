@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { search } from "../../actions/books";
+import { search } from "../../actions/books/books";
 
 import SearchLoading from "../../components/loaders/search-loading/search-loading";
 import DropdownBookList from "../../components/lists/dropdown-book-list/dropdown-book-list";

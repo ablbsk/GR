@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import queryString from "query-string";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
-import { searchByPage, searchBooksSuccess, searchBooksFailure } from "../../actions/books";
+import { searchByPage, searchBooksSuccess, searchBooksFailure } from "../../actions/books/books";
 
 import PaginationComp from "../../components/navigation/pagination/pagination";
 import PageError from "../../components/errors/page-error/page-error";

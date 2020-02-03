@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getBookData } from "../../../actions/books";
+import { getBookData } from "../../../actions/books/data";
 
 import DropdownBookItem from "../../items/dropdown-book-item/dropdown-book-item";
 
